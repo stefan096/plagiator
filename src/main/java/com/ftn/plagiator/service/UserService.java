@@ -1,16 +1,20 @@
 package com.ftn.plagiator.service;
 
-import java.util.Optional;
-
-import javax.annotation.PostConstruct;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.ftn.plagiator.elasticsearch.model.UserElastics;
-import com.ftn.plagiator.elasticsearch.repository.UserElasticsRepository;
+import com.ftn.plagiator.exceptions.CustomException;
+import com.ftn.plagiator.jwt.JwtTokenUtils;
 import com.ftn.plagiator.model.User;
 import com.ftn.plagiator.repository.UserRepository;
+
 
 @Service
 public class UserService {
@@ -19,51 +23,51 @@ public class UserService {
 	UserRepository userRepository;
 	
 	@Autowired
-	UserElasticsRepository userElasticsRepository;
-	
-//	@Autowired
-//	PaperElasticRepository paperElasticRepository;
-	
-	@PostConstruct
-	public void saveUser() {
-		User u = new User();
-		u.setId(8L);
-		u.setEmail("email9");
-		u.setName("ime9");
-		u.setLastName("prezime9");
-		
-		Optional<User> found = userRepository.findById(1L);
-		
-		if(!found.isPresent()) {
-			userRepository.save(u);
-		}
-		
+	private PasswordEncoder passwordEncoder;
 
-		UserElastics elasticUser = new UserElastics();
-		elasticUser.setId(11L);
-		elasticUser.setEmail(u.getEmail());
-		elasticUser.setLastName(u.getLastName());
-		elasticUser.setName(u.getName());
-		elasticUser.setText("this is some text. Try to find something, something like table, char, mobile");
-		
-		
-		userElasticsRepository.save(elasticUser);
-		
-		UserElastics elasticUser2 = new UserElastics();
-		elasticUser2.setId(12L);
-		elasticUser2.setEmail(u.getEmail());
-		elasticUser2.setLastName(u.getLastName());
-		elasticUser2.setName(u.getName());
-		elasticUser2.setText("Stefan said that Nevena is stupid, and she does not want to come home so she does not love him!");
-		//elasticUser2.setAbstractForPaper("стефан проба nevena da li radi latinica");
-		
-		userElasticsRepository.save(elasticUser2);
-		
-//		PaperElastic pe = new PaperElastic();
-//		pe.setId(1L);
-//		pe.setTitle("стефан проба nevena da li radi latinica");
-//		
-//		paperElasticRepository.save(pe);
+	@Autowired
+	private JwtTokenUtils jwtTokenProvider;
+
+	@Autowired
+	private AuthenticationManager authenticationManager;
+
+	public Page<User> findAll(Pageable page) {
+		return userRepository.findAll(page);
+	}
+
+	public User findOne(Long id) {
+		return userRepository.findById(id).get();
+	}
+
+	public User save(User korisnik) {
+		return userRepository.save(korisnik);
+	}
+
+	public void remove(Long id) {
+		//User user = korisnikRepository.findById(id).get()
+		userRepository.deleteById(id);
+	}
+
+
+	public String signin(String email, String lozinka) {
+		try {
+			authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, lozinka));
+			return jwtTokenProvider.createToken(email, userRepository.findByEmail(email).getRole());
+		} catch (AuthenticationException e) {
+			throw new CustomException("Invalid username/password supplied", HttpStatus.UNPROCESSABLE_ENTITY);
+		}
+	}
+
+	public User signup(User korisnik) {
+		if (!userRepository.existsByEmail(korisnik.getEmail())) {
+			korisnik.setPassword(passwordEncoder.encode(korisnik.getPassword()));
+			return userRepository.save(korisnik);
+		} else {
+			throw new CustomException("Username is already in use", HttpStatus.UNPROCESSABLE_ENTITY);
+		}
 	}
 	
+	public User findByEmail(String email) {
+		return userRepository.findByEmail(email);
+	}
 }

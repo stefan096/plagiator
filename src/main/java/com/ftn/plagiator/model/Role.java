@@ -4,7 +4,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,17 +13,16 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class User {
-    @Id
+public class Role{
+
+	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-    private String name;
-    private String lastName;
-    private String email;
-	private String password;
-	private String phoneNumber;
-	private boolean active;
+	private String userType;
 	
-	@OneToOne()
-	private Role role;
+    public Role(Long id, String role){
+    	this.id = id;
+		this.userType = role;
+	}
+
 }

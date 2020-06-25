@@ -58,14 +58,14 @@ public class ContentResultMapper implements SearchResultMapper{
 //            List<UserElastic> usersElasticList = new ArrayList<>(Arrays.asList(usersElasticArray));
 //            paper.setUsers(usersElasticList);
             
-            String higlightField = "";
-            try {
-            	higlightField = "..."+searchHit.getHighlightFields().get("text").fragments()[0].toString()+"...";
-            	//higlightField = "..."+searchHit.getHighlightFields().get("abstractForPaper").fragments()[0].toString()+"...";
-            	//higlightField = "..."+searchHit.getHighlightFields().get(this.fieldToReturn).fragments()[0].toString()+"...";
-            }catch(Exception e) {
-            	higlightField = "";
-            }
+//            String higlightField = "";
+//            try {
+//            	higlightField = "..."+searchHit.getHighlightFields().get("text").fragments()[0].toString()+"...";
+//            	//higlightField = "..."+searchHit.getHighlightFields().get("abstractForPaper").fragments()[0].toString()+"...";
+//            	//higlightField = "..."+searchHit.getHighlightFields().get(this.fieldToReturn).fragments()[0].toString()+"...";
+//            }catch(Exception e) {
+//            	higlightField = "";
+//            }
             
             //paper.setContent(higlightField);
             chunk.add(paper);
