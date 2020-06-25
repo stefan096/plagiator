@@ -3,7 +3,10 @@ package com.ftn.plagiator.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.MailException;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -11,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ftn.plagiator.dto.LoginDTO;
 import com.ftn.plagiator.dto.RegistrationDTO;
+import com.ftn.plagiator.dto.UserDTO;
 import com.ftn.plagiator.model.Role;
 import com.ftn.plagiator.model.User;
 import com.ftn.plagiator.service.EmailService;
@@ -76,23 +80,43 @@ public class UserController {
 		user.setEmail(registrationDTO.getEmail());
 		user.setPassword(registrationDTO.getPassword());
 		user.setPhoneNumber(registrationDTO.getPhoneNumber());
-		user.setName(registrationDTO.getIme());
-		user.setLastName(registrationDTO.getPrezime());
+		user.setName(registrationDTO.getName());
+		user.setLastName(registrationDTO.getLastName());
 		Role registeredUser = new Role();
 		registeredUser.setId(1L);
 		user.setRole(registeredUser);
 		user.setActive(false);
-		/*User retValue =*/ userService.signup(user);
+		User retValue = userService.signup(user);
 
-//		try {
-//			emailService.sendNotificaitionAsync(retValue);
-//		} catch (MailException e) {
-//			e.printStackTrace();
-//		} catch (InterruptedException e) {
-//			e.printStackTrace();
-//		}
+		try {
+			emailService.sendNotificaitionAsync(retValue);
+		} catch (MailException e) {
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		
 		return new ResponseEntity<>(HttpStatus.CREATED);
+	}
+	
+	@RequestMapping(value = "api/email/{email}", method = RequestMethod.GET)
+	public ResponseEntity<UserDTO> getUserByEmail(@PathVariable String email) {
+		
+		return new ResponseEntity<>(new UserDTO(userService.findByEmail(email)), HttpStatus.OK);
+	}
+	
+	@GetMapping(path = "api/registration/activate/{userId}", produces = "application/json")
+	public ResponseEntity<Void> activateUser(@PathVariable("userId") Long userId) {
+
+		User user = userService.findOne(userId);
+		if(user == null) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		
+		user.setActive(true);
+		userService.save(user);
+	
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
 }

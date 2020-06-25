@@ -33,7 +33,7 @@ public class EmailService {
 		//Thread.sleep(10000);
 		System.out.println("Slanje emaila...");
 
-		String link = "https://localhost:8443/#/registracija/aktiviranjeNaloga/" + user.getId();
+		String link = "https://localhost:8000/#/registracija/aktiviranjeNaloga/" + user.getId();
 		SimpleMailMessage mail = new SimpleMailMessage();
 		mail.setTo(user.getEmail());
 		mail.setFrom(env.getProperty("spring.mail.username"));

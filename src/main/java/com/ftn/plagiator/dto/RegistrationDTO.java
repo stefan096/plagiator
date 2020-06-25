@@ -11,8 +11,8 @@ import lombok.Setter;
 @Setter
 public class RegistrationDTO {
 	private Long id;
-	private String ime;
-	private String prezime;
+	private String name;
+	private String lastName;
 	private String password;
 	private String repeatedPassword;
 	private String email;

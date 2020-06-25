@@ -14,6 +14,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.cors.CorsConfiguration;
 
 import com.ftn.plagiator.jwt.JwtTokenFilterConfigurer;
 import com.ftn.plagiator.jwt.JwtTokenUtils;
@@ -43,12 +44,35 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 		// Disable CSRF (cross site request forgery)
 		http.csrf().disable();
+		
+		http.cors().configurationSource(request -> {
+
+            CorsConfiguration configuration = new CorsConfiguration().applyPermitDefaultValues();
+            configuration.setAllowCredentials(true);
+            configuration.addAllowedOrigin("*");
+
+            configuration.addAllowedMethod("GET");
+            configuration.addAllowedMethod("POST");
+            configuration.addAllowedMethod("DELETE");
+            configuration.addAllowedMethod("PUT");
+            configuration.addAllowedMethod("PATCH");
+            configuration.addAllowedMethod("OPTIONS");
+
+            configuration.addAllowedHeader("Content-Type");
+            configuration.addAllowedHeader("X-Authorization");
+            configuration.addAllowedHeader("X-Authorization-Refresh");
+
+            configuration.setMaxAge(3600L);
+
+            return configuration;
+        });
 
 		// No session will be created or used by spring security
 		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
 		//TODO 1: ono cemu neregistrovani korisnik sme da pristupi
-		http.authorizeRequests().antMatchers("/*", "/login", "/api/login", "/api/signup", "/api/search" 
+		http.authorizeRequests().antMatchers("/*", "/login", "/api/login", "/api/signup", "/api/search", "/api/email/*",
+				"/api/registration/activate/*"
 				).permitAll()
 		.antMatchers(HttpMethod.POST, "/api/search").permitAll()
 		.antMatchers(HttpMethod.PUT, "/api/korisnik/*/aktivirajNalog").permitAll().anyRequest()
