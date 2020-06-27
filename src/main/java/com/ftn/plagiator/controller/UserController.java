@@ -1,6 +1,10 @@
 package com.ftn.plagiator.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.MailException;
@@ -20,6 +24,7 @@ import com.ftn.plagiator.model.User;
 import com.ftn.plagiator.service.EmailService;
 import com.ftn.plagiator.service.UserService;
 import com.ftn.plagiator.service.UserService2;
+import com.ftn.plagiator.util.ObjectMapperUtil;
 
 @Controller
 public class UserController {
@@ -32,6 +37,25 @@ public class UserController {
 	
 	@Autowired
 	EmailService emailService;
+	
+//	@Autowired
+//	ModelMapper modelMapper;
+	
+	@Autowired
+	ObjectMapperUtil objectMapper;
+	
+	public UserController() {
+//		modelMapper.getConfiguration().setAmbiguityIgnored(true);
+//	    modelMapper.addMappings(companyPropertyMap);
+	    
+	}
+	
+//    PropertyMap<User, UserDTO> companyPropertyMap = new PropertyMap<User, UserDTO>() {
+//        @Override
+//        protected void configure() {
+//            map().setPhoneNumber("123");
+//        }
+//    };
 	
     @RequestMapping(value = "api/elastics", method = RequestMethod.GET)
     public ResponseEntity<Void> getRADI() {
@@ -117,6 +141,28 @@ public class UserController {
 		userService.save(user);
 	
 		return new ResponseEntity<>(HttpStatus.OK);
+	}
+	
+	@GetMapping(path = "api/proba/test/{userId}", produces = "application/json")
+	public ResponseEntity<List<UserDTO>> tryMapper(@PathVariable("userId") Long userId, Pageable page) {
+//		
+//		if(userId != 0) {
+//			User user = userService.findOne(userId);
+//			UserDTO userDTO = modelMapper.map(user, UserDTO.class);
+//		}
+//		else {
+			Page<User> users = userService.findAll(page);
+			//List<User> users2 = new ArrayList<User>();
+//			
+//			users.forEach(item -> {
+//				users2.add(item);
+//			});
+			//List<UserDTO> usersDTO = modelMapper.map(users2, new TypeToken<List<UserDTO>>() {}.getType());
+			List<UserDTO> usersDTO = objectMapper.mapAll(users, UserDTO.class);
+			
+		//}
+
+		return new ResponseEntity<>(usersDTO, HttpStatus.OK);
 	}
 	
 }
