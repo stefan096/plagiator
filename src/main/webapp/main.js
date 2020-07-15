@@ -9429,10 +9429,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _service_role_service__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./service/role.service */ "./src/app/service/role.service.ts");
 /* harmony import */ var _component_users_registration_registration_component__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./component/users/registration/registration.component */ "./src/app/component/users/registration/registration.component.ts");
 /* harmony import */ var _component_users_registration_passwordValidation_directive__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./component/users/registration/passwordValidation.directive */ "./src/app/component/users/registration/passwordValidation.directive.ts");
-/* harmony import */ var _service_paper_service__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./service/paper.service */ "./src/app/service/paper.service.ts");
-/* harmony import */ var _component_users_registration_link_registration_link_component__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ./component/users/registration-link/registration-link.component */ "./src/app/component/users/registration-link/registration-link.component.ts");
-/* harmony import */ var _component_navbar_navbar_component__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! ./component/navbar/navbar.component */ "./src/app/component/navbar/navbar.component.ts");
-/* harmony import */ var _service_search_service__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! ./service/search.service */ "./src/app/service/search.service.ts");
+/* harmony import */ var _component_users_registration_link_registration_link_component__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./component/users/registration-link/registration-link.component */ "./src/app/component/users/registration-link/registration-link.component.ts");
+/* harmony import */ var _component_navbar_navbar_component__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ./component/navbar/navbar.component */ "./src/app/component/navbar/navbar.component.ts");
+/* harmony import */ var _service_search_service__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! ./service/search.service */ "./src/app/service/search.service.ts");
+/* harmony import */ var _component_old_documents_old_documents_component__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! ./component/old-documents/old-documents.component */ "./src/app/component/old-documents/old-documents.component.ts");
+/* harmony import */ var _service_upload_file_service__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! ./service/upload-file.service */ "./src/app/service/upload-file.service.ts");
+/* harmony import */ var _component_new_document_new_document_component__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(/*! ./component/new-document/new-document.component */ "./src/app/component/new-document/new-document.component.ts");
+/* harmony import */ var _service_paper_service__WEBPACK_IMPORTED_MODULE_29__ = __webpack_require__(/*! ./service/paper.service */ "./src/app/service/paper.service.ts");
+
+
+
 
 
 
@@ -9462,14 +9468,13 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var appRoutes = [
-    /*{ path: 'record/:id', component: RecordDetailsComponent },
-    { path: 'main', component: MainComponent },
-    { path: '', redirectTo: 'main', pathMatch: 'full' },*/
     { path: 'login', component: _component_users_login_login_component__WEBPACK_IMPORTED_MODULE_16__["LoginComponent"] },
     { path: 'register', component: _component_users_registration_registration_component__WEBPACK_IMPORTED_MODULE_21__["RegistrationComponent"] },
-    { path: 'registracija/aktiviranjeNaloga/:userId', component: _component_users_registration_link_registration_link_component__WEBPACK_IMPORTED_MODULE_24__["RegistrationLinkComponent"] },
+    { path: 'registracija/aktiviranjeNaloga/:userId', component: _component_users_registration_link_registration_link_component__WEBPACK_IMPORTED_MODULE_23__["RegistrationLinkComponent"] },
     { path: 'home', component: _component_home_page_home_page_component__WEBPACK_IMPORTED_MODULE_17__["HomePageComponent"] },
     { path: 'users', component: _component_users_view_users_view_users_component__WEBPACK_IMPORTED_MODULE_18__["ViewUsersComponent"] },
+    { path: 'old-documents', component: _component_old_documents_old_documents_component__WEBPACK_IMPORTED_MODULE_26__["OldDocumentsComponent"] },
+    { path: 'new-document', component: _component_new_document_new_document_component__WEBPACK_IMPORTED_MODULE_28__["NewDocumentComponent"] },
     { path: '', redirectTo: 'home', pathMatch: 'full' },
     { path: '**', component: _page_not_found_page_not_found_component__WEBPACK_IMPORTED_MODULE_11__["PageNotFoundComponent"] }
 ];
@@ -9486,8 +9491,10 @@ var AppModule = /** @class */ (function () {
                 _component_users_view_users_view_users_component__WEBPACK_IMPORTED_MODULE_18__["ViewUsersComponent"],
                 _component_users_registration_passwordValidation_directive__WEBPACK_IMPORTED_MODULE_22__["PasswordValidation"],
                 _component_users_registration_registration_component__WEBPACK_IMPORTED_MODULE_21__["RegistrationComponent"],
-                _component_users_registration_link_registration_link_component__WEBPACK_IMPORTED_MODULE_24__["RegistrationLinkComponent"],
-                _component_navbar_navbar_component__WEBPACK_IMPORTED_MODULE_25__["NavbarComponent"],
+                _component_users_registration_link_registration_link_component__WEBPACK_IMPORTED_MODULE_23__["RegistrationLinkComponent"],
+                _component_navbar_navbar_component__WEBPACK_IMPORTED_MODULE_24__["NavbarComponent"],
+                _component_old_documents_old_documents_component__WEBPACK_IMPORTED_MODULE_26__["OldDocumentsComponent"],
+                _component_new_document_new_document_component__WEBPACK_IMPORTED_MODULE_28__["NewDocumentComponent"],
             ],
             imports: [
                 _angular_platform_browser__WEBPACK_IMPORTED_MODULE_1__["BrowserModule"],
@@ -9507,9 +9514,10 @@ var AppModule = /** @class */ (function () {
                 _service_auth_service__WEBPACK_IMPORTED_MODULE_13__["AuthService"],
                 _service_user_service__WEBPACK_IMPORTED_MODULE_14__["UserService"],
                 _service_role_service__WEBPACK_IMPORTED_MODULE_20__["RoleService"],
-                _service_paper_service__WEBPACK_IMPORTED_MODULE_23__["PaperService"],
                 _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_15__["NgbActiveModal"],
-                _service_search_service__WEBPACK_IMPORTED_MODULE_26__["SearchService"],
+                _service_search_service__WEBPACK_IMPORTED_MODULE_25__["SearchService"],
+                _service_upload_file_service__WEBPACK_IMPORTED_MODULE_27__["UploadFileService"],
+                _service_paper_service__WEBPACK_IMPORTED_MODULE_29__["PaperService"],
                 {
                     provide: _angular_common_http__WEBPACK_IMPORTED_MODULE_6__["HTTP_INTERCEPTORS"],
                     useClass: _h_interceptor_service__WEBPACK_IMPORTED_MODULE_12__["HInterceptorService"],
@@ -9563,18 +9571,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/esm5/router.js");
 /* harmony import */ var app_model_search_paramForQuery__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! app/model/search/paramForQuery */ "./src/app/model/search/paramForQuery.ts");
 /* harmony import */ var app_service_search_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! app/service/search.service */ "./src/app/service/search.service.ts");
-/* harmony import */ var app_service_paper_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! app/service/paper.service */ "./src/app/service/paper.service.ts");
-
 
 
 
 
 
 var HomePageComponent = /** @class */ (function () {
-    function HomePageComponent(router, searchService, paperService) {
+    function HomePageComponent(router, searchService) {
         this.router = router;
         this.searchService = searchService;
-        this.paperService = paperService;
         this.operators = ['AND', 'OR'];
         this.keys = ['Naziv časopisa', 'Naslov rada', 'Ime i prezime autora', 'Ključni pojmovi', 'Sadržaj', 'Naučne oblasti'];
         this.papers = [];
@@ -9601,8 +9606,7 @@ var HomePageComponent = /** @class */ (function () {
             styles: [__webpack_require__(/*! ./home-page.component.css */ "./src/app/component/home-page/home-page.component.css")]
         }),
         tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_2__["Router"],
-            app_service_search_service__WEBPACK_IMPORTED_MODULE_4__["SearchService"],
-            app_service_paper_service__WEBPACK_IMPORTED_MODULE_5__["PaperService"]])
+            app_service_search_service__WEBPACK_IMPORTED_MODULE_4__["SearchService"]])
     ], HomePageComponent);
     return HomePageComponent;
 }());
@@ -9629,7 +9633,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"bs-example\">\n\t<nav class=\"navbar navbar-expand-md navbar-light\" style=\"background-color: #3494b9;\">\n\t\t<a class=\"navbar-brand\" [routerLink]=\"['/home']\" style=\"color: white;\"><b>Naučni Centar</b></a>\n\t\t<button type=\"button\" class=\"navbar-toggler\" data-toggle=\"collapse\" data-target=\"#navbarCollapse\">\n\t\t\t<span class=\"navbar-toggler-icon\"></span>\n\t\t</button>\n\n\t\t<div class=\"collapse navbar-collapse\" id=\"navbarCollapse\">\n\t\t\t<div class=\"navbar-nav\">\n\t\t\t\t<a class=\"nav-item nav-link active\" style=\"color: white;\" [routerLink]=\"['/home']\">Početna</a>\n\t\t\t\t<a class=\"nav-item nav-link\" style=\"color: white;\" [routerLink]=\"['/journal/show']\" *ngIf=\"isAuthor || isAdmin\">Prikaz časopisa</a>\n\t\t\t\t<a class=\"nav-item nav-link\" style=\"color: white;\" [routerLink]=\"['/papers/correction']\" *ngIf=\"isAuthor\">Ispravka radova</a>\n\t\t\t\t<a class=\"nav-item nav-link\" style=\"color: white;\" [routerLink]=\"['/journal/add']\" *ngIf=\"isEditor\">Unos časopisa</a>\n\t\t\t\t<a class=\"nav-item nav-link\" style=\"color: white;\" [routerLink]=\"['/journal/edit']\" *ngIf=\"isEditor\">Ispravka podataka časopisa</a>\n\t\t\t\t<!--<a class=\"nav-item nav-link\" style=\"color: white;\" [routerLink]=\"['/paper/add']\" *ngIf=\"loggedIn\">Unos rada</a>-->\n\t\t\t\t<a class=\"nav-item nav-link\" style=\"color: white;\" [routerLink]=\"['/reviewer/activate']\" *ngIf=\"loggedIn && isAdmin\">Aktiviraj recezente</a>\n\t\t\t\t<a class=\"nav-item nav-link\" style=\"color: white;\" [routerLink]=\"['/journal/activate']\" *ngIf=\"loggedIn && isAdmin\">Pregledaj časopise</a>\n\t\t\t\t<a class=\"nav-item nav-link\" style=\"color: white;\" [routerLink]=\"['/papers']\" *ngIf=\"loggedIn && isEditor\">Pregledaj radove</a>\n\t\t\t\t<a class=\"nav-item nav-link\" style=\"color: white;\" [routerLink]=\"['/reviews']\" *ngIf=\"loggedIn && isReviewer\">Recenziraj</a>\n\t\t\t\t<a class=\"nav-item nav-link\" style=\"color: white;\" [routerLink]=\"['/collection']\" >Kolekcija</a>\n\t\t\t\t\n\t\t\t</div>\n\t\t\t<div class=\"navbar-nav ml-auto\">\n\t\t\t\t<a class=\"nav-item nav-link\" style=\"color: white;\" [routerLink]=\"['/register']\" *ngIf=\"!loggedIn\">Registracija</a>\n        <a class=\"nav-item nav-link\" style=\"color: white;\" [routerLink]=\"['/login']\" *ngIf=\"!loggedIn\">Prijava</a>\n        <a class=\"nav-item nav-link\" style=\"color: white;\" (click)=\"logOut()\" *ngIf=\"loggedIn\">Odjava</a>\n\t\t\t</div>\n\t\t</div>\n\t</nav>\n</div>"
+module.exports = "<div class=\"bs-example\">\n\t<nav class=\"navbar navbar-expand-md navbar-light\" style=\"background-color: #3494b9;\">\n\t\t<a class=\"navbar-brand\" [routerLink]=\"['/home']\" style=\"color: white;\"><b>PLAGIATOR</b></a>\n\t\t<button type=\"button\" class=\"navbar-toggler\" data-toggle=\"collapse\" data-target=\"#navbarCollapse\">\n\t\t\t<span class=\"navbar-toggler-icon\"></span>\n\t\t</button>\n\n\t\t<div class=\"collapse navbar-collapse\" id=\"navbarCollapse\">\n\t\t\t<div class=\"navbar-nav\">\n\t\t\t\t<a class=\"nav-item nav-link active\" style=\"color: white;\" [routerLink]=\"['/home']\">Početna</a>\n\t\t\t\t<a class=\"nav-item nav-link\" style=\"color: white;\" [routerLink]=\"['/new-document']\" >Proveri rad</a>\n\t\t\t\t<a class=\"nav-item nav-link\" style=\"color: white;\" [routerLink]=\"['/old-documents']\" >Uploaduj stare dokumente</a>\n\t\t\t\t<a class=\"nav-item nav-link\" style=\"color: white;\" [routerLink]=\"['/users']\" *ngIf=\"isAdmin\">Korisnici</a>\n\t\t\t\t\n\t\t\t</div>\n\t\t\t<div class=\"navbar-nav ml-auto\">\n\t\t\t\t<a class=\"nav-item nav-link\" style=\"color: white;\" [routerLink]=\"['/register']\" *ngIf=\"!loggedIn\">Registracija</a>\n        <a class=\"nav-item nav-link\" style=\"color: white;\" [routerLink]=\"['/login']\" *ngIf=\"!loggedIn\">Prijava</a>\n        <a class=\"nav-item nav-link\" style=\"color: white;\" (click)=\"logOut()\" *ngIf=\"loggedIn\">Odjava</a>\n\t\t\t</div>\n\t\t</div>\n\t</nav>\n</div>"
 
 /***/ }),
 
@@ -9662,9 +9666,7 @@ var NavbarComponent = /** @class */ (function () {
         this.router = router;
         this.loggedIn = false;
         this.isAdmin = false;
-        this.isReviewer = false;
-        this.isAuthor = false;
-        this.isEditor = false;
+        this.isLogged = false;
         this.loggedUser = new app_model_user_user__WEBPACK_IMPORTED_MODULE_5__["User"]();
     }
     NavbarComponent.prototype.ngOnInit = function () {
@@ -9675,21 +9677,14 @@ var NavbarComponent = /** @class */ (function () {
             this.loggedUser.email = this.authService.getUsername(res);
             this.userService.findByEmail(this.loggedUser.email).subscribe(function (s) {
                 _this.loggedUser = s;
-                // console.log(s);
-                // this.loggedUser.role.forEach(element => {
-                //   if(element.roleName == "ROLE_ADMIN"){
-                //     this.isAdmin = true;
-                //   }
-                //   if(element.roleName == "ROLE_REVIEWER"){
-                //     this.isReviewer = true;
-                //   }
-                //   if(element.roleName == "ROLE_AUTHOR"){
-                //     this.isAuthor = true;
-                //   }
-                //   if(element.roleName == "ROLE_EDITOR"){
-                //     this.isEditor = true;
-                //   }
-                // });
+                console.log(s);
+                var roleName = _this.loggedUser.role.userType;
+                if (roleName == "ROLE_ADMIN") {
+                    _this.isAdmin = true;
+                }
+                if (roleName == "ROLE_LOGGED") {
+                    _this.isLogged = true;
+                }
             });
         }
     };
@@ -9709,6 +9704,174 @@ var NavbarComponent = /** @class */ (function () {
             _angular_router__WEBPACK_IMPORTED_MODULE_2__["Router"]])
     ], NavbarComponent);
     return NavbarComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/component/new-document/new-document.component.css":
+/*!*******************************************************************!*\
+  !*** ./src/app/component/new-document/new-document.component.css ***!
+  \*******************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL2NvbXBvbmVudC9uZXctZG9jdW1lbnQvbmV3LWRvY3VtZW50LmNvbXBvbmVudC5jc3MifQ== */"
+
+/***/ }),
+
+/***/ "./src/app/component/new-document/new-document.component.html":
+/*!********************************************************************!*\
+  !*** ./src/app/component/new-document/new-document.component.html ***!
+  \********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "\n<app-navbar></app-navbar>\n\n<div class=\"col-sm-10\">\n\n  <p>\n    new-document works!\n  </p>\n\n  <form>\n    <div class=\"form-group\">\n      <label>Fajl &nbsp; &nbsp;</label>\n      <input \n        type=\"file\" \n        placeholder=\"Izaberi naučni rad\"\n        (change)=\"selectFile($event)\"\n        value=\"Izaberi naucni rad\">\n    </div>\n\n    <div class=\"form-group col-md-2\">\n      <input type=\"submit\" class=\"form-control btn btn-primary\" \n      value=\"Upload\"  (click) = \"uploadFile()\">\n    </div>\n  </form>\n\n</div>\n\n  <div class=\"container\" style=\"margin-top: 100px;\">\n    <div class=\"container justify-content-md-center\" style=\"display: -webkit-box;\">\n      <div class=\"col-lg-12 p-0\">\n            <a class=\"list-group-item\" style=\"min-height: 220px; max-height: 350px;\" *ngFor = \"let i = index; let paper of papers\">\n                <div style=\"display: inline-flex; width: 100%; padding-bottom: 0%; height: 10px;\">\n                    <h5 class=\"col-lg-10\"><span style=\"color: crimson; font-size: medium;\">Rad: &nbsp;</span>{{paper.title}}</h5>\n                </div>\n\n                <div style=\"display: inline-flex; width: 100%;\">\n                    <button  class=\"btn btn-info\" style=\"position: relative; float: right; margin-right: 50px;\" (click)=\"download(paper.id, paper.title)\">Pregledaj</button>              \n                </div>\n            </a>\n      </div>\n    </div>\n  </div>\n\n"
+
+/***/ }),
+
+/***/ "./src/app/component/new-document/new-document.component.ts":
+/*!******************************************************************!*\
+  !*** ./src/app/component/new-document/new-document.component.ts ***!
+  \******************************************************************/
+/*! exports provided: NewDocumentComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "NewDocumentComponent", function() { return NewDocumentComponent; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/esm5/core.js");
+/* harmony import */ var app_service_upload_file_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! app/service/upload-file.service */ "./src/app/service/upload-file.service.ts");
+/* harmony import */ var file_saver__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! file-saver */ "./node_modules/file-saver/dist/FileSaver.min.js");
+/* harmony import */ var file_saver__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(file_saver__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var app_service_paper_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! app/service/paper.service */ "./src/app/service/paper.service.ts");
+
+
+
+
+
+var NewDocumentComponent = /** @class */ (function () {
+    function NewDocumentComponent(uploadFileService, paperService) {
+        this.uploadFileService = uploadFileService;
+        this.paperService = paperService;
+        this.papers = [];
+    }
+    NewDocumentComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.paperService.showPapers().subscribe(function (res) {
+            _this.papers = res;
+        });
+    };
+    NewDocumentComponent.prototype.selectFile = function (event) {
+        this.selectedFiles = event.target.files;
+    };
+    NewDocumentComponent.prototype.uploadFile = function () {
+        this.currentFileUpload = this.selectedFiles.item(0);
+        this.uploadFileService.upload(this.currentFileUpload)
+            .subscribe(function (event) {
+            alert("Uspesno ste dodali rad");
+        }, function (err) {
+            console.log('fail');
+        });
+    };
+    NewDocumentComponent.prototype.download = function (id, title) {
+        this.uploadFileService.download(id).subscribe(function (res) {
+            console.log(res);
+            //var filename = title +'.pdf';
+            var filename = title;
+            Object(file_saver__WEBPACK_IMPORTED_MODULE_3__["saveAs"])(res, filename);
+        }, function (error) {
+            alert('Greska!');
+        });
+    };
+    NewDocumentComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
+            selector: 'app-new-document',
+            template: __webpack_require__(/*! ./new-document.component.html */ "./src/app/component/new-document/new-document.component.html"),
+            styles: [__webpack_require__(/*! ./new-document.component.css */ "./src/app/component/new-document/new-document.component.css")]
+        }),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [app_service_upload_file_service__WEBPACK_IMPORTED_MODULE_2__["UploadFileService"],
+            app_service_paper_service__WEBPACK_IMPORTED_MODULE_4__["PaperService"]])
+    ], NewDocumentComponent);
+    return NewDocumentComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/component/old-documents/old-documents.component.css":
+/*!*********************************************************************!*\
+  !*** ./src/app/component/old-documents/old-documents.component.css ***!
+  \*********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL2NvbXBvbmVudC9vbGQtZG9jdW1lbnRzL29sZC1kb2N1bWVudHMuY29tcG9uZW50LmNzcyJ9 */"
+
+/***/ }),
+
+/***/ "./src/app/component/old-documents/old-documents.component.html":
+/*!**********************************************************************!*\
+  !*** ./src/app/component/old-documents/old-documents.component.html ***!
+  \**********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<app-navbar></app-navbar>\n\n<div class=\"col-sm-10\">\n\n<p>\n  old-documents works!\n</p>\n\n  <form>\n    <div class=\"form-group\">\n      <label>Fajl &nbsp; &nbsp;</label>\n      <input \n        type=\"file\" \n        placeholder=\"Izaberi naučni rad\"\n        (change)=\"selectFile($event)\"\n        value=\"Izaberi naucni rad\">\n    </div>\n\n    <div class=\"form-group col-md-2\">\n      <input type=\"submit\" class=\"form-control btn btn-primary\" \n      value=\"Upload\"  (click) = \"uploadFile()\">\n    </div>\n  </form>\n\n</div>\n"
+
+/***/ }),
+
+/***/ "./src/app/component/old-documents/old-documents.component.ts":
+/*!********************************************************************!*\
+  !*** ./src/app/component/old-documents/old-documents.component.ts ***!
+  \********************************************************************/
+/*! exports provided: OldDocumentsComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "OldDocumentsComponent", function() { return OldDocumentsComponent; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/esm5/core.js");
+/* harmony import */ var app_service_upload_file_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! app/service/upload-file.service */ "./src/app/service/upload-file.service.ts");
+
+
+
+var OldDocumentsComponent = /** @class */ (function () {
+    function OldDocumentsComponent(uploadFileService) {
+        this.uploadFileService = uploadFileService;
+    }
+    OldDocumentsComponent.prototype.ngOnInit = function () {
+    };
+    OldDocumentsComponent.prototype.selectFile = function (event) {
+        this.selectedFiles = event.target.files;
+    };
+    OldDocumentsComponent.prototype.uploadFile = function () {
+        //potencijalno namestiti multiselect
+        this.currentFileUpload = this.selectedFiles.item(0);
+        console.log("AAA");
+        console.log(this.selectedFiles);
+        this.uploadFileService.upload(this.currentFileUpload)
+            .subscribe(function (event) {
+            alert("Uspesno ste dodali rad");
+            //this.router.navigate(['home']);
+        }, function (err) {
+            console.log('fail');
+        });
+    };
+    OldDocumentsComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
+            selector: 'app-old-documents',
+            template: __webpack_require__(/*! ./old-documents.component.html */ "./src/app/component/old-documents/old-documents.component.html"),
+            styles: [__webpack_require__(/*! ./old-documents.component.css */ "./src/app/component/old-documents/old-documents.component.css")]
+        }),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [app_service_upload_file_service__WEBPACK_IMPORTED_MODULE_2__["UploadFileService"]])
+    ], OldDocumentsComponent);
+    return OldDocumentsComponent;
 }());
 
 
@@ -10128,7 +10291,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<ng-template #viewRolesTemplate let-modal>\n   <div class=\"modal-header\">\n      <h3>Roles</h3>\n    </div>\n    <div class=\"modal-body\">\n\t\t<div class=\"table-responsive\">\n\t\t\t<div class=\"bootstrap-table\">\n\t\t\t\t<div class=\"fixed-table-container\">\n\t\t\t\t\t<div class=\"fixed-table-body\">\n\t\t\t\t\t\t<table id=\"grid\" class=\"table table-striped table-hover\" data-toolbar=\"#toolbargrid\" data-pagination=\"true\" data-search=\"true\">\n\t\t\t\t\t\t\t<thead>\n\t\t\t\t\t\t\t\t<tr>\n\t\t\t\t\t\t\t\t\t<th class=\"text-left\" style=\"\">\n\t\t\t\t\t\t\t\t\t\t<div class=\"th-inner sortable\">Name</div>\n\t\t\t\t\t\t\t\t\t\t<div class=\"fht-cell\"></div>\n\t\t\t\t\t\t\t\t\t</th>\n\t\t\t\t\t\t\t\t</tr>\n\t\t\t\t\t\t\t</thead>\n\t\t\t\t\t\t\t<tbody>\n\t\t\t\t\t\t\t\t<h4 *ngIf = \"userRoles?.length == 0\"> There is no role for user </h4>\n\t\t\t\t\t\t\t\t<tr *ngFor = \"let i = index; let role of userRoles | paginate: { itemsPerPage: 10, currentPage: p }\">\n\t\t\t\t\t\t\t\t\t<td class=\"text-left\" style=\"\">{{role.roleName}}</td>\n\t\t\t\t\t\t\t\t\t<td><button type=\"button\" class=\"btn btn-primary\" (click) = \"deleteRole(role)\" >Delete</button></td>\n\t\t\t\t\t\t\t\t</tr>\n\t\t\t\t\t\t\t</tbody>\n\t\t\t\t\t\t\t<tfoot></tfoot>\n\t\t\t\t\t\t</table>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n    </div>\n    </div>\n</ng-template>\n\n<ng-template #addRole let-modal>\n\t<h4 class=\"modal-title\" id=\"modal-basic-title\" style=\"margin: 20px;\">Add role</h4>\n\t<div style=\"display: inherit; margin: 20px; margin-top: 0px;\">\n\t\t<div class = \"col-md-8\">\n\t\t\t<ng-multiselect-dropdown  [placeholder]=\"'Roles'\" [settings]=\"dropdownSettings\" [data]=\"rolesDropDown\" [(ngModel)] = \"selectedRole\" [ngModelOptions]=\"{standalone: true}\">\n\t\t\t</ng-multiselect-dropdown>\n\t\t</div>\n\t\t<div class = \"col-md-3\">\n\t\t\t<button class=\"btn btn-primary\" (click) = \"addRoleAction()\" data-dismiss=\"connect\">Add</button>\n\t\t</div>\n\t</div>\n</ng-template>\n\n<div class=\"row\">\n\t<div class=\"col-md-8 offset-sm-2\" style=\"margin-top: 20px;\">\n\t\t<h3>Users</h3>\n\t\t<hr>\n\t\t<div class=\"table-responsive\">\n\t\t\t<div class=\"bootstrap-table\">\n\t\t\t\t<div class=\"fixed-table-toolbar\">\n\t\t\t\t\t<div class=\"bars pull-left\">\n\t\t\t\t\t\t<div id=\"toolbargrid\">\n\t\t\t\t\t\t\t<div class=\"form-inline\" role=\"form\">\n\t\t\t\t\t\t\t\t \n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"toolbar clearfix\">\n\t\t\t\t\t<div class=\"toolbar-left\">\n\t\t\t\t\t\t<button class=\"btn btn-primary\" style=\"margin-bottom: 10px;\" (click)=\"goToRolesPage()\">View roles</button>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"fixed-table-container\">\n\t\t\t\t\t<div class=\"fixed-table-header\">\n\t\t\t\t\t\t<table></table>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"fixed-table-body\">\n\t\t\t\t\t\t<table id=\"grid\" class=\"table table-striped table-hover\" data-toolbar=\"#toolbargrid\" data-pagination=\"true\" data-search=\"true\">\n\t\t\t\t\t\t\t<thead>\n\t\t\t\t\t\t\t\t<tr>\n\t\t\t\t\t\t\t\t\t<th class=\"text-left\" style=\"\">\n\t\t\t\t\t\t\t\t\t\t<div class=\"th-inner sortable\">Email</div>\n\t\t\t\t\t\t\t\t\t\t<div class=\"fht-cell\"></div>\n\t\t\t\t\t\t\t\t\t</th>\n\t\t\t\t\t\t\t\t\t<th class=\"text-left\" style=\"\">\n\t\t\t\t\t\t\t\t\t\t<div class=\"th-inner sortable\">Name</div>\n\t\t\t\t\t\t\t\t\t\t<div class=\"fht-cell\"></div>\n\t\t\t\t\t\t\t\t\t</th>\n\t\t\t\t\t\t\t\t\t<th class=\"text-left\" style=\"\">\n\t\t\t\t\t\t\t\t\t\t<div class=\"th-inner sortable\">Last name</div>\n\t\t\t\t\t\t\t\t\t\t<div class=\"fht-cell\"></div>\n\t\t\t\t\t\t\t\t\t</th>\n\t\t\t\t\t\t\t\t</tr>\n\t\t\t\t\t\t\t</thead>\n\t\t\t\t\t\t\t<tbody>\n\t\t\t\t\t\t\t\t<h4 *ngIf = \"users?.length == 0\"> There is no exsiting user </h4>\n\t\t\t\t\t\t\t\t<tr *ngFor = \"let i = index; let user of users | paginate: { itemsPerPage: 10, currentPage: p }\">\n\t\t\t\t\t\t\t\t\t<td class=\"text-left\" style=\"\"><a class=\"text-primary\" (click)=\"viewRoles(user, viewRolesTemplate)\">{{user.email}}</a></td>\n\t\t\t\t\t\t\t\t\t<td class=\"text-left\" style=\"\">{{user.firstName}}</td>\n\t\t\t\t\t\t\t\t\t<td class=\"text-left\" style=\"\">{{user.lastName}}</td>\n\t\t\t\t\t\t\t\t\t<td><button class=\"btn btn-primary\" (click)=\"openAddingRolePopup(addRole, user)\">Add role</button>\n\t\t\t\t\t\t\t\t\t<button *ngIf = \"user.active && user.id != loggedUser.id\" class=\"btn btn-secondary\" (click)=\"changeStateOfUser(user, false)\">Block</button>\n\t\t\t\t\t\t\t\t\t<button  *ngIf = \"!user.active && user.role[0].roleName == 'ROLE_LOGGED'\" class=\"btn btn-danger\" (click)=\"removeUser(user)\">Remove</button>\n\t\t\t\t\t\t\t\t\t<button *ngIf = \"!user.active\" class=\"btn btn-success\" (click)=\"changeStateOfUser(user, true)\">Activate</button></td>\n\t\t\t\t\t\t\t\t</tr>\n\t\t\t\t\t\t\t</tbody>\n\t\t\t\t\t\t\t<tfoot></tfoot>\n\t\t\t\t\t\t</table>\n\t\t\t\t\t\t<pagination-controls (pageChange)=\"p = $event\"></pagination-controls>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</div>\n"
+module.exports = "<app-navbar></app-navbar>\n<ng-template #viewRolesTemplate let-modal>\n   <div class=\"modal-header\">\n      <h3>Roles</h3>\n    </div>\n    <div class=\"modal-body\">\n\t\t<div class=\"table-responsive\">\n\t\t\t<div class=\"bootstrap-table\">\n\t\t\t\t<div class=\"fixed-table-container\">\n\t\t\t\t\t<div class=\"fixed-table-body\">\n\t\t\t\t\t\t<table id=\"grid\" class=\"table table-striped table-hover\" data-toolbar=\"#toolbargrid\" data-pagination=\"true\" data-search=\"true\">\n\t\t\t\t\t\t\t<thead>\n\t\t\t\t\t\t\t\t<tr>\n\t\t\t\t\t\t\t\t\t<th class=\"text-left\" style=\"\">\n\t\t\t\t\t\t\t\t\t\t<div class=\"th-inner sortable\">Name</div>\n\t\t\t\t\t\t\t\t\t\t<div class=\"fht-cell\"></div>\n\t\t\t\t\t\t\t\t\t</th>\n\t\t\t\t\t\t\t\t</tr>\n\t\t\t\t\t\t\t</thead>\n\t\t\t\t\t\t\t<tbody>\n\t\t\t\t\t\t\t\t<h4 *ngIf = \"userRoles?.length == 0\"> There is no role for user </h4>\n\t\t\t\t\t\t\t\t<tr>\n\t\t\t\t\t\t\t\t<!-- <tr *ngFor = \"let i = index; let role of userRoles | paginate: { itemsPerPage: 10, currentPage: p }\"> -->\n\t\t\t\t\t\t\t\t\t<td class=\"text-left\" style=\"\">{{userRoles.userType}}</td>\n\t\t\t\t\t\t\t\t\t<!-- <td><button type=\"button\" class=\"btn btn-primary\" (click) = \"deleteRole(role)\" >Delete</button></td> -->\n\t\t\t\t\t\t\t\t</tr>\n\t\t\t\t\t\t\t</tbody>\n\t\t\t\t\t\t\t<tfoot></tfoot>\n\t\t\t\t\t\t</table>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n    </div>\n    </div>\n</ng-template>\n\n<ng-template #addRole let-modal>\n\t<h4 class=\"modal-title\" id=\"modal-basic-title\" style=\"margin: 20px;\">Add role</h4>\n\t<div style=\"display: inherit; margin: 20px; margin-top: 0px;\">\n\t\t<div class = \"col-md-8\">\n\t\t\t<ng-multiselect-dropdown  [placeholder]=\"'Roles'\" [settings]=\"dropdownSettings\" [data]=\"rolesDropDown\" [(ngModel)] = \"selectedRole\" [ngModelOptions]=\"{standalone: true}\">\n\t\t\t</ng-multiselect-dropdown>\n\t\t</div>\n\t\t<div class = \"col-md-3\">\n\t\t\t<button class=\"btn btn-primary\" (click) = \"addRoleAction()\" data-dismiss=\"connect\">Add</button>\n\t\t</div>\n\t</div>\n</ng-template>\n\n<div class=\"row\">\n\t<div class=\"col-md-8 offset-sm-2\" style=\"margin-top: 20px;\">\n\t\t<h3>Users</h3>\n\t\t<!-- <hr> -->\n\t\t<div class=\"table-responsive\">\n\t\t\t<div class=\"bootstrap-table\">\n\t\t\t\t<div class=\"fixed-table-toolbar\">\n\t\t\t\t\t<div class=\"bars pull-left\">\n\t\t\t\t\t\t<div id=\"toolbargrid\">\n\t\t\t\t\t\t\t<div class=\"form-inline\" role=\"form\">\n\t\t\t\t\t\t\t\t \n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<!-- <div class=\"toolbar clearfix\">\n\t\t\t\t\t<div class=\"toolbar-left\">\n\t\t\t\t\t\t<button class=\"btn btn-primary\" style=\"margin-bottom: 10px;\" (click)=\"goToRolesPage()\">View roles</button>\n\t\t\t\t\t</div>\n\t\t\t\t</div> -->\n\t\t\t\t<div class=\"fixed-table-container\">\n\t\t\t\t\t<div class=\"fixed-table-header\">\n\t\t\t\t\t\t<table></table>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"fixed-table-body\">\n\t\t\t\t\t\t<table id=\"grid\" class=\"table table-striped table-hover\" data-toolbar=\"#toolbargrid\" data-pagination=\"true\" data-search=\"true\">\n\t\t\t\t\t\t\t<thead>\n\t\t\t\t\t\t\t\t<tr>\n\t\t\t\t\t\t\t\t\t<th class=\"text-left\" style=\"\">\n\t\t\t\t\t\t\t\t\t\t<div class=\"th-inner sortable\">Email</div>\n\t\t\t\t\t\t\t\t\t\t<div class=\"fht-cell\"></div>\n\t\t\t\t\t\t\t\t\t</th>\n\t\t\t\t\t\t\t\t\t<th class=\"text-left\" style=\"\">\n\t\t\t\t\t\t\t\t\t\t<div class=\"th-inner sortable\">Name</div>\n\t\t\t\t\t\t\t\t\t\t<div class=\"fht-cell\"></div>\n\t\t\t\t\t\t\t\t\t</th>\n\t\t\t\t\t\t\t\t\t<th class=\"text-left\" style=\"\">\n\t\t\t\t\t\t\t\t\t\t<div class=\"th-inner sortable\">Last name</div>\n\t\t\t\t\t\t\t\t\t\t<div class=\"fht-cell\"></div>\n\t\t\t\t\t\t\t\t\t</th>\n\t\t\t\t\t\t\t\t</tr>\n\t\t\t\t\t\t\t</thead>\n\t\t\t\t\t\t\t<tbody>\n\t\t\t\t\t\t\t\t<h4 *ngIf = \"users?.length == 0\"> There is no exsiting user </h4>\n\t\t\t\t\t\t\t\t<tr *ngFor = \"let i = index; let user of users | paginate: { itemsPerPage: 10, currentPage: p }\">\n\t\t\t\t\t\t\t\t\t<td class=\"text-left\" style=\"\"><a class=\"text-primary\" (click)=\"viewRoles(user, viewRolesTemplate)\">{{user.email}}</a></td>\n\t\t\t\t\t\t\t\t\t<td class=\"text-left\" style=\"\">{{user.name}}</td>\n\t\t\t\t\t\t\t\t\t<td class=\"text-left\" style=\"\">{{user.lastName}}</td>\n\t\t\t\t\t\t\t\t\t<!-- <td><button class=\"btn btn-primary\" (click)=\"openAddingRolePopup(addRole, user)\">Add role</button> -->\n\t\t\t\t\t\t\t\t\t<td>\n\t\t\t\t\t\t\t\t\t<button *ngIf = \"user.active && user.id != loggedUser.id\" class=\"btn btn-danger\" (click)=\"changeStateOfUser(user, false)\">Block</button>\n\t\t\t\t\t\t\t\t\t<!-- <button  *ngIf = \"!user.active && user.role.userType == 'ROLE_LOGGED'\" class=\"btn btn-danger\" (click)=\"removeUser(user)\">Remove</button> -->\n\t\t\t\t\t\t\t\t\t<button *ngIf = \"!user.active\" class=\"btn btn-success\" (click)=\"changeStateOfUser(user, true)\">Activate</button></td>\n\t\t\t\t\t\t\t\t</tr>\n\t\t\t\t\t\t\t</tbody>\n\t\t\t\t\t\t\t<tfoot></tfoot>\n\t\t\t\t\t\t</table>\n\t\t\t\t\t\t<pagination-controls (pageChange)=\"p = $event\"></pagination-controls>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</div>\n"
 
 /***/ }),
 
@@ -10148,10 +10311,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var app_service_user_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! app/service/user.service */ "./src/app/service/user.service.ts");
 /* harmony import */ var _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @ng-bootstrap/ng-bootstrap */ "./node_modules/@ng-bootstrap/ng-bootstrap/index.js");
 /* harmony import */ var app_model_user_user__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! app/model/user/user */ "./src/app/model/user/user.ts");
-/* harmony import */ var app_model_user_role__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! app/model/user/role */ "./src/app/model/user/role.ts");
-/* harmony import */ var app_service_role_service__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! app/service/role.service */ "./src/app/service/role.service.ts");
-/* harmony import */ var app_service_auth_service__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! app/service/auth.service */ "./src/app/service/auth.service.ts");
-
+/* harmony import */ var app_service_role_service__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! app/service/role.service */ "./src/app/service/role.service.ts");
+/* harmony import */ var app_service_auth_service__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! app/service/auth.service */ "./src/app/service/auth.service.ts");
 
 
 
@@ -10196,50 +10357,53 @@ var ViewUsersComponent = /** @class */ (function () {
         };
     };
     ViewUsersComponent.prototype.viewRoles = function (user, viewConnected) {
-        this.selectedUser = user;
-        this.userRoles = user.role;
-        this.modalReference = this.modalService.open(viewConnected, { centered: true });
+        // this.selectedUser = user;
+        // this.userRoles = user.role;
+        // this.modalReference = this.modalService.open(viewConnected, { centered: true });
     };
     ViewUsersComponent.prototype.deleteRole = function (role) {
-        var _this = this;
-        this.userService.deleteRoleFromUser(this.selectedUser.id, role.id).subscribe(function (s) {
-            var pomRole = new app_model_user_role__WEBPACK_IMPORTED_MODULE_6__["Role"]();
-            _this.selectedUser.role.forEach(function (element) {
-                if (element.id === role.id) {
-                    pomRole = element;
-                }
-            });
-            _this.selectedUser.role.splice(_this.selectedUser.role.indexOf(pomRole), 1);
-        });
+        // this.userService.deleteRoleFromUser(this.selectedUser.id, role.id).subscribe(
+        //   s =>{
+        //     let pomRole: Role = new Role();
+        //     this.selectedUser.role.forEach(element => {
+        //       if(element.id === role.id){
+        //         pomRole = element;
+        //       }
+        //     })
+        //     this.selectedUser.role.splice(this.selectedUser.role.indexOf(pomRole), 1)
+        //   }
+        // );
     };
     ViewUsersComponent.prototype.goToRolesPage = function () {
         this.router.navigate(['roles']);
     };
     ViewUsersComponent.prototype.openAddingRolePopup = function (connect, user) {
-        var _this = this;
-        this.rolesDropDown = [];
-        this.selectedRole = "";
-        this.selectedUser = user;
-        this.allRoles.forEach(function (role) {
-            var hasRole = false;
-            user.role.forEach(function (userRole) {
-                if (role.id == userRole.id) {
-                    hasRole = true;
-                }
-            });
-            if (!hasRole) {
-                _this.rolesDropDown.push(role.roleName);
-            }
-        });
-        this.modalReference = this.modalService.open(connect, { centered: true });
+        // this.rolesDropDown = [];
+        // this.selectedRole = "";
+        // this.selectedUser = user;
+        // this.allRoles.forEach(role => {
+        //       let hasRole = false;
+        //       user.role.forEach(userRole => {
+        //         if(role.id == userRole.id){
+        //           hasRole = true;
+        //         }
+        //       }
+        //     )
+        //     if(!hasRole){
+        //       this.rolesDropDown.push(role.userType);
+        //     }
+        //   }
+        // )
+        // this.modalReference = this.modalService.open(connect, { centered: true });
     };
     ViewUsersComponent.prototype.addRoleAction = function () {
-        var _this = this;
-        var roleForAdd = this.allRoles.find(function (element) { return element.roleName == _this.selectedRole; });
-        this.userService.addRoleToUser(this.selectedUser.id, roleForAdd.id).subscribe(function (s) {
-            _this.selectedUser.role.push(roleForAdd);
-            _this.modalReference.close();
-        });
+        // let roleForAdd = this.allRoles.find(element => element.userType == this.selectedRole);
+        // this.userService.addRoleToUser(this.selectedUser.id, roleForAdd.id).subscribe(
+        //   s => {
+        //     this.selectedUser.role.push(roleForAdd)
+        //     this.modalReference.close()
+        //   }
+        // );
     };
     ViewUsersComponent.prototype.changeStateOfUser = function (user, boolState) {
         var _this = this;
@@ -10264,7 +10428,9 @@ var ViewUsersComponent = /** @class */ (function () {
             template: __webpack_require__(/*! ./view-users.component.html */ "./src/app/component/users/view-users/view-users.component.html"),
             styles: [__webpack_require__(/*! ./view-users.component.css */ "./src/app/component/users/view-users/view-users.component.css")]
         }),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [app_service_auth_service__WEBPACK_IMPORTED_MODULE_8__["AuthService"], _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_4__["NgbModal"], app_service_user_service__WEBPACK_IMPORTED_MODULE_3__["UserService"], app_service_role_service__WEBPACK_IMPORTED_MODULE_7__["RoleService"], _angular_router__WEBPACK_IMPORTED_MODULE_2__["Router"]])
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [app_service_auth_service__WEBPACK_IMPORTED_MODULE_7__["AuthService"],
+            _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_4__["NgbModal"], app_service_user_service__WEBPACK_IMPORTED_MODULE_3__["UserService"],
+            app_service_role_service__WEBPACK_IMPORTED_MODULE_6__["RoleService"], _angular_router__WEBPACK_IMPORTED_MODULE_2__["Router"]])
     ], ViewUsersComponent);
     return ViewUsersComponent;
 }());
@@ -10313,6 +10479,29 @@ var HInterceptorService = /** @class */ (function () {
         tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injector"]])
     ], HInterceptorService);
     return HInterceptorService;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/model/paper/paper.ts":
+/*!**************************************!*\
+  !*** ./src/app/model/paper/paper.ts ***!
+  \**************************************/
+/*! exports provided: Paper */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Paper", function() { return Paper; });
+var Paper = /** @class */ (function () {
+    function Paper() {
+        this.id = 0;
+        this.pathForPDF = "";
+        this.file = "";
+    }
+    return Paper;
 }());
 
 
@@ -10388,7 +10577,7 @@ __webpack_require__.r(__webpack_exports__);
 var Role = /** @class */ (function () {
     function Role() {
         this.id = 0;
-        this.roleName = "";
+        this.userType = "";
     }
     return Role;
 }());
@@ -10407,16 +10596,17 @@ var Role = /** @class */ (function () {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "User", function() { return User; });
+/* harmony import */ var _role__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./role */ "./src/app/model/user/role.ts");
+
 var User = /** @class */ (function () {
     function User() {
         this.id = 0;
         this.name = "";
         this.lastName = "";
         this.email = "";
-        this.role = [];
-        this.username = "";
+        this.role = new _role__WEBPACK_IMPORTED_MODULE_0__["Role"]();
         this.active = true;
-        this.taskId = "";
+        this.phoneNumber = "";
     }
     return User;
 }());
@@ -10593,32 +10783,9 @@ var PaperService = /** @class */ (function () {
     function PaperService(http) {
         this.http = http;
         this.baseUrl = environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].baseUrl + 'api/papers';
-        this.baseUrlCamunda = environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].baseUrl + 'camunda/paper';
-        this.baseUrlReview = environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].baseUrl + 'api/reviews';
     }
-    PaperService.prototype.save = function (paper) {
-        return this.http.post(this.baseUrl, paper);
-    };
-    PaperService.prototype.addPaper = function (file, paper, taskId, journalId) {
-        var formdata = new FormData();
-        // formdata.append('file', file);
-        // formdata.append('title', paper.title)
-        // formdata.append('keyTerms', paper.keyTerms)
-        // formdata.append('abstractForPaper', paper.abstractForPaper)
-        // formdata.append('scientificAreaForPaper', JSON.stringify(paper.scientificAreaForPaper))
-        // formdata.append('coauthors', JSON.stringify(paper.coauthors))
-        return this.http.post(this.baseUrlCamunda + ("/upload/" + taskId + "/" + journalId), formdata);
-    };
-    PaperService.prototype.reupload = function (file, paper, taskId) {
-        var formdata = new FormData();
-        formdata.append('file', file);
-        return this.http.post(this.baseUrlCamunda + ("/reupload/" + taskId + "/" + paper.id), formdata);
-    };
     PaperService.prototype.showPapers = function () {
-        return this.http.get(this.baseUrlCamunda + '/get/papersForView');
-    };
-    PaperService.prototype.download = function (paperId) {
-        return this.http.get(this.baseUrlCamunda + ("/download/" + paperId), { responseType: 'blob' });
+        return this.http.get(this.baseUrl);
     };
     PaperService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])(),
@@ -10652,19 +10819,19 @@ __webpack_require__.r(__webpack_exports__);
 var RoleService = /** @class */ (function () {
     function RoleService(http) {
         this.http = http;
-        this.baseUrl = environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].baseUrl + 'login';
+        this.baseUrl = environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].baseUrl;
     }
     RoleService.prototype.findOne = function (id) {
-        return this.http.get(this.baseUrl + ("/roles/" + id));
+        return this.http.get(this.baseUrl + ("roles/" + id));
     };
     RoleService.prototype.findAll = function () {
-        return this.http.get(this.baseUrl + "/roles");
+        return this.http.get(this.baseUrl + "roles");
     };
     RoleService.prototype.save = function (role) {
-        return this.http.post(this.baseUrl + '/roles', role);
+        return this.http.post(this.baseUrl + 'roles', role);
     };
     RoleService.prototype.update = function (role) {
-        return this.http.put(this.baseUrl + ("/roles/" + role.id), role);
+        return this.http.put(this.baseUrl + ("roles/" + role.id), role);
     };
     RoleService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])(),
@@ -10714,6 +10881,52 @@ var SearchService = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/app/service/upload-file.service.ts":
+/*!************************************************!*\
+  !*** ./src/app/service/upload-file.service.ts ***!
+  \************************************************/
+/*! exports provided: UploadFileService */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UploadFileService", function() { return UploadFileService; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/esm5/core.js");
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/esm5/http.js");
+/* harmony import */ var environments_environment__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! environments/environment */ "./src/environments/environment.ts");
+/* harmony import */ var app_model_paper_paper__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! app/model/paper/paper */ "./src/app/model/paper/paper.ts");
+
+
+
+
+
+var UploadFileService = /** @class */ (function () {
+    function UploadFileService(http) {
+        this.http = http;
+        this.baseUrl = environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].baseUrl + 'api/file';
+    }
+    UploadFileService.prototype.upload = function (file) {
+        var formdata = new FormData();
+        formdata.append('file', file);
+        var paper = new app_model_paper_paper__WEBPACK_IMPORTED_MODULE_4__["Paper"]();
+        paper.file = file;
+        return this.http.post(this.baseUrl + "/upload", formdata);
+    };
+    UploadFileService.prototype.download = function (paperId) {
+        return this.http.get(this.baseUrl + ("/download/" + paperId), { responseType: 'blob' });
+    };
+    UploadFileService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])(),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"]])
+    ], UploadFileService);
+    return UploadFileService;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/app/service/user.service.ts":
 /*!*****************************************!*\
   !*** ./src/app/service/user.service.ts ***!
@@ -10736,7 +10949,6 @@ var UserService = /** @class */ (function () {
     function UserService(http) {
         this.http = http;
         this.baseUrl = environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].baseUrl + 'api';
-        this.baseUrlCamunda = environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].baseUrl + 'camunda';
     }
     UserService.prototype.findByEmail = function (email) {
         return this.http.get(this.baseUrl + ("/email/" + email));
@@ -10761,9 +10973,6 @@ var UserService = /** @class */ (function () {
     };
     UserService.prototype.deleteUser = function (userId) {
         return this.http.delete(this.baseUrl + ("/users/" + userId));
-    };
-    UserService.prototype.registerUser = function (user, taskId) {
-        return this.http.post(this.baseUrlCamunda + ("/registration/post/" + taskId), user);
     };
     UserService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])(),

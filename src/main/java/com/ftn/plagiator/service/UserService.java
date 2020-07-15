@@ -1,5 +1,7 @@
 package com.ftn.plagiator.service;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -9,6 +11,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.ftn.plagiator.exceptions.CustomException;
 import com.ftn.plagiator.jwt.JwtTokenUtils;
@@ -69,5 +72,17 @@ public class UserService {
 	
 	public User findByEmail(String email) {
 		return userRepository.findByEmail(email);
+	}
+	
+	public User changeState(Long id, boolean boolState) {
+		Optional<User> user = userRepository.findById(id);
+		if (user.isPresent()) {
+			user.get().setActive(boolState);
+			User retVal = userRepository.save(user.get());
+			return retVal;
+		} else {
+			throw new ResponseStatusException(HttpStatus.NO_CONTENT,
+					"Requested user with id " + id + " doesn't exist.");
+		}
 	}
 }

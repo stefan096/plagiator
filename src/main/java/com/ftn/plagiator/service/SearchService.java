@@ -1,6 +1,15 @@
 package com.ftn.plagiator.service;
 
+import java.util.List;
+
+import org.apache.lucene.analysis.Analyzer;
+import org.apache.lucene.analysis.LowerCaseFilter;
+import org.apache.lucene.analysis.TokenStream;
+import org.apache.lucene.analysis.Tokenizer;
+import org.apache.lucene.analysis.shingle.ShingleFilter;
+import org.apache.lucene.analysis.standard.StandardTokenizer;
 import org.elasticsearch.index.query.BoolQueryBuilder;
+import org.elasticsearch.index.query.MatchQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +23,7 @@ import org.springframework.stereotype.Service;
 import com.ftn.plagiator.elasticsearch.dto.ParamForQuery;
 import com.ftn.plagiator.elasticsearch.dto.SimpleQueryDTO;
 import com.ftn.plagiator.elasticsearch.enums.SearchType;
+import com.ftn.plagiator.elasticsearch.model.PaperElastic;
 import com.ftn.plagiator.elasticsearch.model.UserElastics;
 import com.ftn.plagiator.elasticsearch.resultMappers.ContentResultMapper;
 
@@ -373,6 +383,49 @@ public class SearchService {
 //		return elasticsearchTemplate.queryForList(new NativeSearchQueryBuilder().withQuery(boolQueryForLocations)
 //				.build(), UserElastic.class);
 //	}
+	
+	
+	public Page<PaperElastic> listaRadova(String text) {
+	
+//		  Tokenizer source = new StandardTokenizer();
+//		  TokenStream src = new LowerCaseFilter(source);
+//		  
+//		  ShingleFilter filter = new ShingleFilter(src, 2, 3);
+//		  filter.setOutputUnigrams(false);
+//		  
+//		  TokenStreamComponents tsc = new TokenStreamComponents(source, filter);
+		  
+		  
+//		  Analyzer analyzer = new Analyzer() {
+//			
+//			@Override
+//			protected TokenStreamComponents createComponents(String fieldName) {
+//				
+//				Tokenizer source = new StandardTokenizer();
+//				TokenStream src = new LowerCaseFilter(source);
+//			  
+//				ShingleFilter filter = new ShingleFilter(src, 2, 3);
+//				filter.setOutputUnigrams(false);
+//			  
+//				TokenStreamComponents tsc = new TokenStreamComponents(source, filter);
+//				return tsc;
+//			}
+//		};
+		
+		MatchQueryBuilder queryParams = QueryBuilders
+				.matchQuery("text", text);//.minimumShouldMatch("30%"); //u kom procentu zelim poklapanja
+				//.analyzer(analyzer)
+				//.build();
+		
+		SearchQuery theQuerySS = new NativeSearchQueryBuilder()
+				.withQuery(queryParams)
+				//.withMinScore(3)  //koliko zelim da bude poklapanje
+				.build();
+
+		return elasticsearchTemplate.queryForPage(theQuerySS, PaperElastic.class, new ContentResultMapper());
+	}
+	
+
 	
 
 }

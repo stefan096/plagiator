@@ -61,6 +61,22 @@
 			<artifactId>pdfbox</artifactId>
 			<version>2.0.7</version>
 		</dependency>
+		
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+		    <artifactId>poi</artifactId>
+		    <version>3.16</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.apache.poi</groupId>
+		    <artifactId>poi-ooxml</artifactId>
+		    <version>3.16</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.apache.poi</groupId>
+		    <artifactId>poi-scratchpad</artifactId>
+		    <version>3.16</version>
+		</dependency>
 
 		<dependency>
 			<groupId>mysql</groupId>

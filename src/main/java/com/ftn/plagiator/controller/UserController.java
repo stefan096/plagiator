@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.MailException;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -143,26 +144,44 @@ public class UserController {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
-	@GetMapping(path = "api/proba/test/{userId}", produces = "application/json")
-	public ResponseEntity<List<UserDTO>> tryMapper(@PathVariable("userId") Long userId, Pageable page) {
-//		
-//		if(userId != 0) {
-//			User user = userService.findOne(userId);
-//			UserDTO userDTO = modelMapper.map(user, UserDTO.class);
-//		}
-//		else {
-			Page<User> users = userService.findAll(page);
-			//List<User> users2 = new ArrayList<User>();
-//			
-//			users.forEach(item -> {
-//				users2.add(item);
-//			});
-			//List<UserDTO> usersDTO = modelMapper.map(users2, new TypeToken<List<UserDTO>>() {}.getType());
-			List<UserDTO> usersDTO = objectMapper.mapAll(users, UserDTO.class);
-			
-		//}
 
+	@GetMapping(path = "api/users", produces = "application/json")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	public ResponseEntity<List<UserDTO>> getUsers(Pageable page) {
+
+		Page<User> users = userService.findAll(page);
+		List<UserDTO> usersDTO = objectMapper.mapAll(users, UserDTO.class);
+	
 		return new ResponseEntity<>(usersDTO, HttpStatus.OK);
 	}
+	
+	@RequestMapping(value = "api/users/{id}/state/{boolState}", method = RequestMethod.GET)
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	public ResponseEntity<UserDTO> changeStateOfUser(@PathVariable Long id, @PathVariable boolean boolState) {
+
+		return new ResponseEntity<>(objectMapper.map(userService.changeState(id, boolState), UserDTO.class), HttpStatus.OK);
+	}
+	
+//	@GetMapping(path = "api/proba/test/{userId}", produces = "application/json")
+//	public ResponseEntity<List<UserDTO>> tryMapper(@PathVariable("userId") Long userId, Pageable page) {
+////		
+////		if(userId != 0) {
+////			User user = userService.findOne(userId);
+////			UserDTO userDTO = modelMapper.map(user, UserDTO.class);
+////		}
+////		else {
+//			Page<User> users = userService.findAll(page);
+//			//List<User> users2 = new ArrayList<User>();
+////			
+////			users.forEach(item -> {
+////				users2.add(item);
+////			});
+//			//List<UserDTO> usersDTO = modelMapper.map(users2, new TypeToken<List<UserDTO>>() {}.getType());
+//			List<UserDTO> usersDTO = objectMapper.mapAll(users, UserDTO.class);
+//			
+//		//}
+//
+//		return new ResponseEntity<>(usersDTO, HttpStatus.OK);
+//	}
 	
 }
