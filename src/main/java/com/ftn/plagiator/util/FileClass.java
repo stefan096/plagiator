@@ -10,7 +10,15 @@ import java.util.Date;
 
 import org.springframework.web.multipart.MultipartFile;
 
-public class PdfClass {
+import com.ftn.plagiator.elasticsearch.handler.PDFHandler;
+import com.ftn.plagiator.elasticsearch.handler.Word2007Handler;
+import com.ftn.plagiator.elasticsearch.handler.WordHandler;
+
+public class FileClass {
+	
+	private static PDFHandler pdfHandler = new PDFHandler();
+	private static WordHandler wordHandler = new WordHandler();
+	private static Word2007Handler word2007Handler = new Word2007Handler();
 		
 	public static String saveFile(MultipartFile file, String folderPath) throws IOException {
 	   	String retVal = null;
@@ -26,6 +34,22 @@ public class PdfClass {
 	
 	public static File getResourceFilePath(String path) {
 	    return new File(path);
+	}
+	
+	public static String getTextFromFile(String filename, File file) {
+		String text = "";
+		
+		if(filename.contains(".pdf")) {
+			text = pdfHandler.getText(file);
+		}
+		else if(filename.contains(".docx")){
+			text = word2007Handler.getText(file);
+		}
+		else if(filename.contains(".doc")){
+			text = wordHandler.getText(file);
+		}
+		
+		return text;
 	}
 	
 }

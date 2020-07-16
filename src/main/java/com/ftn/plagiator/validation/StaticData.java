@@ -18,6 +18,8 @@ public class StaticData {
 	
 	public static final String PUTANJA_DO_FAJLA = 
 			"D:\\plagiator\\src\\main\\resources\\papers";
+	public static final int NUMBERS_OF_FILES = 3;
+	public static final int NUMBERS_OF_WORDS_SPLITER = 950;
 	
 	public static final int INITIAL_DELAY = 1000; //1second = 1000milisecunds
 	public static final int FIXED_DELAY = 1000*60; //10h == 1000*10*60*60

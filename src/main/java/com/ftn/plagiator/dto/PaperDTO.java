@@ -1,9 +1,10 @@
 package com.ftn.plagiator.dto;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.web.multipart.MultipartFile;
 
 @NoArgsConstructor
 @Getter
@@ -14,5 +15,11 @@ public class PaperDTO {
 	private String title;
 	private MultipartFile file;
 	private String pathForPDF;
+	
+//	private String content;
+//	private String text;
+	private double searchHits;
 }
+
+
 

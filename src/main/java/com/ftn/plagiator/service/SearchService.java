@@ -1,7 +1,5 @@
 package com.ftn.plagiator.service;
 
-import java.util.List;
-
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.LowerCaseFilter;
 import org.apache.lucene.analysis.TokenStream;
@@ -396,33 +394,35 @@ public class SearchService {
 //		  TokenStreamComponents tsc = new TokenStreamComponents(source, filter);
 		  
 		  
-//		  Analyzer analyzer = new Analyzer() {
-//			
-//			@Override
-//			protected TokenStreamComponents createComponents(String fieldName) {
-//				
-//				Tokenizer source = new StandardTokenizer();
-//				TokenStream src = new LowerCaseFilter(source);
-//			  
-//				ShingleFilter filter = new ShingleFilter(src, 2, 3);
-//				filter.setOutputUnigrams(false);
-//			  
-//				TokenStreamComponents tsc = new TokenStreamComponents(source, filter);
-//				return tsc;
-//			}
-//		};
+		 @SuppressWarnings("unused")
+		Analyzer analyzer = new Analyzer() {
+			
+			@Override
+			protected TokenStreamComponents createComponents(String fieldName) {
+				
+				Tokenizer source = new StandardTokenizer();
+				TokenStream src = new LowerCaseFilter(source);
+			  
+				ShingleFilter filter = new ShingleFilter(src, 2, 3);
+				filter.setOutputUnigrams(false);
+			  
+				TokenStreamComponents tsc = new TokenStreamComponents(source, filter);
+				return tsc;
+			}
+		};
+		
 		
 		MatchQueryBuilder queryParams = QueryBuilders
 				.matchQuery("text", text);//.minimumShouldMatch("30%"); //u kom procentu zelim poklapanja
 				//.analyzer(analyzer)
 				//.build();
 		
-		SearchQuery theQuerySS = new NativeSearchQueryBuilder()
+		SearchQuery theQuery = new NativeSearchQueryBuilder()
 				.withQuery(queryParams)
 				//.withMinScore(3)  //koliko zelim da bude poklapanje
 				.build();
 
-		return elasticsearchTemplate.queryForPage(theQuerySS, PaperElastic.class, new ContentResultMapper());
+		return elasticsearchTemplate.queryForPage(theQuery, PaperElastic.class, new ContentResultMapper());
 	}
 	
 

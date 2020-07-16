@@ -44,4 +44,21 @@ public class EmailService {
 		System.out.println("Email poslat!");
 	}
 	
+	@Async
+	public void sendNotificaitionUploadOfNewDocument(User user, String documentTitle) throws MailException, InterruptedException {
+
+		//Simulacija duze aktivnosti da bi se uocila razlika
+		System.out.println("Slanje emaila upload...");
+
+		SimpleMailMessage mail = new SimpleMailMessage();
+		mail.setTo(user.getEmail());
+		mail.setFrom(env.getProperty("spring.mail.username"));
+		mail.setSubject("Obavestenje o uspesnom uploadu novog rada u plagiator");
+		mail.setText("Pozdrav " /*+ user.getName()*/ + ",\n\n" + documentTitle + " Rad je uspesno uploadovan mozete videti "
+				+ "analizu poklapanja sa drugim dokumentima.\n" );
+		javaMailSender.send(mail);
+
+		System.out.println("Email poslat upload!");
+	}
+	
 }

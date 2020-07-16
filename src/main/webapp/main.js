@@ -9728,7 +9728,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "\n<app-navbar></app-navbar>\n\n<div class=\"col-sm-10\">\n\n  <p>\n    new-document works!\n  </p>\n\n  <form>\n    <div class=\"form-group\">\n      <label>Fajl &nbsp; &nbsp;</label>\n      <input \n        type=\"file\" \n        placeholder=\"Izaberi naučni rad\"\n        (change)=\"selectFile($event)\"\n        value=\"Izaberi naucni rad\">\n    </div>\n\n    <div class=\"form-group col-md-2\">\n      <input type=\"submit\" class=\"form-control btn btn-primary\" \n      value=\"Upload\"  (click) = \"uploadFile()\">\n    </div>\n  </form>\n\n</div>\n\n  <div class=\"container\" style=\"margin-top: 100px;\">\n    <div class=\"container justify-content-md-center\" style=\"display: -webkit-box;\">\n      <div class=\"col-lg-12 p-0\">\n            <a class=\"list-group-item\" style=\"min-height: 220px; max-height: 350px;\" *ngFor = \"let i = index; let paper of papers\">\n                <div style=\"display: inline-flex; width: 100%; padding-bottom: 0%; height: 10px;\">\n                    <h5 class=\"col-lg-10\"><span style=\"color: crimson; font-size: medium;\">Rad: &nbsp;</span>{{paper.title}}</h5>\n                </div>\n\n                <div style=\"display: inline-flex; width: 100%;\">\n                    <button  class=\"btn btn-info\" style=\"position: relative; float: right; margin-right: 50px;\" (click)=\"download(paper.id, paper.title)\">Pregledaj</button>              \n                </div>\n            </a>\n      </div>\n    </div>\n  </div>\n\n"
+module.exports = "\n<app-navbar></app-navbar>\n\n<div class=\"col-sm-10\">\n\n  <p>\n    new-document works!\n  </p>\n\n  <form>\n    <div class=\"form-group\">\n      <label>Fajl &nbsp; &nbsp;</label>\n      <input \n        type=\"file\" \n        placeholder=\"Izaberi naučni rad\"\n        (change)=\"selectFile($event)\"\n        value=\"Izaberi naucni rad\">\n    </div>\n\n    <div class=\"form-group col-md-2\">\n      <input type=\"submit\" class=\"form-control btn btn-primary\" \n      value=\"Upload\"  (click) = \"uploadFile()\">\n    </div>\n  </form>\n\n</div>\n\n  <div class=\"container\" style=\"margin-top: 100px;\">\n    <div class=\"container justify-content-md-center\" style=\"display: -webkit-box;\">\n      <div class=\"col-lg-12 p-0\">\n            <a class=\"list-group-item\" style=\"min-height: 220px; max-height: 500px; margin-bottom: 10px;\" \n            *ngFor = \"let i = index; let item of paperResultPlagiator.items\">\n              <div style=\"display: inline-flex; width: 100%; padding-bottom: 0%; height: 10px;\">\n                <h5 class=\"col-lg-10\"><span style=\"color: crimson; font-size: medium;\">Deo dokumenta: &nbsp;</span>{{item.partOfPage}}</h5>\n            </div>\n            <div *ngFor = \"let j = index; let paper of item.papers\" >\n              <hr>\n                <div style=\"display: inline-flex; width: 100%; padding-bottom: 0%; height: 10px;\">\n                    <h5 class=\"col-lg-10\"><span style=\"color: crimson; font-size: medium;\">Rad: &nbsp;</span>{{paper.title}}</h5>\n                </div>\n                <div style=\"display: inline-flex; width: 100%;\">\n                  <h5 class=\"col-lg-10\"><span style=\"color: crimson; font-size: medium;\">Search Hits: &nbsp;</span>{{paper.searchHits}}</h5>              \n              </div>\n                <div style=\"display: inline-flex; width: 100%;\">\n                    <button  class=\"btn btn-info\" style=\"position: relative; float: right; margin-right: 50px;\" (click)=\"download(paper.id, paper.title)\">Pregledaj</button>              \n                </div>\n              </div>\n            </a>\n      </div>\n    </div>\n  </div>\n\n"
 
 /***/ }),
 
@@ -9748,31 +9748,39 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var file_saver__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! file-saver */ "./node_modules/file-saver/dist/FileSaver.min.js");
 /* harmony import */ var file_saver__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(file_saver__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var app_service_paper_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! app/service/paper.service */ "./src/app/service/paper.service.ts");
+/* harmony import */ var app_model_paper_paperResultPlagiator__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! app/model/paper/paperResultPlagiator */ "./src/app/model/paper/paperResultPlagiator.ts");
+
 
 
 
 
 
 var NewDocumentComponent = /** @class */ (function () {
+    //items: ResultItem[] = 
     function NewDocumentComponent(uploadFileService, paperService) {
         this.uploadFileService = uploadFileService;
         this.paperService = paperService;
         this.papers = [];
+        this.paperResultPlagiator = new app_model_paper_paperResultPlagiator__WEBPACK_IMPORTED_MODULE_5__["default"]();
     }
     NewDocumentComponent.prototype.ngOnInit = function () {
-        var _this = this;
-        this.paperService.showPapers().subscribe(function (res) {
-            _this.papers = res;
-        });
+        // this.paperService.showPapers().subscribe(
+        //   res => {
+        //     this.papers = res;
+        //   }
+        // )
     };
     NewDocumentComponent.prototype.selectFile = function (event) {
         this.selectedFiles = event.target.files;
     };
     NewDocumentComponent.prototype.uploadFile = function () {
+        var _this = this;
         this.currentFileUpload = this.selectedFiles.item(0);
-        this.uploadFileService.upload(this.currentFileUpload)
-            .subscribe(function (event) {
-            alert("Uspesno ste dodali rad");
+        this.uploadFileService.uploadNewPaper(this.currentFileUpload)
+            .subscribe(function (res) {
+            //alert("Uspesno ste dodali rad");
+            _this.paperResultPlagiator = res;
+            //console.log(this.paperResultPlagiator)
         }, function (err) {
             console.log('fail');
         });
@@ -10357,9 +10365,9 @@ var ViewUsersComponent = /** @class */ (function () {
         };
     };
     ViewUsersComponent.prototype.viewRoles = function (user, viewConnected) {
-        // this.selectedUser = user;
-        // this.userRoles = user.role;
-        // this.modalReference = this.modalService.open(viewConnected, { centered: true });
+        this.selectedUser = user;
+        this.userRoles = user.role;
+        this.modalReference = this.modalService.open(viewConnected, { centered: true });
     };
     ViewUsersComponent.prototype.deleteRole = function (role) {
         // this.userService.deleteRoleFromUser(this.selectedUser.id, role.id).subscribe(
@@ -10500,10 +10508,31 @@ var Paper = /** @class */ (function () {
         this.id = 0;
         this.pathForPDF = "";
         this.file = "";
+        this.searchHits = "";
     }
     return Paper;
 }());
 
+
+
+/***/ }),
+
+/***/ "./src/app/model/paper/paperResultPlagiator.ts":
+/*!*****************************************************!*\
+  !*** ./src/app/model/paper/paperResultPlagiator.ts ***!
+  \*****************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+var PaperResultPlagiator = /** @class */ (function () {
+    function PaperResultPlagiator() {
+        this.items = [];
+    }
+    return PaperResultPlagiator;
+}());
+/* harmony default export */ __webpack_exports__["default"] = (PaperResultPlagiator);
 
 
 /***/ }),
@@ -10912,6 +10941,13 @@ var UploadFileService = /** @class */ (function () {
         var paper = new app_model_paper_paper__WEBPACK_IMPORTED_MODULE_4__["Paper"]();
         paper.file = file;
         return this.http.post(this.baseUrl + "/upload", formdata);
+    };
+    UploadFileService.prototype.uploadNewPaper = function (file) {
+        var formdata = new FormData();
+        formdata.append('file', file);
+        var paper = new app_model_paper_paper__WEBPACK_IMPORTED_MODULE_4__["Paper"]();
+        paper.file = file;
+        return this.http.post(this.baseUrl + "/upload/new", formdata);
     };
     UploadFileService.prototype.download = function (paperId) {
         return this.http.get(this.baseUrl + ("/download/" + paperId), { responseType: 'blob' });

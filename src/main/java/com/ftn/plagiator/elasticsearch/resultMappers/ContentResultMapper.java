@@ -34,16 +34,20 @@ public class ContentResultMapper implements SearchResultMapper{
             PaperElastic paper = new PaperElastic();
             paper.setId(Long.parseLong(searchHit.getId()));
             paper.setText((String) source.get("text"));
-
-            String higlightField = "";
-            try {
-            	higlightField = "..."+searchHit.getHighlightFields().get("text").fragments()[0].toString()+"...";
-            	System.out.println(higlightField);
-            }catch(Exception e) {
-            	higlightField = "";
-            }
+            paper.setTitle((String) source.get("title"));
             
-            paper.setContent(higlightField);
+            paper.setSearchHits(searchHit.getScore());
+
+//            String higlightField = "";
+//            try {
+//            	higlightField = "..."+searchHit.getHighlightFields().get("text").fragments()[0].toString()+"...";
+//            	System.out.println(higlightField);
+//            }catch(Exception e) {
+//            	higlightField = "";
+//            }
+//            
+//            paper.setContent(higlightField);
+            
             chunk.add(paper);
         }
         if (chunk.size() > 0) {

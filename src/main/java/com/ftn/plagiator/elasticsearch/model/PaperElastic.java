@@ -29,6 +29,8 @@ public class PaperElastic { //IndexUnit osnovna jedinica indeksiranja
 	@Field(type = FieldType.Text, analyzer = "serbian-analyzer", searchAnalyzer = "serbian-analyzer")
 	private String text;
 	
+	private double searchHits;
+	
 	
 	public PaperElastic(Paper paper) {
 		this.id = paper.getId();
