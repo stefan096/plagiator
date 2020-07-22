@@ -14,4 +14,7 @@ Da bi se uspešno pokrenula aplikacija neophodno je
 - Pokrenuti backend u radnom okruženju.
 - U web browser-u neophodno je podesiti licencu po https secure protokolu.
 
+Takodje bi bilo dobro zameniti mail koji se trenutno koristi u aplikaciji sa nekim fakultetskim.
+- U application.properties treba izmeniti email isaprojekat2019@gmail.com i lozinku.
+
 Aplikacija se pokreće na https://localhost:8000
