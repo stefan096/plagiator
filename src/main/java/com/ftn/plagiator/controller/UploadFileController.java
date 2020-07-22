@@ -5,7 +5,10 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -25,14 +28,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.ftn.plagiator.dto.PaperDTO;
 import com.ftn.plagiator.dto.PaperResultPlagiator;
 import com.ftn.plagiator.dto.ResultItem;
+import com.ftn.plagiator.dto.UserDTO;
 import com.ftn.plagiator.elasticsearch.model.PaperElastic;
 import com.ftn.plagiator.elasticsearch.repository.PaperElasticRepository;
 import com.ftn.plagiator.model.Paper;
+import com.ftn.plagiator.model.User;
 import com.ftn.plagiator.service.EmailService;
 import com.ftn.plagiator.service.PaperService;
 import com.ftn.plagiator.service.SearchService;
 import com.ftn.plagiator.service.UserService;
 import com.ftn.plagiator.util.FileClass;
+import com.ftn.plagiator.util.HelpersFunctions;
 import com.ftn.plagiator.util.ObjectMapperUtil;
 import com.ftn.plagiator.validation.StaticData;
 
@@ -59,9 +65,13 @@ public class UploadFileController {
   
     @RequestMapping(value = "api/file/upload", method = RequestMethod.POST, consumes = MediaType.MULTIPART_FORM_DATA_VALUE, 
     		produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<PaperDTO> addPaper(@ModelAttribute PaperDTO paperDTO) {
+	public ResponseEntity<PaperDTO> addPaper(@ModelAttribute PaperDTO paperDTO, HttpServletRequest request) {
+    	
+		Principal principal = request.getUserPrincipal();
+        String email = principal.getName();
+        User logged = userService.findByEmail(email);
 
-    	PaperElastic paperElastic = this.uploadFileAndSavePaperElastic(paperDTO);
+    	PaperElastic paperElastic = this.uploadFileAndSavePaperElastic(paperDTO, logged);
     	if(paperElastic == null) {
     		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     	}
@@ -73,10 +83,15 @@ public class UploadFileController {
     		produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<PaperResultPlagiator> addPaperNew(@ModelAttribute PaperDTO paperDTO, HttpServletRequest request) {
 
-    	PaperElastic paperElastic = this.uploadFileAndSavePaperElastic(paperDTO);
+		Principal principal = request.getUserPrincipal();
+        String email = principal.getName();
+        User logged = userService.findByEmail(email);
+    	
+    	PaperElastic paperElastic = this.uploadFileAndSavePaperElastic(paperDTO, logged);
     	if(paperElastic == null) {
     		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     	}
+    	
     	
     	//uploadovao je uspesno novi rad sad da vidimo koji slicni radovi postoje
     	Paper paper = paperService.findOne(paperElastic.getId());
@@ -90,6 +105,7 @@ public class UploadFileController {
 		
 		StringBuilder strBilder = new StringBuilder();
 		PaperResultPlagiator paperResultPlagiator = new PaperResultPlagiator();
+		Set<PaperDTO> setSimilarPapers = new HashSet<PaperDTO>();
 		int partOfPage = 0;
 		
 		for(int i=1; i <= wordList.length; ++i) {
@@ -99,6 +115,7 @@ public class UploadFileController {
 			
 			if(i % StaticData.NUMBERS_OF_WORDS_SPLITER == 0 || i == wordList.length) {
 				//dosao sam do prvog parceta teksta odnosno poslednjeg
+				StringBuilder textToShowBilder = new StringBuilder();
 				
 				Page<PaperElastic> papers = searchService.listaRadova(strBilder.toString());
 				strBilder = new StringBuilder();
@@ -109,11 +126,16 @@ public class UploadFileController {
 				
 				if(papers.hasContent()) { //ukoliko ima bar jedan dokument	
 					for (PaperElastic item : papers) {
-					
+						
+						Paper foundPaper = paperService.findOne(item.getId());
+						PaperDTO paperDTORet = objectMapper.map(item, PaperDTO.class);
+						paperDTORet.setUser(objectMapper.map(foundPaper.getUser(), UserDTO.class));
+						
 						//iskljuciti dodavanje istog
-//						if(item.getId() != paper.getId()) {
-//							
-//						}
+						if(item.getId() != paper.getId()) {
+							//paperResultPlagiator.getSimilarPapers().add(paperDTORet);
+							setSimilarPapers.add(paperDTORet);
+						}
 						
 						retVal.add(objectMapper.map(item, PaperDTO.class));
 						
@@ -124,19 +146,29 @@ public class UploadFileController {
 					}
 				}
 				
+				try {
+					for(int j=0; j < StaticData.NUMBERS_OF_WORDS_TO_SHOW; ++j) {
+						textToShowBilder.append(wordList[(partOfPage-1) * StaticData.NUMBERS_OF_WORDS_SPLITER + j]);
+						textToShowBilder.append(" ");
+					}
+				} catch(Exception E) {
+					System.out.println("nece imati sve reci na kraju");
+				}
+				
 				ResultItem resultItem = new ResultItem();
 				resultItem.setPapers(retVal);
 				resultItem.setPartOfPage(partOfPage);
+				resultItem.setTextToShow(textToShowBilder.toString());
 				paperResultPlagiator.getItems().add(resultItem);
+				paperResultPlagiator.setUploadedPaper(objectMapper.map(paper, PaperDTO.class));
 			}
 		}
 		
+		paperResultPlagiator.setSimilarPapers(this.returnListOdSimilarPapers(
+				setSimilarPapers, paperResultPlagiator.getItems()));
+		
+		
 		//TODO: poslati neki mail ako je potrebno
-		Principal principal = request.getUserPrincipal();
-        String email = principal.getName();
-        System.out.println(email);
-        
-//        User logged = userService.findByEmail(email);
 //        
 //		try {
 //			emailService.sendNotificaitionUploadOfNewDocument(logged, paperDTO.getFile().getOriginalFilename());
@@ -165,7 +197,7 @@ public class UploadFileController {
 
 		try {
 			File paperPdf = new File(paper.getPathForPDF());
-			System.out.println(paper.getPathForPDF());
+			//System.out.println(paper.getPathForPDF());
 			content = Files.readAllBytes(paperPdf.toPath());
 			headers.setContentDispositionFormData(paperPdf.getName(), paperPdf.getName());
 			headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
@@ -177,7 +209,7 @@ public class UploadFileController {
 		return new ResponseEntity<byte[]>(content, headers, HttpStatus.OK);
 	}
 	
-	private PaperElastic uploadFileAndSavePaperElastic(PaperDTO paperDTO) {
+	private PaperElastic uploadFileAndSavePaperElastic(PaperDTO paperDTO, User logged) {
 		String path = "";
 		try {
 			path = FileClass.saveFile(paperDTO.getFile(), StaticData.PUTANJA_DO_FAJLA);
@@ -198,6 +230,7 @@ public class UploadFileController {
 		//do something with file
 		
 		Paper paper = new Paper(paperDTO);
+		paper.setUser(logged);
 		paper = paperService.save(paper);
 		
 		PaperElastic paperElastic = new PaperElastic();
@@ -207,6 +240,38 @@ public class UploadFileController {
 		paperElastic = paperElasticRepository.save(paperElastic);
 		
 		return paperElastic;
+	}
+	
+	private List<PaperDTO> returnListOdSimilarPapers(Set<PaperDTO> similarPapers, List<ResultItem> items) {
+		
+		for(PaperDTO paperDTO: similarPapers) {
+			
+			double sum = 0;
+			
+			for(ResultItem item: items) {
+				double tempFactor = this.returnProcentOfSimilarityOfItem(item, paperDTO);
+				double tempToAdd = HelpersFunctions.calculateCoefficient(tempFactor);
+				sum += tempToAdd;
+			}
+			
+			paperDTO.setSimilarProcent(sum / items.size()); //srednja vrednost od svih itema sa koeficijentima
+		}
+	
+		//sortiraj i konvertuj u listu
+		List<PaperDTO> sortedList = new ArrayList<>(similarPapers);
+		Collections.sort(sortedList, new PaperDTO());
+		return sortedList;
+
+	}
+	
+	private double returnProcentOfSimilarityOfItem(ResultItem item, PaperDTO paperDTO) {
+		for(PaperDTO paper: item.getPapers()) {
+			if(paper.getId() == paperDTO.getId()) {
+				return paper.getSearchHits() / item.getPapers().get(0).getSearchHits(); //da bi dobio procenat podelim sa najvecim mogucim
+			}
+		}
+		
+		return 0;
 	}
 	
 

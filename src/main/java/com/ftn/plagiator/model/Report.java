@@ -1,13 +1,15 @@
 package com.ftn.plagiator.model;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-
-import com.ftn.plagiator.dto.PaperDTO;
+import javax.persistence.OneToMany;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,22 +19,22 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Paper{
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class Report {
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	private String title;
-	private String pathForPDF;
 	
 	@ManyToOne()
-	@JoinColumn(name = "user_id")
-	private User user;
-
-	public Paper(PaperDTO paper) {
-		this.id = paper.getId();
-		this.title = paper.getTitle();
-		this.pathForPDF = paper.getPathForPDF();
-	}
-
+	@JoinColumn(name = "paper_uploaded_id")
+	Paper paperUploaded;
+	
+	@ManyToOne()
+	@JoinColumn(name = "paper_to_check_id")
+	Paper paperToCheck;
+	
+	@OneToMany(mappedBy = "report")
+	Set<Comment> comments = new HashSet<Comment>();
+	
+	
 }

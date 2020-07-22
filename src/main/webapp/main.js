@@ -9436,6 +9436,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _service_upload_file_service__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! ./service/upload-file.service */ "./src/app/service/upload-file.service.ts");
 /* harmony import */ var _component_new_document_new_document_component__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(/*! ./component/new-document/new-document.component */ "./src/app/component/new-document/new-document.component.ts");
 /* harmony import */ var _service_paper_service__WEBPACK_IMPORTED_MODULE_29__ = __webpack_require__(/*! ./service/paper.service */ "./src/app/service/paper.service.ts");
+/* harmony import */ var _component_paper_details_paper_details_component__WEBPACK_IMPORTED_MODULE_30__ = __webpack_require__(/*! ./component/paper-details/paper-details.component */ "./src/app/component/paper-details/paper-details.component.ts");
+/* harmony import */ var _component_documents_documents_component__WEBPACK_IMPORTED_MODULE_31__ = __webpack_require__(/*! ./component/documents/documents.component */ "./src/app/component/documents/documents.component.ts");
+
+
 
 
 
@@ -9475,6 +9479,8 @@ var appRoutes = [
     { path: 'users', component: _component_users_view_users_view_users_component__WEBPACK_IMPORTED_MODULE_18__["ViewUsersComponent"] },
     { path: 'old-documents', component: _component_old_documents_old_documents_component__WEBPACK_IMPORTED_MODULE_26__["OldDocumentsComponent"] },
     { path: 'new-document', component: _component_new_document_new_document_component__WEBPACK_IMPORTED_MODULE_28__["NewDocumentComponent"] },
+    { path: 'documents', component: _component_documents_documents_component__WEBPACK_IMPORTED_MODULE_31__["DocumentsComponent"] },
+    { path: 'new-document/:paperId/details', component: _component_paper_details_paper_details_component__WEBPACK_IMPORTED_MODULE_30__["PaperDetailsComponent"] },
     { path: '', redirectTo: 'home', pathMatch: 'full' },
     { path: '**', component: _page_not_found_page_not_found_component__WEBPACK_IMPORTED_MODULE_11__["PageNotFoundComponent"] }
 ];
@@ -9495,6 +9501,8 @@ var AppModule = /** @class */ (function () {
                 _component_navbar_navbar_component__WEBPACK_IMPORTED_MODULE_24__["NavbarComponent"],
                 _component_old_documents_old_documents_component__WEBPACK_IMPORTED_MODULE_26__["OldDocumentsComponent"],
                 _component_new_document_new_document_component__WEBPACK_IMPORTED_MODULE_28__["NewDocumentComponent"],
+                _component_paper_details_paper_details_component__WEBPACK_IMPORTED_MODULE_30__["PaperDetailsComponent"],
+                _component_documents_documents_component__WEBPACK_IMPORTED_MODULE_31__["DocumentsComponent"]
             ],
             imports: [
                 _angular_platform_browser__WEBPACK_IMPORTED_MODULE_1__["BrowserModule"],
@@ -9528,6 +9536,113 @@ var AppModule = /** @class */ (function () {
         })
     ], AppModule);
     return AppModule;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/component/documents/documents.component.css":
+/*!*************************************************************!*\
+  !*** ./src/app/component/documents/documents.component.css ***!
+  \*************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL2NvbXBvbmVudC9kb2N1bWVudHMvZG9jdW1lbnRzLmNvbXBvbmVudC5jc3MifQ== */"
+
+/***/ }),
+
+/***/ "./src/app/component/documents/documents.component.html":
+/*!**************************************************************!*\
+  !*** ./src/app/component/documents/documents.component.html ***!
+  \**************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<app-navbar></app-navbar>\n\n<ng-template #viewCommentsTemplate let-modal>\n  <div class=\"modal-header\">\n     <h3>Komentari</h3>\n   </div>\n   <div class=\"modal-body\">\n   <div class=\"table-responsive\">\n     <div class=\"bootstrap-table\">\n       <div class=\"fixed-table-container\">\n         <div class=\"fixed-table-body\">\n           <table id=\"grid\" class=\"table table-striped table-hover\" data-toolbar=\"#toolbargrid\" data-pagination=\"true\" data-search=\"true\">\n             <thead>\n               <tr>\n                 <th class=\"text-left\" style=\"\">\n                   <div class=\"th-inner sortable\">Komentar</div>\n                   <div class=\"fht-cell\"></div>\n                 </th>\n                 <th class=\"text-left\" style=\"\">\n                  <div class=\"th-inner sortable\">Autor</div>\n                  <div class=\"fht-cell\"></div>\n                </th>\n                <th class=\"text-left\" style=\"\">\n                  <div class=\"th-inner sortable\">Plagijat sa</div>\n                  <div class=\"fht-cell\"></div>\n                </th>\n                <th class=\"text-left\" style=\"\">\n                  <div class=\"th-inner sortable\">Sigurnost u plagijat (1-5)</div>\n                  <div class=\"fht-cell\"></div>\n                </th>\n               </tr>\n             </thead>\n             <tbody>\n               <tr>\n                 <tr *ngFor = \"let i = index; let comment of comments | paginate: { itemsPerPage: 10, currentPage: p }\">\n                  <td class=\"text-left\" style=\"\">{{comment.text}}</td>\n                  <td class=\"text-left\" style=\"\">{{comment.user.email}}</td>\n                  <td class=\"text-left\" style=\"\">{{comment.plagiatWith}}</td>\n                  <td class=\"text-left\" style=\"\">{{comment.matcheNumber}}</td>\n               </tr>\n             </tbody>\n             <tfoot></tfoot>\n           </table>\n         </div>\n       </div>\n     </div>\n   </div>\n  </div>\n</ng-template>\n\n<div class=\"row\">\n\t<div class=\"col-md-8 offset-sm-2\" style=\"margin-top: 20px;\">\n\t\t<h3>Dokumenti</h3>\n\t\t<div class=\"table-responsive\">\n\t\t\t<div class=\"bootstrap-table\">\n\t\t\t\t<div class=\"fixed-table-toolbar\">\n\t\t\t\t\t<div class=\"bars pull-left\">\n\t\t\t\t\t\t<div id=\"toolbargrid\">\n\t\t\t\t\t\t\t<div class=\"form-inline\" role=\"form\">\n\t\t\t\t\t\t\t\t \n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\n\t\t\t\t<div class=\"fixed-table-container\">\n\t\t\t\t\t<div class=\"fixed-table-header\">\n\t\t\t\t\t\t<table></table>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"fixed-table-body\">\n\t\t\t\t\t\t<table id=\"grid\" class=\"table table-striped table-hover\" data-toolbar=\"#toolbargrid\" data-pagination=\"true\" data-search=\"true\">\n\t\t\t\t\t\t\t<thead>\n\t\t\t\t\t\t\t\t<tr>\n\t\t\t\t\t\t\t\t\t<th class=\"text-left\" style=\"\">\n\t\t\t\t\t\t\t\t\t\t<div class=\"th-inner sortable\">Naziv</div>\n\t\t\t\t\t\t\t\t\t\t<div class=\"fht-cell\"></div>\n\t\t\t\t\t\t\t\t\t</th>\n\t\t\t\t\t\t\t\t\t<th class=\"text-left\" style=\"\">\n\t\t\t\t\t\t\t\t\t\t<div class=\"th-inner sortable\">Korisnik koji je okačio</div>\n\t\t\t\t\t\t\t\t\t\t<div class=\"fht-cell\"></div>\n                  </th>\n                  <th class=\"text-left\" style=\"\">\n\t\t\t\t\t\t\t\t\t\t<div class=\"th-inner sortable\">Akcije</div>\n\t\t\t\t\t\t\t\t\t\t<div class=\"fht-cell\"></div>\n\t\t\t\t\t\t\t\t\t</th>\n\t\t\t\t\t\t\t\t</tr>\n\t\t\t\t\t\t\t</thead>\n\t\t\t\t\t\t\t<tbody>\n\t\t\t\t\t\t\t\t<tr *ngFor = \"let i = index; let paper of papers | paginate: { itemsPerPage: 10, currentPage: p }\">\n\t\t\t\t\t\t\t\t\t<td class=\"text-left\" style=\"\"><a class=\"text-primary\" (click)=\"viewComments(paper, viewCommentsTemplate)\">{{paper.title}}</a></td>\n\t\t\t\t\t\t\t\t\t<td class=\"text-left\" style=\"\">{{paper.user.email}}</td>\n\t\t\t\t\t\t\t\t\t<td>\n                    <button class=\"btn btn-primary\" (click)=\"download(paper.id, paper.title)\">Pregledaj</button>\n                    <button class=\"btn btn-danger\" (click)=\"deletePaper(paper.id)\">Obriši</button>\n\t\t\t\t\t\t\t\t\t</td>\n\t\t\t\t\t\t\t\t</tr>\n\t\t\t\t\t\t\t</tbody>\n\t\t\t\t\t\t\t<tfoot></tfoot>\n\t\t\t\t\t\t</table>\n\t\t\t\t\t\t<pagination-controls (pageChange)=\"p = $event\"></pagination-controls>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</div>"
+
+/***/ }),
+
+/***/ "./src/app/component/documents/documents.component.ts":
+/*!************************************************************!*\
+  !*** ./src/app/component/documents/documents.component.ts ***!
+  \************************************************************/
+/*! exports provided: DocumentsComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DocumentsComponent", function() { return DocumentsComponent; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/esm5/core.js");
+/* harmony import */ var app_service_paper_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! app/service/paper.service */ "./src/app/service/paper.service.ts");
+/* harmony import */ var _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @ng-bootstrap/ng-bootstrap */ "./node_modules/@ng-bootstrap/ng-bootstrap/index.js");
+/* harmony import */ var app_service_upload_file_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! app/service/upload-file.service */ "./src/app/service/upload-file.service.ts");
+/* harmony import */ var file_saver__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! file-saver */ "./node_modules/file-saver/dist/FileSaver.min.js");
+/* harmony import */ var file_saver__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(file_saver__WEBPACK_IMPORTED_MODULE_5__);
+
+
+
+
+
+
+var DocumentsComponent = /** @class */ (function () {
+    function DocumentsComponent(paperService, modalService, uploadFileService) {
+        this.paperService = paperService;
+        this.modalService = modalService;
+        this.uploadFileService = uploadFileService;
+        this.papers = [];
+        this.dropdownSettings = {};
+        this.comments = [];
+    }
+    DocumentsComponent.prototype.ngOnInit = function () {
+        this.getAllData();
+    };
+    DocumentsComponent.prototype.getAllData = function () {
+        var _this = this;
+        this.paperService.showPapers().subscribe(function (res) {
+            _this.papers = res;
+        });
+    };
+    DocumentsComponent.prototype.viewComments = function (paper, viewConnected) {
+        var _this = this;
+        // let comment = new Comment();
+        // comment.text = "aaa";
+        // let user: User = new User();
+        // user.email = "email";
+        // comment.user = user;
+        // comment.matcheNumber = 2;
+        // this.comments.push(comment);
+        this.paperService.getCommentsForPaper(paper.id).subscribe(function (res) {
+            _this.comments = res;
+        });
+        this.modalReference = this.modalService.open(viewConnected, { centered: true });
+    };
+    DocumentsComponent.prototype.deletePaper = function (id) {
+        var _this = this;
+        this.paperService.deletePaper(id).subscribe(function (res) {
+            _this.getAllData();
+        });
+    };
+    DocumentsComponent.prototype.download = function (id, title) {
+        this.uploadFileService.download(id).subscribe(function (res) {
+            var filename = title;
+            Object(file_saver__WEBPACK_IMPORTED_MODULE_5__["saveAs"])(res, filename);
+        }, function (error) {
+            alert('Greska!');
+        });
+    };
+    DocumentsComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
+            selector: 'app-documents',
+            template: __webpack_require__(/*! ./documents.component.html */ "./src/app/component/documents/documents.component.html"),
+            styles: [__webpack_require__(/*! ./documents.component.css */ "./src/app/component/documents/documents.component.css")]
+        }),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [app_service_paper_service__WEBPACK_IMPORTED_MODULE_2__["PaperService"], _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_3__["NgbModal"],
+            app_service_upload_file_service__WEBPACK_IMPORTED_MODULE_4__["UploadFileService"]])
+    ], DocumentsComponent);
+    return DocumentsComponent;
 }());
 
 
@@ -9633,7 +9748,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"bs-example\">\n\t<nav class=\"navbar navbar-expand-md navbar-light\" style=\"background-color: #3494b9;\">\n\t\t<a class=\"navbar-brand\" [routerLink]=\"['/home']\" style=\"color: white;\"><b>PLAGIATOR</b></a>\n\t\t<button type=\"button\" class=\"navbar-toggler\" data-toggle=\"collapse\" data-target=\"#navbarCollapse\">\n\t\t\t<span class=\"navbar-toggler-icon\"></span>\n\t\t</button>\n\n\t\t<div class=\"collapse navbar-collapse\" id=\"navbarCollapse\">\n\t\t\t<div class=\"navbar-nav\">\n\t\t\t\t<a class=\"nav-item nav-link active\" style=\"color: white;\" [routerLink]=\"['/home']\">Početna</a>\n\t\t\t\t<a class=\"nav-item nav-link\" style=\"color: white;\" [routerLink]=\"['/new-document']\" >Proveri rad</a>\n\t\t\t\t<a class=\"nav-item nav-link\" style=\"color: white;\" [routerLink]=\"['/old-documents']\" >Uploaduj stare dokumente</a>\n\t\t\t\t<a class=\"nav-item nav-link\" style=\"color: white;\" [routerLink]=\"['/users']\" *ngIf=\"isAdmin\">Korisnici</a>\n\t\t\t\t\n\t\t\t</div>\n\t\t\t<div class=\"navbar-nav ml-auto\">\n\t\t\t\t<a class=\"nav-item nav-link\" style=\"color: white;\" [routerLink]=\"['/register']\" *ngIf=\"!loggedIn\">Registracija</a>\n        <a class=\"nav-item nav-link\" style=\"color: white;\" [routerLink]=\"['/login']\" *ngIf=\"!loggedIn\">Prijava</a>\n        <a class=\"nav-item nav-link\" style=\"color: white;\" (click)=\"logOut()\" *ngIf=\"loggedIn\">Odjava</a>\n\t\t\t</div>\n\t\t</div>\n\t</nav>\n</div>"
+module.exports = "<div class=\"bs-example\">\n\t<nav class=\"navbar navbar-expand-md navbar-light\" style=\"background-color: #3494b9;\">\n\t\t<a class=\"navbar-brand\" [routerLink]=\"['/home']\" style=\"color: white;\"><b>PLAGIATOR</b></a>\n\t\t<button type=\"button\" class=\"navbar-toggler\" data-toggle=\"collapse\" data-target=\"#navbarCollapse\">\n\t\t\t<span class=\"navbar-toggler-icon\"></span>\n\t\t</button>\n\n\t\t<div class=\"collapse navbar-collapse\" id=\"navbarCollapse\">\n\t\t\t<div class=\"navbar-nav\">\n\t\t\t\t<a class=\"nav-item nav-link active\" style=\"color: white;\" [routerLink]=\"['/home']\">Početna</a>\n\t\t\t\t<a class=\"nav-item nav-link\" style=\"color: white;\" [routerLink]=\"['/new-document']\" >Proveri rad</a>\n\t\t\t\t<a class=\"nav-item nav-link\" style=\"color: white;\" [routerLink]=\"['/old-documents']\" >Uploaduj stare dokumente</a>\n\t\t\t\t<a class=\"nav-item nav-link\" style=\"color: white;\" [routerLink]=\"['/documents']\" >Dokumenti</a>\n\t\t\t\t<a class=\"nav-item nav-link\" style=\"color: white;\" [routerLink]=\"['/users']\" *ngIf=\"isAdmin\">Korisnici</a>\n\t\t\t\t\n\t\t\t</div>\n\t\t\t<div class=\"navbar-nav ml-auto\">\n\t\t\t\t<a class=\"nav-item nav-link\" style=\"color: white;\" [routerLink]=\"['/register']\" *ngIf=\"!loggedIn\">Registracija</a>\n        \t\t<a class=\"nav-item nav-link\" style=\"color: white;\" [routerLink]=\"['/login']\" *ngIf=\"!loggedIn\">Prijava</a>\n       \t\t\t<a class=\"nav-item nav-link\" style=\"color: white;\" (click)=\"logOut()\" *ngIf=\"loggedIn\">Odjava</a>\n\t\t\t</div>\n\t\t</div>\n\t</nav>\n</div>"
 
 /***/ }),
 
@@ -9728,7 +9843,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "\n<app-navbar></app-navbar>\n\n<div class=\"col-sm-10\">\n\n  <p>\n    new-document works!\n  </p>\n\n  <form>\n    <div class=\"form-group\">\n      <label>Fajl &nbsp; &nbsp;</label>\n      <input \n        type=\"file\" \n        placeholder=\"Izaberi naučni rad\"\n        (change)=\"selectFile($event)\"\n        value=\"Izaberi naucni rad\">\n    </div>\n\n    <div class=\"form-group col-md-2\">\n      <input type=\"submit\" class=\"form-control btn btn-primary\" \n      value=\"Upload\"  (click) = \"uploadFile()\">\n    </div>\n  </form>\n\n</div>\n\n  <div class=\"container\" style=\"margin-top: 100px;\">\n    <div class=\"container justify-content-md-center\" style=\"display: -webkit-box;\">\n      <div class=\"col-lg-12 p-0\">\n            <a class=\"list-group-item\" style=\"min-height: 220px; max-height: 500px; margin-bottom: 10px;\" \n            *ngFor = \"let i = index; let item of paperResultPlagiator.items\">\n              <div style=\"display: inline-flex; width: 100%; padding-bottom: 0%; height: 10px;\">\n                <h5 class=\"col-lg-10\"><span style=\"color: crimson; font-size: medium;\">Deo dokumenta: &nbsp;</span>{{item.partOfPage}}</h5>\n            </div>\n            <div *ngFor = \"let j = index; let paper of item.papers\" >\n              <hr>\n                <div style=\"display: inline-flex; width: 100%; padding-bottom: 0%; height: 10px;\">\n                    <h5 class=\"col-lg-10\"><span style=\"color: crimson; font-size: medium;\">Rad: &nbsp;</span>{{paper.title}}</h5>\n                </div>\n                <div style=\"display: inline-flex; width: 100%;\">\n                  <h5 class=\"col-lg-10\"><span style=\"color: crimson; font-size: medium;\">Search Hits: &nbsp;</span>{{paper.searchHits}}</h5>              \n              </div>\n                <div style=\"display: inline-flex; width: 100%;\">\n                    <button  class=\"btn btn-info\" style=\"position: relative; float: right; margin-right: 50px;\" (click)=\"download(paper.id, paper.title)\">Pregledaj</button>              \n                </div>\n              </div>\n            </a>\n      </div>\n    </div>\n  </div>\n\n"
+module.exports = "\n<app-navbar></app-navbar>\n\n<div class=\"col-sm-10\">\n\n  <p>\n    new-document works!\n  </p>\n\n  <form>\n    <div class=\"form-group\">\n      <label>Fajl &nbsp; &nbsp;</label>\n      <input \n        type=\"file\"\n        placeholder=\"Izaberi naučni rad\"\n        (change)=\"selectFile($event)\"\n        value=\"Izaberi naucni rad\">\n    </div>\n\n    <div class=\"form-group col-md-2\">\n      <input\n        style=\"min-width: 150px;\"\n        type=\"submit\"\n        class=\"form-control btn btn-primary\" \n        value=\"Upload\"\n        (click) = \"uploadFile()\">\n    </div>\n\n    <div class=\"form-group col-md-2\">\n      <input\n        style=\"min-width: 150px;\" \n        type=\"submit\" \n        class=\"form-control btn btn-danger\" \n        value=\"Obriši odmah\"  \n        (click) = \"deleteFile()\">\n    </div>\n  </form>\n\n</div>\n\n  <div class=\"container\" style=\"margin-top: 100px;\">\n    <div class=\"container justify-content-md-center\" style=\"display: -webkit-box;\">\n      <div class=\"col-lg-12 p-0\">\n            <a class=\"list-group-item\" style=\"max-height: 300px; margin-bottom: 10px;\" \n            *ngFor = \"let i = index; let paper of paperResultPlagiator.similarPapers\">\n              <!-- <div style=\"display: inline-flex; width: 100%; padding-bottom: 0%; height: 10px;\">\n                <h5 class=\"col-lg-10\"><span style=\"color: crimson; font-size: medium;\">Deo dokumenta: &nbsp;</span>{{item.partOfPage}}</h5>\n            </div> -->\n            <!-- <div *ngFor = \"let j = index; let paper of item.papers\" > -->\n              <!-- <hr> -->\n                <div style=\"display: inline-flex; width: 100%; padding-bottom: 0%; height: 10px;\">\n                    <h5 class=\"col-lg-10\"><span style=\"color: crimson; font-size: medium;\">Rad: &nbsp;</span>{{paper.title}}</h5>\n                </div>\n                <div style=\"display: inline-flex; width: 100%; padding-bottom: 0%; height: 10px;\">\n                  <h5 class=\"col-lg-10\"><span style=\"color: crimson; font-size: medium;\">Okačen od strane: &nbsp;</span>{{paper.user.email}}</h5>\n              </div>\n                <div style=\"display: inline-flex; width: 100%;\">\n                  <h5 class=\"col-lg-10\"><span style=\"color: crimson; font-size: medium;\">Sličnost sa dokumentom: &nbsp;</span>{{paper.similarProcent*100}} %</h5>              \n              </div>\n\n                <div style=\"display: inline-flex; width: 100%;\">\n                    <button  class=\"btn btn-info\" style=\"position: relative; float: right; margin-right: 50px;\" (click)=\"details(paper.id)\">Detalji</button>   \n                    <button  class=\"btn btn-info\" style=\"position: relative; float: right; margin-right: 50px;\" (click)=\"download(paper.id, paper.title)\">Pregledaj</button> \n                </div>\n\n              <!-- </div> -->\n            </a>\n      </div>\n    </div>\n  </div>\n\n\n\n"
 
 /***/ }),
 
@@ -9749,6 +9864,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var file_saver__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(file_saver__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var app_service_paper_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! app/service/paper.service */ "./src/app/service/paper.service.ts");
 /* harmony import */ var app_model_paper_paperResultPlagiator__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! app/model/paper/paperResultPlagiator */ "./src/app/model/paper/paperResultPlagiator.ts");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/esm5/router.js");
+
 
 
 
@@ -9756,19 +9873,22 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var NewDocumentComponent = /** @class */ (function () {
-    //items: ResultItem[] = 
-    function NewDocumentComponent(uploadFileService, paperService) {
+    function NewDocumentComponent(uploadFileService, paperService, router) {
         this.uploadFileService = uploadFileService;
         this.paperService = paperService;
+        this.router = router;
         this.papers = [];
         this.paperResultPlagiator = new app_model_paper_paperResultPlagiator__WEBPACK_IMPORTED_MODULE_5__["default"]();
+        this.similarPapers = [];
     }
     NewDocumentComponent.prototype.ngOnInit = function () {
-        // this.paperService.showPapers().subscribe(
-        //   res => {
-        //     this.papers = res;
-        //   }
-        // )
+        var temp = JSON.parse(localStorage.getItem("paperResultPlagiator"));
+        if (temp) {
+            this.paperResultPlagiator = temp;
+        }
+        else {
+            this.paperResultPlagiator = new app_model_paper_paperResultPlagiator__WEBPACK_IMPORTED_MODULE_5__["default"]();
+        }
     };
     NewDocumentComponent.prototype.selectFile = function (event) {
         this.selectedFiles = event.target.files;
@@ -9780,6 +9900,8 @@ var NewDocumentComponent = /** @class */ (function () {
             .subscribe(function (res) {
             //alert("Uspesno ste dodali rad");
             _this.paperResultPlagiator = res;
+            localStorage.setItem("paperResultPlagiator", JSON.stringify(_this.paperResultPlagiator));
+            _this.similarPapers = _this.paperResultPlagiator.similarPapers;
             //console.log(this.paperResultPlagiator)
         }, function (err) {
             console.log('fail');
@@ -9787,12 +9909,20 @@ var NewDocumentComponent = /** @class */ (function () {
     };
     NewDocumentComponent.prototype.download = function (id, title) {
         this.uploadFileService.download(id).subscribe(function (res) {
-            console.log(res);
-            //var filename = title +'.pdf';
             var filename = title;
             Object(file_saver__WEBPACK_IMPORTED_MODULE_3__["saveAs"])(res, filename);
         }, function (error) {
             alert('Greska!');
+        });
+    };
+    NewDocumentComponent.prototype.details = function (id) {
+        this.router.navigate(['new-document/' + id + '/details']);
+    };
+    NewDocumentComponent.prototype.deleteFile = function () {
+        this.paperService.deletePaper(this.paperResultPlagiator.uploadedPaper.id).subscribe(function (res) {
+            localStorage.removeItem('paperResultPlagiator');
+            window.location.reload();
+            //alert("Uspešno ste obrisali fajl");
         });
     };
     NewDocumentComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
@@ -9802,7 +9932,7 @@ var NewDocumentComponent = /** @class */ (function () {
             styles: [__webpack_require__(/*! ./new-document.component.css */ "./src/app/component/new-document/new-document.component.css")]
         }),
         tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [app_service_upload_file_service__WEBPACK_IMPORTED_MODULE_2__["UploadFileService"],
-            app_service_paper_service__WEBPACK_IMPORTED_MODULE_4__["PaperService"]])
+            app_service_paper_service__WEBPACK_IMPORTED_MODULE_4__["PaperService"], _angular_router__WEBPACK_IMPORTED_MODULE_6__["Router"]])
     ], NewDocumentComponent);
     return NewDocumentComponent;
 }());
@@ -9829,7 +9959,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<app-navbar></app-navbar>\n\n<div class=\"col-sm-10\">\n\n<p>\n  old-documents works!\n</p>\n\n  <form>\n    <div class=\"form-group\">\n      <label>Fajl &nbsp; &nbsp;</label>\n      <input \n        type=\"file\" \n        placeholder=\"Izaberi naučni rad\"\n        (change)=\"selectFile($event)\"\n        value=\"Izaberi naucni rad\">\n    </div>\n\n    <div class=\"form-group col-md-2\">\n      <input type=\"submit\" class=\"form-control btn btn-primary\" \n      value=\"Upload\"  (click) = \"uploadFile()\">\n    </div>\n  </form>\n\n</div>\n"
+module.exports = "<app-navbar></app-navbar>\n\n<div class=\"col-sm-10\">\n\n<p>\n  old-documents works!\n</p>\n\n  <form>\n    <div class=\"form-group\">\n      <label>Fajl &nbsp; &nbsp;</label>\n      <input \n        type=\"file\" \n        placeholder=\"Izaberi naučni rad\"\n        (change)=\"selectFile($event)\"\n        value=\"Izaberi naucni rad\"\n        multiple='multiple'\n      >\n    </div>\n\n    <div class=\"form-group col-md-2\">\n      <input type=\"submit\" class=\"form-control btn btn-primary\" \n      value=\"Upload\"  (click) = \"uploadFile()\">\n    </div>\n  </form>\n\n</div>\n"
 
 /***/ }),
 
@@ -9859,17 +9989,19 @@ var OldDocumentsComponent = /** @class */ (function () {
         this.selectedFiles = event.target.files;
     };
     OldDocumentsComponent.prototype.uploadFile = function () {
-        //potencijalno namestiti multiselect
-        this.currentFileUpload = this.selectedFiles.item(0);
-        console.log("AAA");
-        console.log(this.selectedFiles);
-        this.uploadFileService.upload(this.currentFileUpload)
-            .subscribe(function (event) {
-            alert("Uspesno ste dodali rad");
-            //this.router.navigate(['home']);
-        }, function (err) {
-            console.log('fail');
-        });
+        var _this = this;
+        var temp = 0;
+        for (var i = 0; i < this.selectedFiles.length; ++i) {
+            this.uploadFileService.upload(this.selectedFiles.item(i))
+                .subscribe(function (res) {
+                temp += 1;
+                if (temp == _this.selectedFiles.length) {
+                    alert("Uspesno ste dodali rad");
+                }
+            }, function (err) {
+                console.log('fail');
+            });
+        }
     };
     OldDocumentsComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
@@ -9880,6 +10012,116 @@ var OldDocumentsComponent = /** @class */ (function () {
         tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [app_service_upload_file_service__WEBPACK_IMPORTED_MODULE_2__["UploadFileService"]])
     ], OldDocumentsComponent);
     return OldDocumentsComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/component/paper-details/paper-details.component.css":
+/*!*********************************************************************!*\
+  !*** ./src/app/component/paper-details/paper-details.component.css ***!
+  \*********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL2NvbXBvbmVudC9wYXBlci1kZXRhaWxzL3BhcGVyLWRldGFpbHMuY29tcG9uZW50LmNzcyJ9 */"
+
+/***/ }),
+
+/***/ "./src/app/component/paper-details/paper-details.component.html":
+/*!**********************************************************************!*\
+  !*** ./src/app/component/paper-details/paper-details.component.html ***!
+  \**********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<app-navbar></app-navbar>\n  \n  <div style=\"display: inline-flex; width: 100%; margin-bottom: 10px; margin-top: 10px;; justify-content: center;\">\n    <p>Okačeni dokument: {{paperResultPlagiator.uploadedPaper.title}}</p>\n    <button  \n      class=\"btn btn-info\" \n      style=\"position: relative; float: right; margin-left: 50px\" \n      (click)=\"download(paperResultPlagiator.uploadedPaper.id, paperResultPlagiator.uploadedPaper.title)\"\n    >\n      Pregledaj\n    </button>              \n</div>\n\n  <div style=\"display: inline-flex; width: 100%; justify-content: center;\">\n    <p>Dokument koji se poredi: {{paperToCompare.title}}</p>\n    <button  \n      class=\"btn btn-info\" \n      style=\"position: relative; float: right; margin-left: 50px\" \n      (click)=\"download(paperToCompare.id, paperToCompare.title)\"\n    >\n      Pregledaj\n    </button>              \n  </div>\n\n  <div class=\"container\" style=\"margin-top: 100px;\">\n    <div class=\"container justify-content-md-center\" style=\"display: -webkit-box;\">\n      <div class=\"col-lg-12 p-0\">\n            <a class=\"list-group-item\" style=\"max-height: 500px; margin-bottom: 10px;\" \n            *ngFor = \"let i = index; let item of paperResultPlagiator.items\">\n              <div style=\"display: inline-flex; width: 100%; padding-bottom: 0%; height: 10px;\">\n                <h5 class=\"col-lg-10\"><span style=\"color: crimson; font-size: medium;\">Deo dokumenta: &nbsp;</span>{{(item.partOfPage-1)*wordsPerPart+1}}\n                - {{item.partOfPage*wordsPerPart}} reči</h5>\n              </div>\n              <div style=\"display: inline-flex; width: 100%; padding-bottom: 0%; height: 10px;\">\n                <h5 class=\"col-lg-10\">\n                  <span style=\"color: crimson; font-size: medium;\">Tekst: &nbsp;</span>\n                  {{item.textToShow}}\n                </h5>\n              </div>\n            <div *ngFor = \"let j = index; let paper of item.papers\" >\n              <div *ngIf = \"paperId == paper.id\">\n                  <div style=\"display: inline-flex; width: 100%; padding-bottom: 0%; height: 10px;\">\n                      <h5 class=\"col-lg-10\"><span style=\"color: crimson; font-size: medium;\">Rad: &nbsp;</span>{{paper.title}}</h5>\n                  </div>\n                  <div style=\"display: inline-flex; width: 100%;\">\n                      <h5 *ngIf=\"(paper.searchHits/item.papers[0].searchHits) >= 0.50\" class=\"col-lg-10\" style=\"color: crimson;\">\n                        <span style=\"color: crimson; font-size: medium;\">Sličnost u procentima: &nbsp;</span>{{(paper.searchHits/item.papers[0].searchHits)*100}} %\n                      </h5>\n                      <h5 *ngIf=\"paper.searchHits/item.papers[0].searchHits < 0.50\" class=\"col-lg-10\">\n                        <span style=\"color: crimson; font-size: medium;\">Sličnost u procentima: &nbsp;</span>{{(paper.searchHits/item.papers[0].searchHits)*100}} %\n                      </h5>            \n                </div>\n              </div>\n              </div>\n            </a>\n        </div>\n      </div>\n    </div> \n\n    <div class=\"container\" style=\"margin-top: 50px;\">\n    <div >\n      <div class=\"form-group row\">\n        <label for=\"colFormLabelLg\" class=\"col-sm-2 col-form-label col-form-label\">Komentar: </label>\n        <div class=\"col-sm-10\">\n          <textarea id=\"colFormLabelLg\" name=\"colFormLabelLg\" rows=\"4\" cols=\"125\" \n          placeholder=\"Komentar\" [(ngModel)]= \"comment.text\">\n        </textarea>\n        </div>\n      </div>\n      <div class=\"form-group row\">\n        <label for=\"colFormLabelLg\" class=\"col-sm-2 col-form-label col-form-label\">Poklapanje: </label>\n        <div class=\"col-sm-10\">\n          <input type=\"number\" min=\"1\" max=\"5\" class=\"form-control form-control-lg\" id=\"colFormLabelLg\" \n          placeholder=\"Na skali od 1 do 5 popunite poklapanje dokumenata\" [(ngModel)]= \"comment.matcheNumber\">\n        </div>\n      </div>\n      <div class=\"col-auto\" style=\"padding: 0px;\">\n        <button type=\"button\" class=\"btn btn-primary mb-2\" (click)=\"submitComment()\">Pošalji komentar</button>\n      </div>\n    </div>\n  </div>\n \n"
+
+/***/ }),
+
+/***/ "./src/app/component/paper-details/paper-details.component.ts":
+/*!********************************************************************!*\
+  !*** ./src/app/component/paper-details/paper-details.component.ts ***!
+  \********************************************************************/
+/*! exports provided: PaperDetailsComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PaperDetailsComponent", function() { return PaperDetailsComponent; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/esm5/core.js");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/esm5/router.js");
+/* harmony import */ var app_model_paper_paperResultPlagiator__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! app/model/paper/paperResultPlagiator */ "./src/app/model/paper/paperResultPlagiator.ts");
+/* harmony import */ var file_saver__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! file-saver */ "./node_modules/file-saver/dist/FileSaver.min.js");
+/* harmony import */ var file_saver__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(file_saver__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var app_service_upload_file_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! app/service/upload-file.service */ "./src/app/service/upload-file.service.ts");
+/* harmony import */ var app_model_paper_paper__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! app/model/paper/paper */ "./src/app/model/paper/paper.ts");
+/* harmony import */ var app_service_paper_service__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! app/service/paper.service */ "./src/app/service/paper.service.ts");
+/* harmony import */ var app_model_paper_report__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! app/model/paper/report */ "./src/app/model/paper/report.ts");
+/* harmony import */ var app_model_paper_comment__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! app/model/paper/comment */ "./src/app/model/paper/comment.ts");
+
+
+
+
+
+
+
+
+
+
+var PaperDetailsComponent = /** @class */ (function () {
+    function PaperDetailsComponent(route, uploadFileService, paperService) {
+        var _this = this;
+        this.uploadFileService = uploadFileService;
+        this.paperService = paperService;
+        this.paperId = 0;
+        this.paperResultPlagiator = new app_model_paper_paperResultPlagiator__WEBPACK_IMPORTED_MODULE_3__["default"]();
+        this.wordsPerPart = 950;
+        this.paperToCompare = new app_model_paper_paper__WEBPACK_IMPORTED_MODULE_6__["Paper"]();
+        this.report = new app_model_paper_report__WEBPACK_IMPORTED_MODULE_8__["default"]();
+        this.comment = new app_model_paper_comment__WEBPACK_IMPORTED_MODULE_9__["default"]();
+        this.paperId = +route.snapshot.paramMap.get("paperId");
+        this.paperResultPlagiator = JSON.parse(localStorage.getItem("paperResultPlagiator"));
+        this.paperService.getPaperById(this.paperId).subscribe(function (res) {
+            _this.paperToCompare = res;
+        });
+    }
+    PaperDetailsComponent.prototype.ngOnInit = function () {
+    };
+    PaperDetailsComponent.prototype.submitComment = function () {
+        if (!this.comment.text) {
+            return;
+        }
+        if (!this.comment.matcheNumber) {
+            return;
+        }
+        this.report.paperToCheck = this.paperResultPlagiator.uploadedPaper; //ovaj dokument se malopre uplodovao
+        this.report.paperUploaded = this.paperToCompare; //ovaj dokument je vec davno uplodovan
+        this.report.comments.push(this.comment);
+        this.paperService.submitComment(this.report).subscribe(function (res) {
+            alert('Komentar je uspešno poslat!');
+        });
+    };
+    PaperDetailsComponent.prototype.download = function (id, title) {
+        this.uploadFileService.download(id).subscribe(function (res) {
+            console.log(res);
+            var filename = title;
+            Object(file_saver__WEBPACK_IMPORTED_MODULE_4__["saveAs"])(res, filename);
+        }, function (error) {
+            alert('Greska!');
+        });
+    };
+    PaperDetailsComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
+            selector: 'app-paper-details',
+            template: __webpack_require__(/*! ./paper-details.component.html */ "./src/app/component/paper-details/paper-details.component.html"),
+            styles: [__webpack_require__(/*! ./paper-details.component.css */ "./src/app/component/paper-details/paper-details.component.css")]
+        }),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_2__["ActivatedRoute"], app_service_upload_file_service__WEBPACK_IMPORTED_MODULE_5__["UploadFileService"], app_service_paper_service__WEBPACK_IMPORTED_MODULE_7__["PaperService"]])
+    ], PaperDetailsComponent);
+    return PaperDetailsComponent;
 }());
 
 
@@ -9982,9 +10224,6 @@ var LoginComponent = /** @class */ (function () {
             alert("Wrong email or password");
             console.log("usao kao error za logovanje");
         });
-    };
-    LoginComponent.prototype.prodji = function () {
-        this.router.navigate(['home']);
     };
     LoginComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
@@ -10493,6 +10732,33 @@ var HInterceptorService = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/app/model/paper/comment.ts":
+/*!****************************************!*\
+  !*** ./src/app/model/paper/comment.ts ***!
+  \****************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _user_user__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../user/user */ "./src/app/model/user/user.ts");
+
+var Comment = /** @class */ (function () {
+    function Comment() {
+        this.id = 0;
+        this.text = undefined;
+        this.user = new _user_user__WEBPACK_IMPORTED_MODULE_0__["User"]();
+        this.datetime = "";
+        this.matcheNumber = undefined;
+        this.plagiatWith = "";
+    }
+    return Comment;
+}());
+/* harmony default export */ __webpack_exports__["default"] = (Comment);
+
+
+/***/ }),
+
 /***/ "./src/app/model/paper/paper.ts":
 /*!**************************************!*\
   !*** ./src/app/model/paper/paper.ts ***!
@@ -10503,12 +10769,16 @@ var HInterceptorService = /** @class */ (function () {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Paper", function() { return Paper; });
+/* harmony import */ var _user_user__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../user/user */ "./src/app/model/user/user.ts");
+
 var Paper = /** @class */ (function () {
     function Paper() {
         this.id = 0;
         this.pathForPDF = "";
         this.file = "";
-        this.searchHits = "";
+        this.searchHits = 0;
+        this.similarProcent = 0;
+        this.user = new _user_user__WEBPACK_IMPORTED_MODULE_0__["User"]();
     }
     return Paper;
 }());
@@ -10526,13 +10796,37 @@ var Paper = /** @class */ (function () {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _paper__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./paper */ "./src/app/model/paper/paper.ts");
+
 var PaperResultPlagiator = /** @class */ (function () {
     function PaperResultPlagiator() {
         this.items = [];
+        this.similarPapers = [];
+        this.uploadedPaper = new _paper__WEBPACK_IMPORTED_MODULE_0__["Paper"]();
     }
     return PaperResultPlagiator;
 }());
 /* harmony default export */ __webpack_exports__["default"] = (PaperResultPlagiator);
+
+
+/***/ }),
+
+/***/ "./src/app/model/paper/report.ts":
+/*!***************************************!*\
+  !*** ./src/app/model/paper/report.ts ***!
+  \***************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+var Report = /** @class */ (function () {
+    function Report() {
+        this.comments = [];
+    }
+    return Report;
+}());
+/* harmony default export */ __webpack_exports__["default"] = (Report);
 
 
 /***/ }),
@@ -10776,6 +11070,7 @@ var AuthService = /** @class */ (function () {
     };
     AuthService.prototype.logout = function () {
         localStorage.removeItem('token');
+        localStorage.removeItem('paperResultPlagiator');
         this.router.navigate(['login']);
     };
     AuthService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
@@ -10815,6 +11110,18 @@ var PaperService = /** @class */ (function () {
     }
     PaperService.prototype.showPapers = function () {
         return this.http.get(this.baseUrl);
+    };
+    PaperService.prototype.getPaperById = function (id) {
+        return this.http.get(this.baseUrl + "/" + id);
+    };
+    PaperService.prototype.submitComment = function (report) {
+        return this.http.post(this.baseUrl + "/comments", report);
+    };
+    PaperService.prototype.deletePaper = function (id) {
+        return this.http.delete(this.baseUrl + "/" + id);
+    };
+    PaperService.prototype.getCommentsForPaper = function (id) {
+        return this.http.get(this.baseUrl + "/" + id + "/comments");
     };
     PaperService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])(),

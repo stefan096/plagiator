@@ -25,7 +25,8 @@ public class FileClass {
         if (! file.isEmpty()) {
 	           byte[] bytes = file.getBytes();
 	           String filePrefix = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss").format(new Date());
-	           Path path = Paths.get(getResourceFilePath(folderPath).getAbsolutePath() + File.separator + filePrefix + "-" +file.getOriginalFilename());
+	           Path path = Paths.get(getResourceFilePath(folderPath).getPath() + File.separator + filePrefix 
+	        		   + "-" + file.getOriginalFilename());
 	           Files.write(path, bytes);
 	           retVal = path.toString();
         }

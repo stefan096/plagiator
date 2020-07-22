@@ -12,4 +12,5 @@ import lombok.Setter;
 public class ResultItem {
 	private List<PaperDTO> papers;
 	private int partOfPage;
+	private String textToShow;
 }

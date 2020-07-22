@@ -394,7 +394,7 @@ public class SearchService {
 //		  TokenStreamComponents tsc = new TokenStreamComponents(source, filter);
 		  
 		  
-		 @SuppressWarnings("unused")
+		@SuppressWarnings({ "unused" })
 		Analyzer analyzer = new Analyzer() {
 			
 			@Override

@@ -12,4 +12,6 @@ import lombok.Setter;
 @Setter
 public class PaperResultPlagiator {
 	List<ResultItem> items = new ArrayList<ResultItem>();
+	List<PaperDTO> similarPapers = new ArrayList<PaperDTO>();
+	PaperDTO uploadedPaper;
 }
