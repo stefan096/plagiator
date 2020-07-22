@@ -46,8 +46,8 @@ public class ElasticSearchConfiguration {
 			                .startObject("filter")
 			                    .startObject("filter_shingle") //my_shingle_filter
 			                        .field("type","shingle")
-			                        .field("min_shingle_size", 2)
-			                        .field("max_shingle_size", 3)
+			                        .field("min_shingle_size", 4)
+			                        .field("max_shingle_size", 6)
 			                        .field("output_unigrams", false)
 			                    .endObject()
 			                .endObject()
