@@ -23,6 +23,7 @@ public class PaperDTO implements Comparator<PaperDTO>{
 	private double searchHits;
 	private double similarProcent;
 	private UserDTO user;
+	private Long plagiatorId;
 	
 	@Override
 	public int hashCode() {

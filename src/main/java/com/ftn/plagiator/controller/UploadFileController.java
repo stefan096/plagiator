@@ -19,6 +19,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.MailException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,15 +27,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.ftn.plagiator.dto.PaperDTO;
-import com.ftn.plagiator.dto.PaperResultPlagiator;
-import com.ftn.plagiator.dto.ResultItem;
+import com.ftn.plagiator.dto.PaperResultPlagiatorDTO;
+import com.ftn.plagiator.dto.ResultItemDTO;
 import com.ftn.plagiator.dto.UserDTO;
 import com.ftn.plagiator.elasticsearch.model.PaperElastic;
 import com.ftn.plagiator.elasticsearch.repository.PaperElasticRepository;
+import com.ftn.plagiator.model.AdvancePaper;
 import com.ftn.plagiator.model.Paper;
+import com.ftn.plagiator.model.PaperResultPlagiator;
+import com.ftn.plagiator.model.ResultItem;
 import com.ftn.plagiator.model.User;
+import com.ftn.plagiator.service.AdvancePaperService;
 import com.ftn.plagiator.service.EmailService;
+import com.ftn.plagiator.service.PaperResultPlagiatorService;
 import com.ftn.plagiator.service.PaperService;
+import com.ftn.plagiator.service.ResultItemService;
 import com.ftn.plagiator.service.SearchService;
 import com.ftn.plagiator.service.UserService;
 import com.ftn.plagiator.util.FileClass;
@@ -62,6 +69,15 @@ public class UploadFileController {
 	
 	@Autowired
 	UserService userService;
+	
+	@Autowired
+	PaperResultPlagiatorService paperResultPlagiatorService;
+	
+	@Autowired
+	ResultItemService resultItemService;
+	
+	@Autowired
+	AdvancePaperService advancePaperService;
   
     @RequestMapping(value = "api/file/upload", method = RequestMethod.POST, consumes = MediaType.MULTIPART_FORM_DATA_VALUE, 
     		produces = MediaType.APPLICATION_JSON_VALUE)
@@ -81,7 +97,7 @@ public class UploadFileController {
     
     @RequestMapping(value = "api/file/upload/new", method = RequestMethod.POST, consumes = MediaType.MULTIPART_FORM_DATA_VALUE, 
     		produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<PaperResultPlagiator> addPaperNew(@ModelAttribute PaperDTO paperDTO, HttpServletRequest request) {
+	public ResponseEntity<PaperResultPlagiatorDTO> addPaperNew(@ModelAttribute PaperDTO paperDTO, HttpServletRequest request) {
 
 		Principal principal = request.getUserPrincipal();
         String email = principal.getName();
@@ -104,7 +120,7 @@ public class UploadFileController {
 		System.out.println(wordList.length);
 		
 		StringBuilder strBilder = new StringBuilder();
-		PaperResultPlagiator paperResultPlagiator = new PaperResultPlagiator();
+		PaperResultPlagiatorDTO paperResultPlagiator = new PaperResultPlagiatorDTO();
 		Set<PaperDTO> setSimilarPapers = new HashSet<PaperDTO>();
 		int partOfPage = 0;
 		
@@ -155,7 +171,7 @@ public class UploadFileController {
 					System.out.println("nece imati sve reci na kraju");
 				}
 				
-				ResultItem resultItem = new ResultItem();
+				ResultItemDTO resultItem = new ResultItemDTO();
 				resultItem.setPapers(retVal);
 				resultItem.setPartOfPage(partOfPage);
 				resultItem.setTextToShow(textToShowBilder.toString());
@@ -167,11 +183,12 @@ public class UploadFileController {
 		paperResultPlagiator.setSimilarPapers(this.returnListOdSimilarPapers(
 				setSimilarPapers, paperResultPlagiator.getItems()));
 		
+		PaperResultPlagiator plagiator = this.convertToSavePlagiarismForPaper(paperResultPlagiator);
 		
-		//TODO: poslati neki mail ako je potrebno
-//        
+		//poslati neki mail ako je potrebno
+        
 //		try {
-//			emailService.sendNotificaitionUploadOfNewDocument(logged, paperDTO.getFile().getOriginalFilename());
+//			emailService.sendNotificaitionUploadOfNewDocument(logged, paperDTO.getFile().getOriginalFilename(), plagiator.getId());
 //		} catch (MailException e) {
 //			e.printStackTrace();
 //		} catch (InterruptedException e) {
@@ -180,6 +197,52 @@ public class UploadFileController {
 
 		return new ResponseEntity<>(paperResultPlagiator, HttpStatus.OK);
 	}
+    
+    @RequestMapping(value = "api/file/upload/new/results/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<PaperResultPlagiatorDTO> checkResultsPaper(@PathVariable Long id, HttpServletRequest request) {
+    	PaperResultPlagiator plagiator = paperResultPlagiatorService.findOne(id);
+    	
+    	if(plagiator.getUploadedPaper() == null) {
+    		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    	}
+    	
+    	PaperResultPlagiatorDTO plagiatorDTO = new PaperResultPlagiatorDTO();
+    	plagiatorDTO.setId(plagiator.getId());
+    	plagiatorDTO.setUploadedPaper(objectMapper.map(plagiator.getUploadedPaper(), PaperDTO.class));
+    	
+		Set<PaperDTO> setSimilarPapers = new HashSet<PaperDTO>();
+    	
+    	for(ResultItem resultItem: plagiator.getItems()) {
+    		ResultItemDTO resultItemDTO = new ResultItemDTO();
+    		resultItemDTO.setPartOfPage(resultItem.getPartOfPage());
+    		resultItemDTO.setTextToShow(resultItem.getTextToShow());
+    		
+    		List<AdvancePaper> advances = advancePaperService.findByResultItemId(resultItem.getId());
+    		for(AdvancePaper advancePaper: advances) {
+    			if(resultItemDTO.getPapers() == null) {
+    				resultItemDTO.setPapers(new ArrayList<PaperDTO>());
+    			}
+    			
+    			PaperDTO paperDTO = objectMapper.map(advancePaper.getPaper(), PaperDTO.class);
+    			paperDTO.setSearchHits(advancePaper.getSearchHits());
+
+    			resultItemDTO.getPapers().add(paperDTO);
+    			
+				//iskljuciti dodavanje istog
+				if(paperDTO.getId() != plagiatorDTO.getUploadedPaper().getId()) {
+					//paperResultPlagiator.getSimilarPapers().add(paperDTORet);
+					setSimilarPapers.add(paperDTO);
+				}
+    		}
+    		
+    		plagiatorDTO.getItems().add(resultItemDTO);
+    	}
+    	
+    	plagiatorDTO.setSimilarPapers(this.returnListOdSimilarPapers(
+				setSimilarPapers, plagiatorDTO.getItems()));
+    	
+    	return new ResponseEntity<PaperResultPlagiatorDTO>(plagiatorDTO, HttpStatus.OK);
+    }
     
 	@RequestMapping(value = "api/file/download/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
 	public ResponseEntity<byte[]> download(@PathVariable Long id, HttpServletResponse response) {
@@ -242,13 +305,13 @@ public class UploadFileController {
 		return paperElastic;
 	}
 	
-	private List<PaperDTO> returnListOdSimilarPapers(Set<PaperDTO> similarPapers, List<ResultItem> items) {
+	private List<PaperDTO> returnListOdSimilarPapers(Set<PaperDTO> similarPapers, List<ResultItemDTO> items) {
 		
 		for(PaperDTO paperDTO: similarPapers) {
 			
 			double sum = 0;
 			
-			for(ResultItem item: items) {
+			for(ResultItemDTO item: items) {
 				double tempFactor = this.returnProcentOfSimilarityOfItem(item, paperDTO);
 				double tempToAdd = HelpersFunctions.calculateCoefficient(tempFactor);
 				sum += tempToAdd;
@@ -264,7 +327,7 @@ public class UploadFileController {
 
 	}
 	
-	private double returnProcentOfSimilarityOfItem(ResultItem item, PaperDTO paperDTO) {
+	private double returnProcentOfSimilarityOfItem(ResultItemDTO item, PaperDTO paperDTO) {
 		for(PaperDTO paper: item.getPapers()) {
 			if(paper.getId() == paperDTO.getId()) {
 				return paper.getSearchHits() / item.getPapers().get(0).getSearchHits(); //da bi dobio procenat podelim sa najvecim mogucim
@@ -274,5 +337,36 @@ public class UploadFileController {
 		return 0;
 	}
 	
+	private PaperResultPlagiator convertToSavePlagiarismForPaper(PaperResultPlagiatorDTO plagiatorDTO) {
+		PaperResultPlagiator plagiator = new PaperResultPlagiator();
+		Paper paper = new Paper();
+		paper.setId(plagiatorDTO.getUploadedPaper().getId());
+		plagiator.setUploadedPaper(paper);
+		plagiator = paperResultPlagiatorService.save(plagiator);
+		
+		//sad sacuvaj iteme za njega
+		for(ResultItemDTO resultItemDTO: plagiatorDTO.getItems()) {
+			
+			ResultItem resultItem = new ResultItem();
+			resultItem.setPaperResultPlagiator(plagiator);
+			resultItem.setTextToShow(resultItemDTO.getTextToShow());
+			resultItem.setPartOfPage(resultItemDTO.getPartOfPage());
+			resultItem = resultItemService.save(resultItem);
+			
+			
+			for(PaperDTO paperDTO: resultItemDTO.getPapers()) {
+							
+				Paper p = paperService.findOne(paperDTO.getId());
+				AdvancePaper ap = new AdvancePaper();
+				ap.setPaper(p);
+				ap.setSearchHits(paperDTO.getSearchHits());
+				ap.setResultItem(resultItem);
+				ap = advancePaperService.save(ap);
+			}
+			
+		}
+		
+		return plagiator;
+	}
 
 }

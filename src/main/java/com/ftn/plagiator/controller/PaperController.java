@@ -26,9 +26,11 @@ import com.ftn.plagiator.dto.ReportDTO;
 import com.ftn.plagiator.elasticsearch.repository.PaperElasticRepository;
 import com.ftn.plagiator.model.Comment;
 import com.ftn.plagiator.model.Paper;
+import com.ftn.plagiator.model.PaperResultPlagiator;
 import com.ftn.plagiator.model.Report;
 import com.ftn.plagiator.model.User;
 import com.ftn.plagiator.service.CommentService;
+import com.ftn.plagiator.service.PaperResultPlagiatorService;
 import com.ftn.plagiator.service.PaperService;
 import com.ftn.plagiator.service.ReportService;
 import com.ftn.plagiator.service.UserService;
@@ -56,11 +58,31 @@ public class PaperController {
 	@Autowired
 	PaperElasticRepository paperElasticRepository;
 	
+	@Autowired
+	PaperResultPlagiatorService paperResultPlagiatorService;
+	
 	@GetMapping(produces = "application/json")
 	public ResponseEntity<List<PaperDTO>> getPapers(Pageable page) {
 		
-		return new ResponseEntity<>(objectMapper.mapAll(paperService.findAll(), 
-				PaperDTO.class), HttpStatus.OK);
+		List<Paper> papers = paperService.findAll();
+		List<PaperDTO> papersDTO = new ArrayList<PaperDTO>();
+		
+		for(Paper paper: papers) {
+			PaperDTO paperDTO = objectMapper.map(paper, PaperDTO.class);
+			PaperResultPlagiator plagiator = paperResultPlagiatorService.findByUploadedPaperId(paper.getId());
+			
+			if(plagiator != null) {
+				paperDTO.setPlagiatorId(plagiator.getId());
+			}
+			else {
+				paperDTO.setPlagiatorId(null);
+			}
+			
+			papersDTO.add(paperDTO);
+		}
+
+		
+		return new ResponseEntity<>(papersDTO, HttpStatus.OK);
 	}
 	
 	@GetMapping(produces = "application/json", path = "/{id}")
@@ -122,6 +144,10 @@ public class PaperController {
 	public ResponseEntity<Void> deletePaper(@PathVariable Long id) {	
 		Paper paper = paperService.findOne(id);
 		
+		PaperResultPlagiator plagiator = paperResultPlagiatorService.findByUploadedPaperId(id);
+		plagiator.setUploadedPaper(null);
+		paperResultPlagiatorService.save(plagiator);
+		
 		//obrisi fajl sistem
 		File file = new File(paper.getPathForPDF()); 
         if(!file.delete()) 
@@ -136,9 +162,15 @@ public class PaperController {
 		//obrisi bazu
         paperService.deleteById(id);
         
+        
 		//proveriti referencijalni integritet u report tabeli
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
-	
+	@GetMapping(produces = "application/json", path = "/{id}/plagiator")
+	public ResponseEntity<Long> getPaperPlagiator(@PathVariable Long id) {	
+		PaperResultPlagiator plagiator = paperResultPlagiatorService.findByUploadedPaperId(id);
+
+		return new ResponseEntity<>(plagiator.getId(), HttpStatus.OK);
+	}
 }

@@ -9438,6 +9438,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _service_paper_service__WEBPACK_IMPORTED_MODULE_29__ = __webpack_require__(/*! ./service/paper.service */ "./src/app/service/paper.service.ts");
 /* harmony import */ var _component_paper_details_paper_details_component__WEBPACK_IMPORTED_MODULE_30__ = __webpack_require__(/*! ./component/paper-details/paper-details.component */ "./src/app/component/paper-details/paper-details.component.ts");
 /* harmony import */ var _component_documents_documents_component__WEBPACK_IMPORTED_MODULE_31__ = __webpack_require__(/*! ./component/documents/documents.component */ "./src/app/component/documents/documents.component.ts");
+/* harmony import */ var _service_constants_service__WEBPACK_IMPORTED_MODULE_32__ = __webpack_require__(/*! ./service/constants.service */ "./src/app/service/constants.service.ts");
+
 
 
 
@@ -9478,6 +9480,7 @@ var appRoutes = [
     { path: 'home', component: _component_home_page_home_page_component__WEBPACK_IMPORTED_MODULE_17__["HomePageComponent"] },
     { path: 'users', component: _component_users_view_users_view_users_component__WEBPACK_IMPORTED_MODULE_18__["ViewUsersComponent"] },
     { path: 'old-documents', component: _component_old_documents_old_documents_component__WEBPACK_IMPORTED_MODULE_26__["OldDocumentsComponent"] },
+    { path: 'new-document/:plagiatorId', component: _component_new_document_new_document_component__WEBPACK_IMPORTED_MODULE_28__["NewDocumentComponent"] },
     { path: 'new-document', component: _component_new_document_new_document_component__WEBPACK_IMPORTED_MODULE_28__["NewDocumentComponent"] },
     { path: 'documents', component: _component_documents_documents_component__WEBPACK_IMPORTED_MODULE_31__["DocumentsComponent"] },
     { path: 'new-document/:paperId/details', component: _component_paper_details_paper_details_component__WEBPACK_IMPORTED_MODULE_30__["PaperDetailsComponent"] },
@@ -9515,7 +9518,7 @@ var AppModule = /** @class */ (function () {
                 ngx_pagination__WEBPACK_IMPORTED_MODULE_8__["NgxPaginationModule"],
                 ng_multiselect_dropdown__WEBPACK_IMPORTED_MODULE_19__["NgMultiSelectDropDownModule"].forRoot(),
                 _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_15__["NgbModule"].forRoot(),
-                _angular_router__WEBPACK_IMPORTED_MODULE_7__["RouterModule"].forRoot(appRoutes, { enableTracing: true, useHash: true } // <-- debugging purposes only
+                _angular_router__WEBPACK_IMPORTED_MODULE_7__["RouterModule"].forRoot(appRoutes, { enableTracing: false, useHash: true } // <-- debugging purposes only
                 )
             ],
             providers: [
@@ -9526,6 +9529,7 @@ var AppModule = /** @class */ (function () {
                 _service_search_service__WEBPACK_IMPORTED_MODULE_25__["SearchService"],
                 _service_upload_file_service__WEBPACK_IMPORTED_MODULE_27__["UploadFileService"],
                 _service_paper_service__WEBPACK_IMPORTED_MODULE_29__["PaperService"],
+                _service_constants_service__WEBPACK_IMPORTED_MODULE_32__["ConstantsService"],
                 {
                     provide: _angular_common_http__WEBPACK_IMPORTED_MODULE_6__["HTTP_INTERCEPTORS"],
                     useClass: _h_interceptor_service__WEBPACK_IMPORTED_MODULE_12__["HInterceptorService"],
@@ -9560,7 +9564,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<app-navbar></app-navbar>\n\n<ng-template #viewCommentsTemplate let-modal>\n  <div class=\"modal-header\">\n     <h3>Komentari</h3>\n   </div>\n   <div class=\"modal-body\">\n   <div class=\"table-responsive\">\n     <div class=\"bootstrap-table\">\n       <div class=\"fixed-table-container\">\n         <div class=\"fixed-table-body\">\n           <table id=\"grid\" class=\"table table-striped table-hover\" data-toolbar=\"#toolbargrid\" data-pagination=\"true\" data-search=\"true\">\n             <thead>\n               <tr>\n                 <th class=\"text-left\" style=\"\">\n                   <div class=\"th-inner sortable\">Komentar</div>\n                   <div class=\"fht-cell\"></div>\n                 </th>\n                 <th class=\"text-left\" style=\"\">\n                  <div class=\"th-inner sortable\">Autor</div>\n                  <div class=\"fht-cell\"></div>\n                </th>\n                <th class=\"text-left\" style=\"\">\n                  <div class=\"th-inner sortable\">Plagijat sa</div>\n                  <div class=\"fht-cell\"></div>\n                </th>\n                <th class=\"text-left\" style=\"\">\n                  <div class=\"th-inner sortable\">Sigurnost u plagijat (1-5)</div>\n                  <div class=\"fht-cell\"></div>\n                </th>\n               </tr>\n             </thead>\n             <tbody>\n               <tr>\n                 <tr *ngFor = \"let i = index; let comment of comments | paginate: { itemsPerPage: 10, currentPage: p }\">\n                  <td class=\"text-left\" style=\"\">{{comment.text}}</td>\n                  <td class=\"text-left\" style=\"\">{{comment.user.email}}</td>\n                  <td class=\"text-left\" style=\"\">{{comment.plagiatWith}}</td>\n                  <td class=\"text-left\" style=\"\">{{comment.matcheNumber}}</td>\n               </tr>\n             </tbody>\n             <tfoot></tfoot>\n           </table>\n         </div>\n       </div>\n     </div>\n   </div>\n  </div>\n</ng-template>\n\n<div class=\"row\">\n\t<div class=\"col-md-8 offset-sm-2\" style=\"margin-top: 20px;\">\n\t\t<h3>Dokumenti</h3>\n\t\t<div class=\"table-responsive\">\n\t\t\t<div class=\"bootstrap-table\">\n\t\t\t\t<div class=\"fixed-table-toolbar\">\n\t\t\t\t\t<div class=\"bars pull-left\">\n\t\t\t\t\t\t<div id=\"toolbargrid\">\n\t\t\t\t\t\t\t<div class=\"form-inline\" role=\"form\">\n\t\t\t\t\t\t\t\t \n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\n\t\t\t\t<div class=\"fixed-table-container\">\n\t\t\t\t\t<div class=\"fixed-table-header\">\n\t\t\t\t\t\t<table></table>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"fixed-table-body\">\n\t\t\t\t\t\t<table id=\"grid\" class=\"table table-striped table-hover\" data-toolbar=\"#toolbargrid\" data-pagination=\"true\" data-search=\"true\">\n\t\t\t\t\t\t\t<thead>\n\t\t\t\t\t\t\t\t<tr>\n\t\t\t\t\t\t\t\t\t<th class=\"text-left\" style=\"\">\n\t\t\t\t\t\t\t\t\t\t<div class=\"th-inner sortable\">Naziv</div>\n\t\t\t\t\t\t\t\t\t\t<div class=\"fht-cell\"></div>\n\t\t\t\t\t\t\t\t\t</th>\n\t\t\t\t\t\t\t\t\t<th class=\"text-left\" style=\"\">\n\t\t\t\t\t\t\t\t\t\t<div class=\"th-inner sortable\">Korisnik koji je okačio</div>\n\t\t\t\t\t\t\t\t\t\t<div class=\"fht-cell\"></div>\n                  </th>\n                  <th class=\"text-left\" style=\"\">\n\t\t\t\t\t\t\t\t\t\t<div class=\"th-inner sortable\">Akcije</div>\n\t\t\t\t\t\t\t\t\t\t<div class=\"fht-cell\"></div>\n\t\t\t\t\t\t\t\t\t</th>\n\t\t\t\t\t\t\t\t</tr>\n\t\t\t\t\t\t\t</thead>\n\t\t\t\t\t\t\t<tbody>\n\t\t\t\t\t\t\t\t<tr *ngFor = \"let i = index; let paper of papers | paginate: { itemsPerPage: 10, currentPage: p }\">\n\t\t\t\t\t\t\t\t\t<td class=\"text-left\" style=\"\"><a class=\"text-primary\" (click)=\"viewComments(paper, viewCommentsTemplate)\">{{paper.title}}</a></td>\n\t\t\t\t\t\t\t\t\t<td class=\"text-left\" style=\"\">{{paper.user.email}}</td>\n\t\t\t\t\t\t\t\t\t<td>\n                    <button class=\"btn btn-primary\" (click)=\"download(paper.id, paper.title)\">Pregledaj</button>\n                    <button *ngIf=\"loggedUser.role.userType == 'ROLE_ADMIN' || paper.user.id == loggedUser.id\" class=\"btn btn-danger\" (click)=\"deletePaper(paper.id)\">Obriši</button>\n\t\t\t\t\t\t\t\t\t</td>\n\t\t\t\t\t\t\t\t</tr>\n\t\t\t\t\t\t\t</tbody>\n\t\t\t\t\t\t\t<tfoot></tfoot>\n\t\t\t\t\t\t</table>\n\t\t\t\t\t\t<pagination-controls (pageChange)=\"p = $event\"></pagination-controls>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</div>"
+module.exports = "<app-navbar></app-navbar>\n\n<ng-template #viewCommentsTemplate let-modal>\n  <div class=\"modal-header\">\n     <h3>Komentari</h3>\n   </div>\n   <div class=\"modal-body\">\n   <div class=\"table-responsive\">\n     <div class=\"bootstrap-table\">\n       <div class=\"fixed-table-container\">\n         <div class=\"fixed-table-body\">\n           <table id=\"grid\" class=\"table table-striped table-hover\" data-toolbar=\"#toolbargrid\" data-pagination=\"true\" data-search=\"true\">\n             <thead>\n               <tr>\n                 <th class=\"text-left\" style=\"\">\n                   <div class=\"th-inner sortable\">Komentar</div>\n                   <div class=\"fht-cell\"></div>\n                 </th>\n                 <th class=\"text-left\" style=\"\">\n                  <div class=\"th-inner sortable\">Autor</div>\n                  <div class=\"fht-cell\"></div>\n                </th>\n                <th class=\"text-left\" style=\"\">\n                  <div class=\"th-inner sortable\">Plagijat sa</div>\n                  <div class=\"fht-cell\"></div>\n                </th>\n                <th class=\"text-left\" style=\"\">\n                  <div class=\"th-inner sortable\">Sigurnost u plagijat (1-5)</div>\n                  <div class=\"fht-cell\"></div>\n                </th>\n               </tr>\n             </thead>\n             <tbody>\n               <tr>\n                 <tr *ngFor = \"let i = index; let comment of comments | paginate: { itemsPerPage: 10, currentPage: p }\">\n                  <td class=\"text-left\" style=\"\">{{comment.text}}</td>\n                  <td class=\"text-left\" style=\"\">{{comment.user.email}}</td>\n                  <td class=\"text-left\" style=\"\">{{comment.plagiatWith}}</td>\n                  <td class=\"text-left\" style=\"\">{{comment.matcheNumber}}</td>\n               </tr>\n             </tbody>\n             <tfoot></tfoot>\n           </table>\n         </div>\n       </div>\n     </div>\n   </div>\n  </div>\n</ng-template>\n\n<div class=\"row\">\n\t<div class=\"col-md-8 offset-sm-2\" style=\"margin-top: 20px;\">\n\t\t<h3>Dokumenti</h3>\n\t\t<div class=\"table-responsive\">\n\t\t\t<div class=\"bootstrap-table\">\n\t\t\t\t<div class=\"fixed-table-toolbar\">\n\t\t\t\t\t<div class=\"bars pull-left\">\n\t\t\t\t\t\t<div id=\"toolbargrid\">\n\t\t\t\t\t\t\t<div class=\"form-inline\" role=\"form\">\n\t\t\t\t\t\t\t\t \n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\n\t\t\t\t<div class=\"fixed-table-container\">\n\t\t\t\t\t<div class=\"fixed-table-header\">\n\t\t\t\t\t\t<table></table>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"fixed-table-body\">\n\t\t\t\t\t\t<table id=\"grid\" class=\"table table-striped table-hover\" data-toolbar=\"#toolbargrid\" data-pagination=\"true\" data-search=\"true\">\n\t\t\t\t\t\t\t<thead>\n\t\t\t\t\t\t\t\t<tr>\n\t\t\t\t\t\t\t\t\t<th class=\"text-left\" style=\"\">\n\t\t\t\t\t\t\t\t\t\t<div class=\"th-inner sortable\">Naziv</div>\n\t\t\t\t\t\t\t\t\t\t<div class=\"fht-cell\"></div>\n\t\t\t\t\t\t\t\t\t</th>\n\t\t\t\t\t\t\t\t\t<th class=\"text-left\" style=\"\">\n\t\t\t\t\t\t\t\t\t\t<div class=\"th-inner sortable\">Korisnik koji je okačio</div>\n\t\t\t\t\t\t\t\t\t\t<div class=\"fht-cell\"></div>\n                  </th>\n                  <th class=\"text-left\" style=\"\">\n\t\t\t\t\t\t\t\t\t\t<div class=\"th-inner sortable\">Akcije</div>\n\t\t\t\t\t\t\t\t\t\t<div class=\"fht-cell\"></div>\n\t\t\t\t\t\t\t\t\t</th>\n\t\t\t\t\t\t\t\t</tr>\n\t\t\t\t\t\t\t</thead>\n\t\t\t\t\t\t\t<tbody>\n\t\t\t\t\t\t\t\t<tr *ngFor = \"let i = index; let paper of papers | paginate: { itemsPerPage: 10, currentPage: p }\">\n\t\t\t\t\t\t\t\t\t<td class=\"text-left\" style=\"\"><a class=\"text-primary\" (click)=\"viewComments(paper, viewCommentsTemplate)\">{{paper.title}}</a></td>\n\t\t\t\t\t\t\t\t\t<td class=\"text-left\" style=\"\">{{paper.user.email}}</td>\n\t\t\t\t\t\t\t\t\t<td>\n                    <button class=\"btn btn-primary\" (click)=\"download(paper.id, paper.title)\">Pregledaj</button>\n                    <button *ngIf=\"loggedUser.role.userType == 'ROLE_ADMIN' || paper.user.id == loggedUser.id\" class=\"btn btn-danger\" (click)=\"deletePaper(paper.id)\">Obriši</button>\n                    <button *ngIf=\"paper.plagiatorId\" class=\"btn btn-info\" (click)=\"results(paper.plagiatorId)\">Rezultati</button>\n\t\t\t\t\t\t\t\t\t</td>\n\t\t\t\t\t\t\t\t</tr>\n\t\t\t\t\t\t\t</tbody>\n\t\t\t\t\t\t\t<tfoot></tfoot>\n\t\t\t\t\t\t</table>\n\t\t\t\t\t\t<pagination-controls (pageChange)=\"p = $event\"></pagination-controls>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</div>"
 
 /***/ }),
 
@@ -9584,6 +9588,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var file_saver__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(file_saver__WEBPACK_IMPORTED_MODULE_6__);
 /* harmony import */ var app_service_auth_service__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! app/service/auth.service */ "./src/app/service/auth.service.ts");
 /* harmony import */ var app_service_user_service__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! app/service/user.service */ "./src/app/service/user.service.ts");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/esm5/router.js");
+
 
 
 
@@ -9594,10 +9600,11 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var DocumentsComponent = /** @class */ (function () {
-    function DocumentsComponent(paperService, modalService, uploadFileService, authService, userService) {
+    function DocumentsComponent(paperService, modalService, router, uploadFileService, authService, userService) {
         var _this = this;
         this.paperService = paperService;
         this.modalService = modalService;
+        this.router = router;
         this.uploadFileService = uploadFileService;
         this.authService = authService;
         this.userService = userService;
@@ -9651,13 +9658,16 @@ var DocumentsComponent = /** @class */ (function () {
             alert('Greska!');
         });
     };
+    DocumentsComponent.prototype.results = function (plagiatorId) {
+        this.router.navigate(['new-document/' + plagiatorId]);
+    };
     DocumentsComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
             selector: 'app-documents',
             template: __webpack_require__(/*! ./documents.component.html */ "./src/app/component/documents/documents.component.html"),
             styles: [__webpack_require__(/*! ./documents.component.css */ "./src/app/component/documents/documents.component.css")]
         }),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [app_service_paper_service__WEBPACK_IMPORTED_MODULE_2__["PaperService"], _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_3__["NgbModal"],
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [app_service_paper_service__WEBPACK_IMPORTED_MODULE_2__["PaperService"], _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_3__["NgbModal"], _angular_router__WEBPACK_IMPORTED_MODULE_9__["Router"],
             app_service_upload_file_service__WEBPACK_IMPORTED_MODULE_5__["UploadFileService"], app_service_auth_service__WEBPACK_IMPORTED_MODULE_7__["AuthService"], app_service_user_service__WEBPACK_IMPORTED_MODULE_8__["UserService"]])
     ], DocumentsComponent);
     return DocumentsComponent;
@@ -9861,7 +9871,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "\n<app-navbar></app-navbar>\n\n<div class=\"col-sm-10\">\n\n  <h1>\n    Okači nove dokumente\n  </h1>\n\n  <form>\n    <div class=\"form-group\">\n      <label>Fajl &nbsp; &nbsp;</label>\n      <input \n        type=\"file\"\n        placeholder=\"Izaberi naučni rad\"\n        (change)=\"selectFile($event)\"\n        value=\"Izaberi naucni rad\">\n    </div>\n\n    <div class=\"form-group col-md-2\">\n      <input\n        style=\"min-width: 150px;\"\n        type=\"submit\"\n        class=\"form-control btn btn-primary\" \n        value=\"Upload\"\n        (click) = \"uploadFile()\">\n    </div>\n\n    <div class=\"form-group col-md-2\">\n      <input\n        style=\"min-width: 150px;\" \n        type=\"submit\" \n        class=\"form-control btn btn-danger\" \n        value=\"Obriši odmah\"  \n        (click) = \"deleteFile()\">\n    </div>\n  </form>\n\n</div>\n\n  <div class=\"container\" style=\"margin-top: 100px;\">\n    <div class=\"container justify-content-md-center\" style=\"display: -webkit-box;\">\n      <div class=\"col-lg-12 p-0\">\n            <a class=\"list-group-item\" style=\"max-height: 300px; margin-bottom: 10px;\" \n            *ngFor = \"let i = index; let paper of paperResultPlagiator.similarPapers\">\n              <!-- <div style=\"display: inline-flex; width: 100%; padding-bottom: 0%; height: 10px;\">\n                <h5 class=\"col-lg-10\"><span style=\"color: crimson; font-size: medium;\">Deo dokumenta: &nbsp;</span>{{item.partOfPage}}</h5>\n            </div> -->\n            <!-- <div *ngFor = \"let j = index; let paper of item.papers\" > -->\n              <!-- <hr> -->\n                <div style=\"display: inline-flex; width: 100%; padding-bottom: 0%; height: 10px;\">\n                    <h5 class=\"col-lg-10\"><span style=\"color: crimson; font-size: medium;\">Rad: &nbsp;</span>{{paper.title}}</h5>\n                </div>\n                <div style=\"display: inline-flex; width: 100%; padding-bottom: 0%; height: 10px;\">\n                  <h5 class=\"col-lg-10\"><span style=\"color: crimson; font-size: medium;\">Okačen od strane: &nbsp;</span>{{paper.user.email}}</h5>\n              </div>\n                <div style=\"display: inline-flex; width: 100%;\">\n                  <h5 class=\"col-lg-10\"><span style=\"color: crimson; font-size: medium;\">Sličnost sa dokumentom: &nbsp;</span>{{paper.similarProcent*100}} %</h5>              \n              </div>\n\n                <div style=\"display: inline-flex; width: 100%;\">\n                    <button  class=\"btn btn-info\" style=\"position: relative; float: right; margin-right: 50px;\" (click)=\"details(paper.id)\">Detalji</button>   \n                    <button  class=\"btn btn-info\" style=\"position: relative; float: right; margin-right: 50px;\" (click)=\"download(paper.id, paper.title)\">Pregledaj</button> \n                </div>\n\n              <!-- </div> -->\n            </a>\n      </div>\n    </div>\n  </div>\n\n\n\n"
+module.exports = "\n<app-navbar></app-navbar>\n\n<div class=\"col-sm-10\">\n\n  <h3>\n    Okači nove dokumente\n  </h3>\n  <br>\n  <form>\n    <div class=\"form-group\">\n      <label>Fajl &nbsp; &nbsp;</label>\n      <input \n        type=\"file\"\n        placeholder=\"Izaberi naučni rad\"\n        (change)=\"selectFile($event)\"\n        value=\"Izaberi naucni rad\">\n    </div>\n\n    <div class=\"form-group col-md-2\">\n      <input\n        style=\"min-width: 150px;\"\n        type=\"submit\"\n        class=\"form-control btn btn-primary\" \n        value=\"Upload\"\n        (click) = \"uploadFile()\">\n    </div>\n\n    <div class=\"form-group col-md-2\">\n      <input\n        style=\"min-width: 150px;\" \n        type=\"submit\" \n        class=\"form-control btn btn-danger\" \n        value=\"Obriši odmah\"  \n        (click) = \"deleteFile()\">\n    </div>\n  </form>\n\n</div>\n\n  <div class=\"container\" style=\"margin-top: 100px;\">\n    <div class=\"container justify-content-md-center\" style=\"display: -webkit-box;\">\n      <div class=\"col-lg-12 p-0\">\n            <a class=\"list-group-item\" style=\"max-height: 300px; margin-bottom: 10px;\" \n            *ngFor = \"let i = index; let paper of paperResultPlagiator.similarPapers\">\n              <!-- <div style=\"display: inline-flex; width: 100%; padding-bottom: 0%; height: 10px;\">\n                <h5 class=\"col-lg-10\"><span style=\"color: crimson; font-size: medium;\">Deo dokumenta: &nbsp;</span>{{item.partOfPage}}</h5>\n            </div> -->\n            <!-- <div *ngFor = \"let j = index; let paper of item.papers\" > -->\n              <!-- <hr> -->\n                <div style=\"display: inline-flex; width: 100%; padding-bottom: 0%; height: 10px;\">\n                    <h5 class=\"col-lg-10\"><span style=\"color: crimson; font-size: medium;\">Rad: &nbsp;</span>{{paper.title}}</h5>\n                </div>\n                <div style=\"display: inline-flex; width: 100%; padding-bottom: 0%; height: 10px;\">\n                  <h5 class=\"col-lg-10\"><span style=\"color: crimson; font-size: medium;\">Okačen od strane: &nbsp;</span>{{paper.user.email}}</h5>\n              </div>\n                <div style=\"display: inline-flex; width: 100%;\">\n                  <h5 *ngIf=\"paper.similarProcent*constantNormalization >= constantRedColor\" class=\"col-lg-10\" style=\"color: crimson;\">\n                      <span style=\"color: crimson; font-size: medium;\">Sličnost sa dokumentom: &nbsp;</span>\n                      {{paper.similarProcent*100*constantNormalization}} %\n                    </h5>   \n                  <h5  *ngIf=\"paper.similarProcent*constantNormalization < constantRedColor\" class=\"col-lg-10\">\n                    <span style=\"color: crimson; font-size: medium;\">Sličnost sa dokumentom: &nbsp;</span>\n                    {{paper.similarProcent*100*constantNormalization}} %\n                  </h5>            \n              </div>\n\n                <div style=\"display: inline-flex; width: 100%;\">\n                    <button  class=\"btn btn-info\" style=\"position: relative; float: right; margin-right: 50px;\" (click)=\"details(paper.id)\">Detalji</button>   \n                    <button  class=\"btn btn-info\" style=\"position: relative; float: right; margin-right: 50px;\" (click)=\"download(paper.id, paper.title)\">Pregledaj</button> \n                </div>\n\n              <!-- </div> -->\n            </a>\n      </div>\n    </div>\n  </div>\n\n  <div *ngIf = \"wrongAnalysis\">\n      <h1>\n        Analiza za traženi dokument više ne postoji!\n      </h1>\n  </div>\n\n\n\n"
 
 /***/ }),
 
@@ -9883,6 +9893,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var app_service_paper_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! app/service/paper.service */ "./src/app/service/paper.service.ts");
 /* harmony import */ var app_model_paper_paperResultPlagiator__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! app/model/paper/paperResultPlagiator */ "./src/app/model/paper/paperResultPlagiator.ts");
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/esm5/router.js");
+/* harmony import */ var app_service_constants_service__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! app/service/constants.service */ "./src/app/service/constants.service.ts");
+
 
 
 
@@ -9891,22 +9903,47 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var NewDocumentComponent = /** @class */ (function () {
-    function NewDocumentComponent(uploadFileService, paperService, router) {
+    function NewDocumentComponent(uploadFileService, paperService, router, route) {
+        var _this = this;
         this.uploadFileService = uploadFileService;
         this.paperService = paperService;
         this.router = router;
         this.papers = [];
         this.paperResultPlagiator = new app_model_paper_paperResultPlagiator__WEBPACK_IMPORTED_MODULE_5__["default"]();
         this.similarPapers = [];
-    }
-    NewDocumentComponent.prototype.ngOnInit = function () {
-        var temp = JSON.parse(localStorage.getItem("paperResultPlagiator"));
-        if (temp) {
-            this.paperResultPlagiator = temp;
+        this.constantRedColor = app_service_constants_service__WEBPACK_IMPORTED_MODULE_7__["CONSTANT_FOR_SIMILAR_PAPER_VIEW"] / 100;
+        //constantNormalization: number = CONSTANT_FOR_NORMALIZATION;
+        this.constantNormalization = 1;
+        this.plagiatorId = undefined;
+        this.wrongAnalysis = false;
+        var res = localStorage.getItem('token');
+        if (!res) {
+            this.router.navigate(['login']);
+        }
+        this.plagiatorId = +route.snapshot.paramMap.get("plagiatorId");
+        if (this.plagiatorId) {
+            this.uploadFileService.getResultsForPaper(this.plagiatorId).subscribe(function (res) {
+                _this.paperResultPlagiator = res;
+                localStorage.setItem("paperResultPlagiator", JSON.stringify(_this.paperResultPlagiator));
+                _this.similarPapers = _this.paperResultPlagiator.similarPapers;
+            }, function (err) {
+                if (err.status == 400) {
+                    //alert("errrr")
+                    _this.wrongAnalysis = true;
+                }
+            });
         }
         else {
-            this.paperResultPlagiator = new app_model_paper_paperResultPlagiator__WEBPACK_IMPORTED_MODULE_5__["default"]();
+            var temp = JSON.parse(localStorage.getItem("paperResultPlagiator"));
+            if (temp) {
+                this.paperResultPlagiator = temp;
+            }
+            else {
+                this.paperResultPlagiator = new app_model_paper_paperResultPlagiator__WEBPACK_IMPORTED_MODULE_5__["default"]();
+            }
         }
+    }
+    NewDocumentComponent.prototype.ngOnInit = function () {
     };
     NewDocumentComponent.prototype.selectFile = function (event) {
         this.selectedFiles = event.target.files;
@@ -9950,7 +9987,7 @@ var NewDocumentComponent = /** @class */ (function () {
             styles: [__webpack_require__(/*! ./new-document.component.css */ "./src/app/component/new-document/new-document.component.css")]
         }),
         tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [app_service_upload_file_service__WEBPACK_IMPORTED_MODULE_2__["UploadFileService"],
-            app_service_paper_service__WEBPACK_IMPORTED_MODULE_4__["PaperService"], _angular_router__WEBPACK_IMPORTED_MODULE_6__["Router"]])
+            app_service_paper_service__WEBPACK_IMPORTED_MODULE_4__["PaperService"], _angular_router__WEBPACK_IMPORTED_MODULE_6__["Router"], _angular_router__WEBPACK_IMPORTED_MODULE_6__["ActivatedRoute"]])
     ], NewDocumentComponent);
     return NewDocumentComponent;
 }());
@@ -9977,7 +10014,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<app-navbar></app-navbar>\n\n<div class=\"col-sm-10\">\n\n<h1>\n  Okači stare dokumente\n</h1>\n\n  <form>\n    <div class=\"form-group\">\n      <label>Fajl &nbsp; &nbsp;</label>\n      <input \n        type=\"file\" \n        placeholder=\"Izaberi naučni rad\"\n        (change)=\"selectFile($event)\"\n        value=\"Izaberi naucni rad\"\n        multiple='multiple'\n      >\n    </div>\n\n    <div class=\"form-group col-md-2\">\n      <input type=\"submit\" class=\"form-control btn btn-primary\" \n      value=\"Upload\"  (click) = \"uploadFile()\">\n    </div>\n  </form>\n\n</div>\n"
+module.exports = "<app-navbar></app-navbar>\n\n<div class=\"col-sm-10\">\n\n<h3>\n  Okači stare dokumente\n</h3>\n<br>\n  <form>\n    <div class=\"form-group\">\n      <label>Fajl &nbsp; &nbsp;</label>\n      <input \n        type=\"file\" \n        placeholder=\"Izaberi naučni rad\"\n        (change)=\"selectFile($event)\"\n        value=\"Izaberi naucni rad\"\n        multiple='multiple'\n      >\n    </div>\n\n    <div class=\"form-group col-md-2\">\n      <input type=\"submit\" class=\"form-control btn btn-primary\" \n      value=\"Upload\"  (click) = \"uploadFile()\">\n    </div>\n  </form>\n\n</div>\n"
 
 /***/ }),
 
@@ -10043,7 +10080,7 @@ var OldDocumentsComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL2NvbXBvbmVudC9wYXBlci1kZXRhaWxzL3BhcGVyLWRldGFpbHMuY29tcG9uZW50LmNzcyJ9 */"
+module.exports = "/* The switch - the box around the slider */\r\n.switch {\r\n    position: relative;\r\n    display: inline-block;\r\n    width: 60px;\r\n    height: 34px;\r\n  }\r\n/* Hide default HTML checkbox */\r\n.switch input {\r\n    opacity: 0;\r\n    width: 0;\r\n    height: 0;\r\n  }\r\n/* The slider */\r\n.slider {\r\n    position: absolute;\r\n    cursor: pointer;\r\n    top: 0;\r\n    left: 0;\r\n    right: 0;\r\n    bottom: 0;\r\n    background-color: #ccc;\r\n    transition: .4s;\r\n  }\r\n.slider:before {\r\n    position: absolute;\r\n    content: \"\";\r\n    height: 26px;\r\n    width: 26px;\r\n    left: 4px;\r\n    bottom: 4px;\r\n    background-color: white;\r\n    transition: .4s;\r\n  }\r\ninput:checked + .slider {\r\n    background-color: #2196F3;\r\n  }\r\ninput:focus + .slider {\r\n    box-shadow: 0 0 1px #2196F3;\r\n  }\r\ninput:checked + .slider:before {\r\n    -webkit-transform: translateX(26px);\r\n    transform: translateX(26px);\r\n  }\r\n/* Rounded sliders */\r\n.slider.round {\r\n    border-radius: 34px;\r\n  }\r\n.slider.round:before {\r\n    border-radius: 50%;\r\n  }\r\n.sorting{\r\n    display: flex;\r\n    justify-content: center;\r\n    margin-top: 20px;\r\n  }\r\n.sorting .label{\r\n    margin-right: 15px;\r\n  }\r\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvY29tcG9uZW50L3BhcGVyLWRldGFpbHMvcGFwZXItZGV0YWlscy5jb21wb25lbnQuY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBLDJDQUEyQztBQUMzQztJQUNJLGtCQUFrQjtJQUNsQixxQkFBcUI7SUFDckIsV0FBVztJQUNYLFlBQVk7RUFDZDtBQUVBLCtCQUErQjtBQUMvQjtJQUNFLFVBQVU7SUFDVixRQUFRO0lBQ1IsU0FBUztFQUNYO0FBRUEsZUFBZTtBQUNmO0lBQ0Usa0JBQWtCO0lBQ2xCLGVBQWU7SUFDZixNQUFNO0lBQ04sT0FBTztJQUNQLFFBQVE7SUFDUixTQUFTO0lBQ1Qsc0JBQXNCO0lBRXRCLGVBQWU7RUFDakI7QUFFQTtJQUNFLGtCQUFrQjtJQUNsQixXQUFXO0lBQ1gsWUFBWTtJQUNaLFdBQVc7SUFDWCxTQUFTO0lBQ1QsV0FBVztJQUNYLHVCQUF1QjtJQUV2QixlQUFlO0VBQ2pCO0FBRUE7SUFDRSx5QkFBeUI7RUFDM0I7QUFFQTtJQUNFLDJCQUEyQjtFQUM3QjtBQUVBO0lBQ0UsbUNBQW1DO0lBRW5DLDJCQUEyQjtFQUM3QjtBQUVBLG9CQUFvQjtBQUNwQjtJQUNFLG1CQUFtQjtFQUNyQjtBQUVBO0lBQ0Usa0JBQWtCO0VBQ3BCO0FBRUE7SUFDRSxhQUFhO0lBQ2IsdUJBQXVCO0lBQ3ZCLGdCQUFnQjtFQUNsQjtBQUVBO0lBQ0Usa0JBQWtCO0VBQ3BCIiwiZmlsZSI6InNyYy9hcHAvY29tcG9uZW50L3BhcGVyLWRldGFpbHMvcGFwZXItZGV0YWlscy5jb21wb25lbnQuY3NzIiwic291cmNlc0NvbnRlbnQiOlsiLyogVGhlIHN3aXRjaCAtIHRoZSBib3ggYXJvdW5kIHRoZSBzbGlkZXIgKi9cclxuLnN3aXRjaCB7XHJcbiAgICBwb3NpdGlvbjogcmVsYXRpdmU7XHJcbiAgICBkaXNwbGF5OiBpbmxpbmUtYmxvY2s7XHJcbiAgICB3aWR0aDogNjBweDtcclxuICAgIGhlaWdodDogMzRweDtcclxuICB9XHJcbiAgXHJcbiAgLyogSGlkZSBkZWZhdWx0IEhUTUwgY2hlY2tib3ggKi9cclxuICAuc3dpdGNoIGlucHV0IHtcclxuICAgIG9wYWNpdHk6IDA7XHJcbiAgICB3aWR0aDogMDtcclxuICAgIGhlaWdodDogMDtcclxuICB9XHJcbiAgXHJcbiAgLyogVGhlIHNsaWRlciAqL1xyXG4gIC5zbGlkZXIge1xyXG4gICAgcG9zaXRpb246IGFic29sdXRlO1xyXG4gICAgY3Vyc29yOiBwb2ludGVyO1xyXG4gICAgdG9wOiAwO1xyXG4gICAgbGVmdDogMDtcclxuICAgIHJpZ2h0OiAwO1xyXG4gICAgYm90dG9tOiAwO1xyXG4gICAgYmFja2dyb3VuZC1jb2xvcjogI2NjYztcclxuICAgIC13ZWJraXQtdHJhbnNpdGlvbjogLjRzO1xyXG4gICAgdHJhbnNpdGlvbjogLjRzO1xyXG4gIH1cclxuICBcclxuICAuc2xpZGVyOmJlZm9yZSB7XHJcbiAgICBwb3NpdGlvbjogYWJzb2x1dGU7XHJcbiAgICBjb250ZW50OiBcIlwiO1xyXG4gICAgaGVpZ2h0OiAyNnB4O1xyXG4gICAgd2lkdGg6IDI2cHg7XHJcbiAgICBsZWZ0OiA0cHg7XHJcbiAgICBib3R0b206IDRweDtcclxuICAgIGJhY2tncm91bmQtY29sb3I6IHdoaXRlO1xyXG4gICAgLXdlYmtpdC10cmFuc2l0aW9uOiAuNHM7XHJcbiAgICB0cmFuc2l0aW9uOiAuNHM7XHJcbiAgfVxyXG4gIFxyXG4gIGlucHV0OmNoZWNrZWQgKyAuc2xpZGVyIHtcclxuICAgIGJhY2tncm91bmQtY29sb3I6ICMyMTk2RjM7XHJcbiAgfVxyXG4gIFxyXG4gIGlucHV0OmZvY3VzICsgLnNsaWRlciB7XHJcbiAgICBib3gtc2hhZG93OiAwIDAgMXB4ICMyMTk2RjM7XHJcbiAgfVxyXG4gIFxyXG4gIGlucHV0OmNoZWNrZWQgKyAuc2xpZGVyOmJlZm9yZSB7XHJcbiAgICAtd2Via2l0LXRyYW5zZm9ybTogdHJhbnNsYXRlWCgyNnB4KTtcclxuICAgIC1tcy10cmFuc2Zvcm06IHRyYW5zbGF0ZVgoMjZweCk7XHJcbiAgICB0cmFuc2Zvcm06IHRyYW5zbGF0ZVgoMjZweCk7XHJcbiAgfVxyXG4gIFxyXG4gIC8qIFJvdW5kZWQgc2xpZGVycyAqL1xyXG4gIC5zbGlkZXIucm91bmQge1xyXG4gICAgYm9yZGVyLXJhZGl1czogMzRweDtcclxuICB9XHJcbiAgXHJcbiAgLnNsaWRlci5yb3VuZDpiZWZvcmUge1xyXG4gICAgYm9yZGVyLXJhZGl1czogNTAlO1xyXG4gIH1cclxuXHJcbiAgLnNvcnRpbmd7XHJcbiAgICBkaXNwbGF5OiBmbGV4O1xyXG4gICAganVzdGlmeS1jb250ZW50OiBjZW50ZXI7XHJcbiAgICBtYXJnaW4tdG9wOiAyMHB4O1xyXG4gIH1cclxuXHJcbiAgLnNvcnRpbmcgLmxhYmVse1xyXG4gICAgbWFyZ2luLXJpZ2h0OiAxNXB4O1xyXG4gIH0iXX0= */"
 
 /***/ }),
 
@@ -10054,7 +10091,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<app-navbar></app-navbar>\n  \n  <div style=\"display: inline-flex; width: 100%; margin-bottom: 10px; margin-top: 10px;; justify-content: center;\">\n    <p>Okačeni dokument: {{paperResultPlagiator.uploadedPaper.title}}</p>\n    <button  \n      class=\"btn btn-info\" \n      style=\"position: relative; float: right; margin-left: 50px\" \n      (click)=\"download(paperResultPlagiator.uploadedPaper.id, paperResultPlagiator.uploadedPaper.title)\"\n    >\n      Pregledaj\n    </button>              \n</div>\n\n  <div style=\"display: inline-flex; width: 100%; justify-content: center;\">\n    <p>Dokument koji se poredi: {{paperToCompare.title}}</p>\n    <button  \n      class=\"btn btn-info\" \n      style=\"position: relative; float: right; margin-left: 50px\" \n      (click)=\"download(paperToCompare.id, paperToCompare.title)\"\n    >\n      Pregledaj\n    </button>              \n  </div>\n\n  <div class=\"container\" style=\"margin-top: 100px;\">\n    <div class=\"container justify-content-md-center\" style=\"display: -webkit-box;\">\n      <div class=\"col-lg-12 p-0\">\n            <a class=\"list-group-item\" style=\"max-height: 500px; margin-bottom: 10px;\" \n            *ngFor = \"let i = index; let item of paperResultPlagiator.items\">\n              <div style=\"display: inline-flex; width: 100%; padding-bottom: 0%; height: 10px;\">\n                <h5 class=\"col-lg-10\"><span style=\"color: crimson; font-size: medium;\">Deo dokumenta: &nbsp;</span>{{(item.partOfPage-1)*wordsPerPart+1}}\n                - {{item.partOfPage*wordsPerPart}} reči</h5>\n              </div>\n              <div style=\"display: inline-flex; width: 100%; padding-bottom: 0%; height: 10px;\">\n                <h5 class=\"col-lg-10\">\n                  <span style=\"color: crimson; font-size: medium;\">Tekst: &nbsp;</span>\n                  {{item.textToShow}}...\n                </h5>\n              </div>\n            <div *ngFor = \"let j = index; let paper of item.papers\" >\n              <div *ngIf = \"paperId == paper.id\">\n                  <div style=\"display: inline-flex; width: 100%; padding-bottom: 0%; height: 10px;\">\n                      <h5 class=\"col-lg-10\"><span style=\"color: crimson; font-size: medium;\">Rad: &nbsp;</span>{{paper.title}}</h5>\n                  </div>\n                  <div style=\"display: inline-flex; width: 100%;\">\n                      <h5 *ngIf=\"(paper.searchHits/item.papers[0].searchHits) >= 0.50\" class=\"col-lg-10\" style=\"color: crimson;\">\n                        <span style=\"color: crimson; font-size: medium;\">Sličnost u procentima: &nbsp;</span>{{(paper.searchHits/item.papers[0].searchHits)*100}} %\n                      </h5>\n                      <h5 *ngIf=\"paper.searchHits/item.papers[0].searchHits < 0.50\" class=\"col-lg-10\">\n                        <span style=\"color: crimson; font-size: medium;\">Sličnost u procentima: &nbsp;</span>{{(paper.searchHits/item.papers[0].searchHits)*100}} %\n                      </h5>            \n                </div>\n              </div>\n              </div>\n            </a>\n        </div>\n      </div>\n    </div> \n\n    <div class=\"container\" style=\"margin-top: 50px;\">\n    <div >\n      <div class=\"form-group row\">\n        <label for=\"colFormLabelLg\" class=\"col-sm-2 col-form-label col-form-label\">Komentar: </label>\n        <div class=\"col-sm-10\">\n          <textarea id=\"colFormLabelLg\" name=\"colFormLabelLg\" rows=\"4\" cols=\"125\" \n          placeholder=\"Komentar\" [(ngModel)]= \"comment.text\">\n        </textarea>\n        </div>\n      </div>\n      <div class=\"form-group row\">\n        <label for=\"colFormLabelLg\" class=\"col-sm-2 col-form-label col-form-label\">Poklapanje: </label>\n        <div class=\"col-sm-10\">\n          <input type=\"number\" min=\"1\" max=\"5\" class=\"form-control form-control-lg\" id=\"colFormLabelLg\" \n          placeholder=\"Na skali od 1 do 5 popunite poklapanje dokumenata\" [(ngModel)]= \"comment.matcheNumber\">\n        </div>\n      </div>\n      <div class=\"col-auto\" style=\"padding: 0px;\">\n        <button type=\"button\" class=\"btn btn-primary mb-2\" (click)=\"submitComment()\">Pošalji komentar</button>\n      </div>\n    </div>\n  </div>\n \n"
+module.exports = "<app-navbar></app-navbar>\n  \n  <div style=\"display: inline-flex; width: 100%; margin-bottom: 10px; margin-top: 10px;; justify-content: center;\">\n    <p>Okačeni dokument: {{paperResultPlagiator.uploadedPaper.title}}</p>\n    <button  \n      class=\"btn btn-info\" \n      style=\"position: relative; float: right; margin-left: 50px\" \n      (click)=\"download(paperResultPlagiator.uploadedPaper.id, paperResultPlagiator.uploadedPaper.title)\"\n    >\n      Pregledaj\n    </button>\n        \n</div>\n\n  <div style=\"display: inline-flex; width: 100%; justify-content: center;\">\n    <p>Dokument koji se poredi: {{paperToCompare.title}}</p>\n    <button  \n      class=\"btn btn-info\" \n      style=\"position: relative; float: right; margin-left: 50px\" \n      (click)=\"download(paperToCompare.id, paperToCompare.title)\"\n    >\n      Pregledaj\n    </button>              \n  </div>\n\n  <!-- Rounded switch -->\n  <div class=\"sorting\">\n    <label  class=\"label\">Sortiraj po sličnosti: </label>\n    <label class=\"switch\">\n      <input type=\"checkbox\" [(ngModel)]=\"sortState\" (change)=\"checkValue()\">\n      <span class=\"slider round\"></span>\n    </label>\n  </div>\n\n  <div class=\"container\" style=\"margin-top: 100px;\">\n    <div class=\"container justify-content-md-center\" style=\"display: -webkit-box;\">\n      <div class=\"col-lg-12 p-0\">\n            <a class=\"list-group-item\" style=\"max-height: 500px; margin-bottom: 10px;\" \n            *ngFor = \"let i = index; let item of items\">\n              <div style=\"display: inline-flex; width: 100%; padding-bottom: 0%; height: 10px;\">\n                <h5 class=\"col-lg-10\"><span style=\"color: crimson; font-size: medium;\">Deo dokumenta: &nbsp;</span>{{(item.partOfPage-1)*wordsPerPart+1}}\n                - {{item.partOfPage*wordsPerPart}} reči</h5>\n              </div>\n              <div style=\"display: inline-flex; width: 100%; padding-bottom: 0%; height: 10px;\">\n                <h5 class=\"col-lg-10\">\n                  <span style=\"color: crimson; font-size: medium;\">Tekst: &nbsp;</span>\n                  {{item.textToShow}}...\n                </h5>\n              </div>\n            <div *ngFor = \"let j = index; let paper of item.papers\" >\n              <div *ngIf = \"paperId == paper.id\">\n                  <div style=\"display: inline-flex; width: 100%; padding-bottom: 0%; height: 10px;\">\n                      <h5 class=\"col-lg-10\"><span style=\"color: crimson; font-size: medium;\">Rad: &nbsp;</span>{{paper.title}}</h5>\n                  </div>\n                  <div style=\"display: inline-flex; width: 100%;\">\n                      <h5 *ngIf=\"(paper.searchHits/item.papers[0].searchHits) >= constantRedColor\" class=\"col-lg-10\" style=\"color: crimson;\">\n                        <span style=\"color: crimson; font-size: medium;\">Sličnost u procentima: &nbsp;</span>\n                        {{(paper.searchHits/item.papers[0].searchHits)*100}} %\n                      </h5>\n                      <h5 *ngIf=\"paper.searchHits/item.papers[0].searchHits < constantRedColor\" class=\"col-lg-10\">\n                        <span style=\"color: crimson; font-size: medium;\">Sličnost u procentima: &nbsp;</span>\n                        {{(paper.searchHits/item.papers[0].searchHits)*100}} %\n                      </h5>            \n                </div>\n              </div>\n              </div>\n            </a>\n        </div>\n      </div>\n    </div> \n\n    <div class=\"container\" style=\"margin-top: 50px;\">\n    <div >\n      <div class=\"form-group row\">\n        <label for=\"colFormLabelLg\" class=\"col-sm-2 col-form-label col-form-label\">Komentar: </label>\n        <div class=\"col-sm-10\">\n          <textarea id=\"colFormLabelLg\" name=\"colFormLabelLg\" rows=\"4\" cols=\"125\" \n          placeholder=\"Komentar\" [(ngModel)]= \"comment.text\">\n        </textarea>\n        </div>\n      </div>\n      <div class=\"form-group row\">\n        <label for=\"colFormLabelLg\" class=\"col-sm-2 col-form-label col-form-label\">Poklapanje: </label>\n        <div class=\"col-sm-10\">\n          <input type=\"number\" min=\"1\" max=\"5\" class=\"form-control form-control-lg\" id=\"colFormLabelLg\" \n          placeholder=\"Na skali od 1 do 5 popunite poklapanje dokumenata\" [(ngModel)]= \"comment.matcheNumber\">\n        </div>\n      </div>\n      <div class=\"col-auto\" style=\"padding: 0px;\">\n        <button type=\"button\" class=\"btn btn-primary mb-2\" (click)=\"submitComment()\">Pošalji komentar</button>\n      </div>\n    </div>\n  </div>\n \n"
 
 /***/ }),
 
@@ -10079,6 +10116,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var app_service_paper_service__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! app/service/paper.service */ "./src/app/service/paper.service.ts");
 /* harmony import */ var app_model_paper_report__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! app/model/paper/report */ "./src/app/model/paper/report.ts");
 /* harmony import */ var app_model_paper_comment__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! app/model/paper/comment */ "./src/app/model/paper/comment.ts");
+/* harmony import */ var app_service_constants_service__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! app/service/constants.service */ "./src/app/service/constants.service.ts");
+
 
 
 
@@ -10100,13 +10139,51 @@ var PaperDetailsComponent = /** @class */ (function () {
         this.paperToCompare = new app_model_paper_paper__WEBPACK_IMPORTED_MODULE_6__["Paper"]();
         this.report = new app_model_paper_report__WEBPACK_IMPORTED_MODULE_8__["default"]();
         this.comment = new app_model_paper_comment__WEBPACK_IMPORTED_MODULE_9__["default"]();
+        this.constantRedColor = app_service_constants_service__WEBPACK_IMPORTED_MODULE_10__["CONSTANT_FOR_DETAIL_PAPER_VIEW"] / 100;
+        this.items = [];
+        this.unsortedItems = [];
+        this.sortedItems = [];
+        this.sortState = false;
         this.paperId = +route.snapshot.paramMap.get("paperId");
         this.paperResultPlagiator = JSON.parse(localStorage.getItem("paperResultPlagiator"));
+        this.items = this.paperResultPlagiator.items;
+        this.unsortedItems = this.paperResultPlagiator.items;
+        this.sortedItems = this.paperResultPlagiator.items;
         this.paperService.getPaperById(this.paperId).subscribe(function (res) {
             _this.paperToCompare = res;
         });
     }
+    PaperDetailsComponent.prototype.sortItemsSimilarity = function (paperId) {
+        this.items.sort(function (item1, item2) {
+            var item1Temp = undefined;
+            var item2Temp = undefined;
+            item1.papers.forEach(function (paper) {
+                if (paper.id == paperId) {
+                    item1Temp = paper.searchHits / item1.papers[0].searchHits;
+                }
+            });
+            item2.papers.forEach(function (paper) {
+                if (paper.id == paperId) {
+                    item2Temp = paper.searchHits / item2.papers[0].searchHits;
+                }
+            });
+            return item2Temp - item1Temp;
+        });
+    };
+    PaperDetailsComponent.prototype.sortItemsPartOfDocument = function () {
+        this.items.sort(function (item1, item2) {
+            return item1.partOfPage - item2.partOfPage;
+        });
+    };
     PaperDetailsComponent.prototype.ngOnInit = function () {
+    };
+    PaperDetailsComponent.prototype.checkValue = function () {
+        if (this.sortState) {
+            this.sortItemsSimilarity(this.paperId);
+        }
+        else {
+            this.sortItemsPartOfDocument();
+        }
     };
     PaperDetailsComponent.prototype.submitComment = function () {
         if (!this.comment.text) {
@@ -10769,6 +10846,7 @@ var Paper = /** @class */ (function () {
         this.searchHits = 0;
         this.similarProcent = 0;
         this.user = new _user_user__WEBPACK_IMPORTED_MODULE_0__["User"]();
+        this.plagiatorId = undefined;
     }
     return Paper;
 }());
@@ -11075,6 +11153,39 @@ var AuthService = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/app/service/constants.service.ts":
+/*!**********************************************!*\
+  !*** ./src/app/service/constants.service.ts ***!
+  \**********************************************/
+/*! exports provided: CONSTANT_FOR_DETAIL_PAPER_VIEW, CONSTANT_FOR_SIMILAR_PAPER_VIEW, CONSTANT_FOR_NORMALIZATION, ConstantsService */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CONSTANT_FOR_DETAIL_PAPER_VIEW", function() { return CONSTANT_FOR_DETAIL_PAPER_VIEW; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CONSTANT_FOR_SIMILAR_PAPER_VIEW", function() { return CONSTANT_FOR_SIMILAR_PAPER_VIEW; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CONSTANT_FOR_NORMALIZATION", function() { return CONSTANT_FOR_NORMALIZATION; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ConstantsService", function() { return ConstantsService; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/esm5/core.js");
+
+
+var CONSTANT_FOR_DETAIL_PAPER_VIEW = 50;
+var CONSTANT_FOR_SIMILAR_PAPER_VIEW = 25;
+var CONSTANT_FOR_NORMALIZATION = 100 / 150;
+var ConstantsService = /** @class */ (function () {
+    function ConstantsService() {
+    }
+    ConstantsService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])()
+    ], ConstantsService);
+    return ConstantsService;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/app/service/paper.service.ts":
 /*!******************************************!*\
   !*** ./src/app/service/paper.service.ts ***!
@@ -11245,6 +11356,9 @@ var UploadFileService = /** @class */ (function () {
         var paper = new app_model_paper_paper__WEBPACK_IMPORTED_MODULE_4__["Paper"]();
         paper.file = file;
         return this.http.post(this.baseUrl + "/upload/new", formdata);
+    };
+    UploadFileService.prototype.getResultsForPaper = function (plagiatorId) {
+        return this.http.get(this.baseUrl + "/upload/new/results/" + plagiatorId);
     };
     UploadFileService.prototype.download = function (paperId) {
         return this.http.get(this.baseUrl + ("/download/" + paperId), { responseType: 'blob' });

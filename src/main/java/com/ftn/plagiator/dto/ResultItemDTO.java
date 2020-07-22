@@ -9,7 +9,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class ResultItem {
+public class ResultItemDTO {
 	private List<PaperDTO> papers;
 	private int partOfPage;
 	private String textToShow;

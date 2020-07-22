@@ -33,7 +33,7 @@ public class EmailService {
 		//Thread.sleep(10000);
 		System.out.println("Slanje emaila...");
 
-		String link = "https://localhost:8000/#/registracija/aktiviranjeNaloga/" + user.getId();
+		String link = env.getProperty("spring.mail.mail-path") + "#/registracija/aktiviranjeNaloga/" + user.getId();
 		SimpleMailMessage mail = new SimpleMailMessage();
 		mail.setTo(user.getEmail());
 		mail.setFrom(env.getProperty("spring.mail.username"));
@@ -45,17 +45,20 @@ public class EmailService {
 	}
 	
 	@Async
-	public void sendNotificaitionUploadOfNewDocument(User user, String documentTitle) throws MailException, InterruptedException {
+	public void sendNotificaitionUploadOfNewDocument(User user, String documentTitle, Long plagiatorId) throws MailException, InterruptedException {
 
 		//Simulacija duze aktivnosti da bi se uocila razlika
 		System.out.println("Slanje emaila upload...");
+		
+		String link = env.getProperty("spring.mail.mail-path") + "#/new-document/" + plagiatorId;
 
 		SimpleMailMessage mail = new SimpleMailMessage();
 		mail.setTo(user.getEmail());
 		mail.setFrom(env.getProperty("spring.mail.username"));
 		mail.setSubject("Obavestenje o uspesnom uploadu novog rada u plagiator");
 		mail.setText("Pozdrav " /*+ user.getName()*/ + ",\n\n" + documentTitle + " Rad je uspesno uploadovan mozete videti "
-				+ "analizu poklapanja sa drugim dokumentima.\n" );
+				+ "analizu poklapanja sa drugim dokumentima. Klikom na sledeci link ce se prikazati analiza rezultata: \n" 
+				+ link);
 		javaMailSender.send(mail);
 
 		System.out.println("Email poslat upload!");
