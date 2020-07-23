@@ -24,15 +24,12 @@ import com.ftn.plagiator.model.Role;
 import com.ftn.plagiator.model.User;
 import com.ftn.plagiator.service.EmailService;
 import com.ftn.plagiator.service.UserService;
-import com.ftn.plagiator.service.UserService2;
 import com.ftn.plagiator.util.ObjectMapperUtil;
+import com.ftn.plagiator.validation.CheckPassword;
 
 @Controller
 public class UserController {
 
-	@Autowired
-	UserService2 userService2;
-	
 	@Autowired
 	UserService userService;
 	
@@ -44,6 +41,9 @@ public class UserController {
 	
 	@Autowired
 	ObjectMapperUtil objectMapper;
+	
+	@Autowired
+	CheckPassword checkPassword;
 	
 	public UserController() {
 //		modelMapper.getConfiguration().setAmbiguityIgnored(true);
@@ -57,13 +57,6 @@ public class UserController {
 //            map().setPhoneNumber("123");
 //        }
 //    };
-	
-    @RequestMapping(value = "api/elastics", method = RequestMethod.GET)
-    public ResponseEntity<Void> getRADI() {
-
-    	userService2.saveUser();
-    	return new ResponseEntity<>(HttpStatus.OK);
-    }
     
     @RequestMapping(value = "api/login", method = RequestMethod.POST, consumes = "application/json")
 	public ResponseEntity<String> login(@RequestBody LoginDTO loginDTO) {
@@ -91,7 +84,13 @@ public class UserController {
 	@RequestMapping(value = "api/signup", method = RequestMethod.POST)
 	public ResponseEntity<Void> signup(@RequestBody RegistrationDTO registrationDTO) {
 
+		//ako se passwordi ne poklapaju nema registracije
 		if (!registrationDTO.getRepeatedPassword().equals(registrationDTO.getPassword())) {
+			return new ResponseEntity<>(HttpStatus.LOCKED);
+		}
+		
+		if (!checkPassword.checkIsPasswordCorrect(registrationDTO.getPassword())) {
+			//ako nisu ispunjeni uslovi za dobar password
 			return new ResponseEntity<>(HttpStatus.LOCKED);
 		}
 		
@@ -161,27 +160,4 @@ public class UserController {
 
 		return new ResponseEntity<>(objectMapper.map(userService.changeState(id, boolState), UserDTO.class), HttpStatus.OK);
 	}
-	
-//	@GetMapping(path = "api/proba/test/{userId}", produces = "application/json")
-//	public ResponseEntity<List<UserDTO>> tryMapper(@PathVariable("userId") Long userId, Pageable page) {
-////		
-////		if(userId != 0) {
-////			User user = userService.findOne(userId);
-////			UserDTO userDTO = modelMapper.map(user, UserDTO.class);
-////		}
-////		else {
-//			Page<User> users = userService.findAll(page);
-//			//List<User> users2 = new ArrayList<User>();
-////			
-////			users.forEach(item -> {
-////				users2.add(item);
-////			});
-//			//List<UserDTO> usersDTO = modelMapper.map(users2, new TypeToken<List<UserDTO>>() {}.getType());
-//			List<UserDTO> usersDTO = objectMapper.mapAll(users, UserDTO.class);
-//			
-//		//}
-//
-//		return new ResponseEntity<>(usersDTO, HttpStatus.OK);
-//	}
-	
 }

@@ -1,5 +1,7 @@
 package com.ftn.plagiator.service;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +15,13 @@ public class PaperResultPlagiatorService {
 	PaperResultPlagiatorRepository paperResultPlagiatorRepository;
 	
 	public PaperResultPlagiator findOne(Long id) {
-		return paperResultPlagiatorRepository.findById(id).get();
+		Optional<PaperResultPlagiator> optional = paperResultPlagiatorRepository.findById(id);
+		
+		if(optional.isPresent()) {
+			return optional.get();
+		}
+		
+		return null;
 	}
 
 	public PaperResultPlagiator save(PaperResultPlagiator paperResultPlagiator) {

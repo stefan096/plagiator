@@ -35,6 +35,7 @@ import com.ftn.plagiator.service.PaperService;
 import com.ftn.plagiator.service.ReportService;
 import com.ftn.plagiator.service.UserService;
 import com.ftn.plagiator.util.ObjectMapperUtil;
+import com.ftn.plagiator.util.RoleConstants;
 
 @RestController
 @RequestMapping(value = "/api/papers")
@@ -62,21 +63,34 @@ public class PaperController {
 	PaperResultPlagiatorService paperResultPlagiatorService;
 	
 	@GetMapping(produces = "application/json")
-	public ResponseEntity<List<PaperDTO>> getPapers(Pageable page) {
+	public ResponseEntity<List<PaperDTO>> getPapers(Pageable page, HttpServletRequest request) {
 		
 		List<Paper> papers = paperService.findAll();
 		List<PaperDTO> papersDTO = new ArrayList<PaperDTO>();
 		
+		Principal principal = request.getUserPrincipal();
+        String email = principal.getName();
+        User logged = userService.findByEmail(email);
+		
 		for(Paper paper: papers) {
 			PaperDTO paperDTO = objectMapper.map(paper, PaperDTO.class);
 			PaperResultPlagiator plagiator = paperResultPlagiatorService.findByUploadedPaperId(paper.getId());
-			
+
 			if(plagiator != null) {
-				paperDTO.setPlagiatorId(plagiator.getId());
+				//nije od tog korisnika pa ne moze da ga vidi i korisnikova uloga nije admin
+		    	if(!logged.getRole().getUserType().equals(RoleConstants.ROLE_ADMIN) //ako je admin nek prodje
+		    			&& !plagiator.getUploadedPaper().getUser().getEmail().equals(email)) { //nisi ga ti uplodovao
+		    		paperDTO.setPlagiatorId(null);
+		    	}
+		    	else { //inace moze da mu pristupi da vidi pregled. To znaci da postoji i da ima privilegiju.
+		    		paperDTO.setPlagiatorId(plagiator.getId());
+		    	}
 			}
 			else {
 				paperDTO.setPlagiatorId(null);
 			}
+			
+			
 			
 			papersDTO.add(paperDTO);
 		}

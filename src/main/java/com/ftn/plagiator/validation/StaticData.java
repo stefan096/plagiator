@@ -1,6 +1,13 @@
 package com.ftn.plagiator.validation;
 
+import java.util.regex.Pattern;
+
 public class StaticData {
+	
+	public static final Pattern VALID_PASSWORD_NUMBERS = Pattern.compile("[0-9]+");
+	public static final Pattern VALID_PASSWORD_SPECIAL_CHARACTERS = Pattern.compile("[+-/*/.,!?+_#%^]+");
+	public static final Pattern VALID_PASSWORD_UPPER_CASE = Pattern.compile("[A-Z]+");
+	public static final Pattern VALID_PASSWORD_LOWER_CASE = Pattern.compile("[a-z]+");
 	
 	//konfiguracija za radove
 	public static final String PUTANJA_DO_FAJLA = "src\\main\\resources\\papers"; //relativna putanja na kojoj cuva radove u fajl sistemu

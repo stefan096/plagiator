@@ -47,6 +47,7 @@ import com.ftn.plagiator.service.UserService;
 import com.ftn.plagiator.util.FileClass;
 import com.ftn.plagiator.util.HelpersFunctions;
 import com.ftn.plagiator.util.ObjectMapperUtil;
+import com.ftn.plagiator.util.RoleConstants;
 import com.ftn.plagiator.validation.StaticData;
 
 @Controller
@@ -187,13 +188,13 @@ public class UploadFileController {
 		
 		//poslati neki mail ako je potrebno
         
-//		try {
-//			emailService.sendNotificaitionUploadOfNewDocument(logged, paperDTO.getFile().getOriginalFilename(), plagiator.getId());
-//		} catch (MailException e) {
-//			e.printStackTrace();
-//		} catch (InterruptedException e) {
-//			e.printStackTrace();
-//		}
+		try {
+			emailService.sendNotificaitionUploadOfNewDocument(logged, paperDTO.getFile().getOriginalFilename(), plagiator.getId());
+		} catch (MailException e) {
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 
 		return new ResponseEntity<>(paperResultPlagiator, HttpStatus.OK);
 	}
@@ -202,8 +203,24 @@ public class UploadFileController {
 	public ResponseEntity<PaperResultPlagiatorDTO> checkResultsPaper(@PathVariable Long id, HttpServletRequest request) {
     	PaperResultPlagiator plagiator = paperResultPlagiatorService.findOne(id);
     	
+    	//ako ne postoji taj rad
+    	if(plagiator == null) {
+    		return new ResponseEntity<>(HttpStatus.LOCKED);
+    	}
+    	
+    	//obrisan je rad
     	if(plagiator.getUploadedPaper() == null) {
     		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    	}
+    	
+		Principal principal = request.getUserPrincipal();
+        String email = principal.getName();
+        User logged = userService.findByEmail(email);
+    	
+    	//nije od tog korisnika pa ne moze da ga vidi i korisnikova uloga nije admin
+    	if(!logged.getRole().getUserType().equals(RoleConstants.ROLE_ADMIN) //ako je admin nek prodje
+    			&& !plagiator.getUploadedPaper().getUser().getEmail().equals(email)) { //nisi ga ti uplodovao
+    		return new ResponseEntity<>(HttpStatus.LOCKED);
     	}
     	
     	PaperResultPlagiatorDTO plagiatorDTO = new PaperResultPlagiatorDTO();
