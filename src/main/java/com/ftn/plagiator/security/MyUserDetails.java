@@ -20,7 +20,7 @@ public class MyUserDetails implements UserDetailsService {
 	@Autowired
 	private UserRepository userRepository;
 
-	//izvuce iz baze usere koji na m trebaju i automatksi se aktivira
+	//izvuce iz baze usere koji nam trebaju i automatksi se aktivira
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 		User user = userRepository.findByEmail(email);

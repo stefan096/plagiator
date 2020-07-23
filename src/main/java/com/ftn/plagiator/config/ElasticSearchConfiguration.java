@@ -115,7 +115,6 @@ public class ElasticSearchConfiguration {
 				return client;
 				
 			} catch (NodeValidationException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			

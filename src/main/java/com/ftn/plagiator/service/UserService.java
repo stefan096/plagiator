@@ -47,7 +47,6 @@ public class UserService {
 	}
 
 	public void remove(Long id) {
-		//User user = korisnikRepository.findById(id).get()
 		userRepository.deleteById(id);
 	}
 
