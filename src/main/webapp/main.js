@@ -9950,6 +9950,9 @@ var NewDocumentComponent = /** @class */ (function () {
     };
     NewDocumentComponent.prototype.uploadFile = function () {
         var _this = this;
+        if (!this.selectedFiles) {
+            return;
+        }
         this.currentFileUpload = this.selectedFiles.item(0);
         this.uploadFileService.uploadNewPaper(this.currentFileUpload)
             .subscribe(function (res) {
@@ -10045,6 +10048,9 @@ var OldDocumentsComponent = /** @class */ (function () {
     };
     OldDocumentsComponent.prototype.uploadFile = function () {
         var _this = this;
+        if (!this.selectedFiles) {
+            return;
+        }
         var temp = 0;
         for (var i = 0; i < this.selectedFiles.length; ++i) {
             this.uploadFileService.upload(this.selectedFiles.item(i))
@@ -10191,6 +10197,12 @@ var PaperDetailsComponent = /** @class */ (function () {
         }
         if (!this.comment.matcheNumber) {
             return;
+        }
+        if (this.comment.matcheNumber > 5) {
+            this.comment.matcheNumber = 5;
+        }
+        if (this.comment.matcheNumber < 1) {
+            this.comment.matcheNumber = 1;
         }
         this.report.paperToCheck = this.paperResultPlagiator.uploadedPaper; //ovaj dokument se malopre uplodovao
         this.report.paperUploaded = this.paperToCompare; //ovaj dokument je vec davno uplodovan

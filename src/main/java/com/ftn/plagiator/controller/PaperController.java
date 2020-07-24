@@ -24,11 +24,13 @@ import com.ftn.plagiator.dto.CommentDTO;
 import com.ftn.plagiator.dto.PaperDTO;
 import com.ftn.plagiator.dto.ReportDTO;
 import com.ftn.plagiator.elasticsearch.repository.PaperElasticRepository;
+import com.ftn.plagiator.model.AdvancePaper;
 import com.ftn.plagiator.model.Comment;
 import com.ftn.plagiator.model.Paper;
 import com.ftn.plagiator.model.PaperResultPlagiator;
 import com.ftn.plagiator.model.Report;
 import com.ftn.plagiator.model.User;
+import com.ftn.plagiator.service.AdvancePaperService;
 import com.ftn.plagiator.service.CommentService;
 import com.ftn.plagiator.service.PaperResultPlagiatorService;
 import com.ftn.plagiator.service.PaperService;
@@ -61,6 +63,9 @@ public class PaperController {
 	
 	@Autowired
 	PaperResultPlagiatorService paperResultPlagiatorService;
+	
+	@Autowired
+	AdvancePaperService advancePaperService;
 	
 	@GetMapping(produces = "application/json")
 	public ResponseEntity<List<PaperDTO>> getPapers(Pageable page, HttpServletRequest request) {
@@ -158,9 +163,17 @@ public class PaperController {
 	public ResponseEntity<Void> deletePaper(@PathVariable Long id) {	
 		Paper paper = paperService.findOne(id);
 		
+		List<AdvancePaper> advances = advancePaperService.findByPaperId(id);
+		for(AdvancePaper advancePaper: advances) {
+			advancePaperService.delete(advancePaper.getId());
+		}
+		
 		PaperResultPlagiator plagiator = paperResultPlagiatorService.findByUploadedPaperId(id);
-		plagiator.setUploadedPaper(null);
-		paperResultPlagiatorService.save(plagiator);
+		
+		if(plagiator != null) {
+			plagiator.setUploadedPaper(null);
+			paperResultPlagiatorService.save(plagiator);
+		}
 		
 		//obrisi fajl sistem
 		File file = new File(paper.getPathForPDF()); 

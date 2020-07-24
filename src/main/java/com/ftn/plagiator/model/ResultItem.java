@@ -18,17 +18,12 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class ResultItem {
+public class ResultItem{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
     
-//    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-//    @JoinTable(
-//      name = "paper_result_item", 
-//      joinColumns = @JoinColumn(name = "result_item_id"), 
-//      inverseJoinColumns = @JoinColumn(name = "advance_paper_id"))
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "resultItem")
 	private List<AdvancePaper> papers;
     
 	private int partOfPage;
@@ -36,4 +31,5 @@ public class ResultItem {
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	private PaperResultPlagiator paperResultPlagiator;
+
 }

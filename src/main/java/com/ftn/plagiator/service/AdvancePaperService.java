@@ -25,4 +25,12 @@ public class AdvancePaperService {
 	public List<AdvancePaper> findByResultItemId(Long id){
 		return advancePaperRepository.findByResultItemId(id);
 	}
+	
+	public List<AdvancePaper> findByPaperId(Long id){
+		return advancePaperRepository.findByPaperId(id);
+	}
+	
+	public void delete(Long id) {
+		advancePaperRepository.deleteById(id);
+	}
 }

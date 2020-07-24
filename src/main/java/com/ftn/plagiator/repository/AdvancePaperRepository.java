@@ -11,4 +11,6 @@ import com.ftn.plagiator.model.AdvancePaper;
 public interface AdvancePaperRepository extends JpaRepository<AdvancePaper, Long>{
 
 	List<AdvancePaper> findByResultItemId(Long id);
+	
+	List<AdvancePaper> findByPaperId(Long id);
 }

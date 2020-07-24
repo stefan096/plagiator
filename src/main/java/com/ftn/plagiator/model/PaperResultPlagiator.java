@@ -1,7 +1,7 @@
 package com.ftn.plagiator.model;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -26,10 +26,7 @@ public class PaperResultPlagiator {
 	private Long id;
     
     @OneToMany(mappedBy = "paperResultPlagiator", fetch = FetchType.EAGER)
-	List<ResultItem> items = new ArrayList<ResultItem>();
-    
-//    @OneToMany(mappedBy = "paperResultPlagiatorPaper")
-//	List<Paper> similarPapers = new ArrayList<Paper>();
+	Set<ResultItem> items = new HashSet<ResultItem>();
     
     @OneToOne()
     @JoinColumn(name = "paper_id")

@@ -173,6 +173,9 @@ public class UploadFileController {
 				}
 				
 				ResultItemDTO resultItem = new ResultItemDTO();
+				//sortiraj i konvertuj u listu
+				//List<PaperDTO> sortedList = new ArrayList<>(ret);
+				//Collections.sort(sortedList, new PaperDTO());
 				resultItem.setPapers(retVal);
 				resultItem.setPartOfPage(partOfPage);
 				resultItem.setTextToShow(textToShowBilder.toString());
@@ -255,6 +258,7 @@ public class UploadFileController {
     		plagiatorDTO.getItems().add(resultItemDTO);
     	}
     	
+		Collections.sort(plagiatorDTO.getItems(), new ResultItemDTO());
     	plagiatorDTO.setSimilarPapers(this.returnListOdSimilarPapers(
 				setSimilarPapers, plagiatorDTO.getItems()));
     	
@@ -345,9 +349,18 @@ public class UploadFileController {
 	}
 	
 	private double returnProcentOfSimilarityOfItem(ResultItemDTO item, PaperDTO paperDTO) {
+		double maxValue = 0;
+		for(PaperDTO paper: item.getPapers()) {
+			
+			if(maxValue < paper.getSearchHits()) {
+				maxValue = paper.getSearchHits();
+			}
+			
+		}
+		
 		for(PaperDTO paper: item.getPapers()) {
 			if(paper.getId() == paperDTO.getId()) {
-				return paper.getSearchHits() / item.getPapers().get(0).getSearchHits(); //da bi dobio procenat podelim sa najvecim mogucim
+				return paper.getSearchHits() / maxValue; //da bi dobio procenat podelim sa najvecim mogucim
 			}
 		}
 		
