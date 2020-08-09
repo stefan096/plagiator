@@ -9776,7 +9776,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"bs-example\">\n\t<nav class=\"navbar navbar-expand-md navbar-light\" style=\"background-color: #3494b9;\">\n\t\t<a class=\"navbar-brand\" [routerLink]=\"['/home']\" style=\"color: white;\"><b>PLAGIATOR</b></a>\n\t\t<button type=\"button\" class=\"navbar-toggler\" data-toggle=\"collapse\" data-target=\"#navbarCollapse\">\n\t\t\t<span class=\"navbar-toggler-icon\"></span>\n\t\t</button>\n\n\t\t<div class=\"collapse navbar-collapse\" id=\"navbarCollapse\">\n\t\t\t<div class=\"navbar-nav\">\n\t\t\t\t<a class=\"nav-item nav-link active\" style=\"color: white;\" [routerLink]=\"['/home']\">Početna</a>\n\t\t\t\t<a class=\"nav-item nav-link\" style=\"color: white;\" [routerLink]=\"['/new-document']\" *ngIf=\"loggedIn\">Proveri rad</a>\n\t\t\t\t<a class=\"nav-item nav-link\" style=\"color: white;\" [routerLink]=\"['/old-documents']\" *ngIf=\"loggedIn\">Uploaduj stare dokumente</a>\n\t\t\t\t<a class=\"nav-item nav-link\" style=\"color: white;\" [routerLink]=\"['/documents']\" *ngIf=\"loggedIn\">Dokumenti</a>\n\t\t\t\t<a class=\"nav-item nav-link\" style=\"color: white;\" [routerLink]=\"['/users']\" *ngIf=\"isAdmin\">Korisnici</a>\n\t\t\t\t\n\t\t\t</div>\n\t\t\t<div class=\"navbar-nav ml-auto\">\n\t\t\t\t<a class=\"nav-item nav-link\" style=\"color: white;\" [routerLink]=\"['/register']\" *ngIf=\"!loggedIn\">Registracija</a>\n        \t\t<a class=\"nav-item nav-link\" style=\"color: white;\" [routerLink]=\"['/login']\" *ngIf=\"!loggedIn\">Prijava</a>\n       \t\t\t<a class=\"nav-item nav-link\" style=\"color: white;\" (click)=\"logOut()\" *ngIf=\"loggedIn\">Odjava</a>\n\t\t\t</div>\n\t\t</div>\n\t</nav>\n</div>"
+module.exports = "<div class=\"bs-example\">\n\t<nav class=\"navbar navbar-expand-md navbar-light\" style=\"background-color: #3494b9;\">\n\t\t<a class=\"navbar-brand\" [routerLink]=\"['/home']\" style=\"color: white;\"><b>PLAGIATOR</b></a>\n\t\t<button type=\"button\" class=\"navbar-toggler\" data-toggle=\"collapse\" data-target=\"#navbarCollapse\">\n\t\t\t<span class=\"navbar-toggler-icon\"></span>\n\t\t</button>\n\n\t\t<div class=\"collapse navbar-collapse\" id=\"navbarCollapse\">\n\t\t\t<div class=\"navbar-nav\">\n\t\t\t\t<a class=\"nav-item nav-link active\" style=\"color: white;\" [routerLink]=\"['/home']\">Početna</a>\n\t\t\t\t<a class=\"nav-item nav-link\" style=\"color: white;\" [routerLink]=\"['/new-document']\" *ngIf=\"loggedIn\">Proveri rad</a>\n\t\t\t\t<a class=\"nav-item nav-link\" style=\"color: white;\" [routerLink]=\"['/old-documents']\" *ngIf=\"loggedIn\">Uploaduj stare dokumente</a>\n\t\t\t\t<a class=\"nav-item nav-link\" style=\"color: white;\" [routerLink]=\"['/documents']\" *ngIf=\"loggedIn\">Dokumenti</a>\n\t\t\t\t<a class=\"nav-item nav-link\" style=\"color: white;\" [routerLink]=\"['/users']\" *ngIf=\"isAdmin\">Korisnici</a>\n\t\t\t\t\n\t\t\t</div>\n\t\t\t<div class=\"navbar-nav ml-auto\">\n\t\t\t\t<a class=\"nav-item nav-link\" style=\"color: white;\" [routerLink]=\"['/register']\" *ngIf=\"!loggedIn\">Registracija</a>\n        \t\t<a class=\"nav-item nav-link\" style=\"color: white;\" [routerLink]=\"['/login']\" *ngIf=\"!loggedIn\">Prijava</a>\n       \t\t\t<a class=\"nav-item nav-link\" style=\"color: white;\" (click)=\"logOut()\" *ngIf=\"loggedIn\">Odjava</a>\n\t\t\t</div>\n\t\t</div>\n\t</nav>\n</div>\n"
 
 /***/ }),
 
@@ -10552,9 +10552,9 @@ var RegistrationComponent = /** @class */ (function () {
         if (!this.validatePasswords()) {
             return "lozinka i potvrda lozinke moraju da se poklapaju!";
         }
-        if (!this.validatePasswordPattern(this.user.password)) {
-            return "lozinka mora minimalno da ima 12 karaktera bar jedno malo, jedno veliko slovo, jedan broj i jedan specijalan znak!";
-        }
+        // if(!this.validatePasswordPattern(this.user.password)){
+        //   return "lozinka mora minimalno da ima 12 karaktera bar jedno malo, jedno veliko slovo, jedan broj i jedan specijalan znak!";
+        // }
         if (this.user.name === "" || this.user.name.length > this.maxLength) {
             return "Morate popuniti ime koja mora biti kraca od " + this.maxLength + " karaktera";
         }
